@@ -21,8 +21,8 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
     const dailyPointsMap = new Map<number, number>();
     if (!dayResults || !dayMatchups) return;
 
-    // Create a map to track which players have been processed for each game to avoid double-counting.
-    const processedPlayersByGame = new Map<number, Set<number>>(); // Map<gameIndex, Set<playerId>>
+    // Use a composite key to track processed players, preventing cross-court conflicts.
+    const processedPlayersByGame = new Map<string, Set<number>>(); // Map<court-gameIndex, Set<playerId>>
 
     Object.keys(dayMatchups).forEach(court => {
         const courtResults = dayResults[court];
@@ -33,11 +33,12 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
             if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
             const matchup = courtMatchups[gameIndex];
             if (!matchup) return;
-
-            if (!processedPlayersByGame.has(gameIndex)) {
-                processedPlayersByGame.set(gameIndex, new Set<number>());
+            
+            const gameKey = `${court}-${gameIndex}`;
+            if (!processedPlayersByGame.has(gameKey)) {
+                processedPlayersByGame.set(gameKey, new Set<number>());
             }
-            const processedPlayersThisGame = processedPlayersByGame.get(gameIndex)!;
+            const processedPlayersThisGame = processedPlayersByGame.get(gameKey)!;
 
             const { teamAScore, teamBScore } = result;
 
@@ -45,8 +46,6 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
                 team.forEach((p: Player) => {
-                    // If player has already been processed for this game index, skip them.
-                    // This handles data errors where a player is scheduled on two courts at once.
                     if (processedPlayersThisGame.has(p.id)) {
                         return; 
                     }
@@ -56,10 +55,18 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
                     const player = playerStats[p.id];
                     if (!player) return;
 
-                    player.gamesPlayed++;
-                    
-                    if (!playerIsPresent) return; // No W-L-T, points, or PF/PA for absent players
+                    // Ensure every player in a matchup has an entry in the daily points map for this day.
+                    if (!dailyPointsMap.has(p.id)) {
+                        dailyPointsMap.set(p.id, 0);
+                    }
 
+                    if (!playerIsPresent) {
+                        // Player is absent for this game. Do not award any stats.
+                        return;
+                    }
+                    
+                    // Player is present. Process all stats.
+                    player.gamesPlayed++;
                     player.pointsFor += ownScore;
                     player.pointsAgainst += opponentScore;
 
