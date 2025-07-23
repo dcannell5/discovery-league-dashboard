@@ -1,6 +1,7 @@
 
 
 import { AppData } from '../types';
+import { presetData } from './presetSchedule';
 
 export const initialAppData: AppData = {
   "leagues": {
@@ -51,15 +52,14 @@ export const initialAppData: AppData = {
         { "id": 41, "name": "Tianna D" },
         { "id": 42, "name": "Zara O" },
       ],
-      "announcements": "Welcome! Player stats from Days 1-3 have been pre-loaded. The league will now continue from Day 4.",
+      "announcements": "Welcome to the league! Check back here for updates.",
       "daySchedules": {
         "1": "2025-07-02T19:00", "2": "2025-07-09T18:00", "3": "2025-07-16T19:00",
         "4": "2025-07-23T19:00", "5": "2025-07-30T18:00", "6": "2025-08-06T18:00",
         "7": "2025-08-13T18:00", "8": "2025-08-20T18:00", "9": "2025-08-27T18:00"
       },
       "leagueType": "standard", "numCourts": 3, "playersPerTeam": 7, "gamesPerDay": 6,
-      "courtNames": ["Royalty Court", "Challenger Court", "Foundation Court"],
-      "lockedDays": {},
+      "courtNames": ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"],
       "seededStats": {
         "1": { "leaguePoints": 6, "pointsFor": 94, "pointsAgainst": 113 },
         "2": { "leaguePoints": 11, "pointsFor": 298, "pointsAgainst": 382 },
@@ -103,17 +103,71 @@ export const initialAppData: AppData = {
         "40": { "leaguePoints": 33, "pointsFor": 365, "pointsAgainst": 324 },
         "41": { "leaguePoints": 24, "pointsFor": 341, "pointsAgainst": 348 },
         "42": { "leaguePoints": 18, "pointsFor": 316, "pointsAgainst": 353 }
-      }
+      },
+      "lockedDays": {}
     }
   },
   "dailyResults": {
-    "league-1753071505651": {}
+    "league-1753071505651": {
+      "1": {
+        "Royalty Court 1": [{"teamAScore": 20,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 21},{"teamAScore": 25,"teamBScore": 14},{"teamAScore": 12,"teamBScore": 26},{"teamAScore": 30,"teamBScore": 16},{"teamAScore": 10,"teamBScore": 13}],
+        "Challenger Court 2": [{"teamAScore": 16,"teamBScore": 18},{"teamAScore": 13,"teamBScore": 17},{"teamAScore": 6,"teamBScore": 23},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 17,"teamBScore": 28},{"teamAScore": 9,"teamBScore": 15}],
+        "Foundation Court 3": [{"teamAScore": 19,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 27},{"teamAScore": 18,"teamBScore": 10},{"teamAScore": 17,"teamBScore": 26},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 17,"teamBScore": 12}]
+      },
+      "2": {
+        "Royalty Court 1": [{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 18},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 15,"teamBScore": 22},{"teamAScore": 21,"teamBScore": 20},{"teamAScore": 23,"teamBScore": 14}],
+        "Challenger Court 2": [{"teamAScore": 15,"teamBScore": 27},{"teamAScore": 17,"teamBScore": 13},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 20},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 16,"teamBScore": 22}],
+        "Foundation Court 3": [{"teamAScore": 22,"teamBScore": 21},{"teamAScore": 17,"teamBScore": 21},{"teamAScore": 10,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 15},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 16,"teamBScore": 23}]
+      },
+      "3": {
+        "Royalty Court 1": [{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 15,"teamBScore": 24},{"teamAScore": 27,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 32},{"teamAScore": 31,"teamBScore": 17}],
+        "Challenger Court 2": [{"teamAScore": 20,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 14,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22}],
+        "Foundation Court 3": [{"teamAScore": 23,"teamBScore": 25},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 24,"teamBScore": 15},{"teamAScore": 17,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 22},{"teamAScore": 24,"teamBScore": 17}]
+      }
+    }
   },
   "allDailyMatchups": {
-    "league-1753071505651": {}
+    "league-1753071505651": presetData.matchups
   },
   "allDailyAttendance": {
-    "league-1753071505651": {}
+    "league-1753071505651": {
+      "1": {
+        "14": [false, false, false, false, false, false],
+        "25": [false, false, false, false, false, false],
+        "32": [false, false, false, false, false, false],
+        "38": [false, false, false, false, false, false],
+        "42": [false, false, false, false, false, false]
+      },
+      "2": {
+        "3": [false, false, false, false, false, false],
+        "6": [true, true, true, true, true, true],
+        "8": [false, false, false, false, false, false],
+        "14": [false, false, false, false, false, false],
+        "16": [false, false, false, false, false, false],
+        "18": [false, false, false, false, false, false],
+        "19": [false, false, false, false, false, false],
+        "20": [false, false, false, false, false, false],
+        "21": [false, false, false, false, false, false],
+        "23": [false, false, false, false, false, false],
+        "25": [false, false, false, false, false, false],
+        "30": [true, true, true, true, true, true],
+        "32": [false, false, false, false, false, false],
+        "36": [false, false, false, false, false, false],
+        "37": [false, false, false, false, false, false],
+        "42": [true, true, true, true, true, true]
+      },
+      "3": {
+        "3": [false, false, false, false, false, false],
+        "6": [true, true, false, false, false, true],
+        "8": [true, true, true, false, false, false],
+        "20": [false, false, false, false, false, false],
+        "23": [false, false, false, false, false, false],
+        "25": [false, false, false, false, false, false],
+        "30": [false, false, false, false, false, false],
+        "37": [false, false, false, false, false, false],
+        "42": [false, false, false, false, false, false]
+      }
+    }
   },
   "allPlayerProfiles": { "league-1753071505651": {} },
   "allRefereeNotes": { "league-1753071505651": {} },
@@ -127,4 +181,4 @@ export const initialAppData: AppData = {
     "buttonText": "Register Now",
     "buttonUrl": "https://canadianeliteacademy.corsizio.com/"
   }
-};
+}
