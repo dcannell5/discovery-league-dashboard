@@ -1,15 +1,15 @@
 
 
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, AllRefereeNotes, RefereeNote, PlayerWithStats, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
-import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode, getActiveDay } from './utils/auth';
+import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
+import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
 import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
-import { initializePlayerStats, processDayResults } from './utils/statsLogic';
 import { initialAppData } from './data/initialData';
 
 const APP_DATA_KEY = 'discoveryLeagueAppData';
@@ -451,7 +451,6 @@ const App: React.FC = () => {
       } else {
           pageContent = <Dashboard
               appData={appData}
-              setAppData={setAppData}
               leagueConfig={activeLeague}
               userState={userState}
               onLoginClick={() => setShowLoginModal(true)}
