@@ -1,10 +1,10 @@
 
 
 
+
 import React, { useState, useMemo } from 'react';
-import { AppData, LeagueConfig, PlayerWithStats, UpcomingEvent, UserState } from '../types';
-import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck, IconUserCircle } from './Icon';
-import { getActiveDay } from '../utils/auth';
+import { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
+import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
 import { initializePlayerStats, processDayResults } from '../utils/statsLogic';
 import { sortPlayersWithTieBreaking } from '../utils/rankingLogic';
 import DataManagementPanel from './DataManagementPanel';
@@ -64,7 +64,7 @@ const LeagueCard: React.FC<{
         }
 
         Object.values(stats).forEach(p => {
-            const newDailyTotal = Object.values(p.dailyPoints).reduce((sum: number, points: number) => sum + points, 0);
+            const newDailyTotal = Object.keys(p.dailyPoints).reduce((sum, dayKey) => sum + p.dailyPoints[Number(dayKey)], 0);
             p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
             p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
         });
