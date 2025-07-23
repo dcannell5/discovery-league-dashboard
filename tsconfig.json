@@ -1,29 +1,24 @@
-[22:31:29.093] Running build in Washington, D.C., USA (East) – iad1
-[22:31:29.093] Build machine configuration: 2 cores, 8 GB
-[22:31:29.107] Cloning github.com/dcannell5/discovery-league-dashboard (Branch: main, Commit: 3dcc89b)
-[22:31:29.260] Previous build caches not available
-[22:31:29.469] Cloning completed: 362.000ms
-[22:31:31.332] Running "vercel build"
-[22:31:31.926] Vercel CLI 44.5.0
-[22:31:32.659] Installing dependencies...
-[22:31:43.959] 
-[22:31:43.960] added 91 packages in 11s
-[22:31:43.961] 
-[22:31:43.961] 11 packages are looking for funding
-[22:31:43.962]   run `npm fund` for details
-[22:31:43.963] npm notice
-[22:31:43.963] npm notice New major version of npm available! 10.9.2 -> 11.4.2
-[22:31:43.963] npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.4.2
-[22:31:43.963] npm notice To update run: npm install -g npm@11.4.2
-[22:31:43.963] npm notice
-[22:31:44.001] Running "npm run build"
-[22:31:44.113] 
-[22:31:44.113] > discovery-league-dashboard@0.0.0 build
-[22:31:44.114] > tsc && vite build
-[22:31:44.114] 
-[22:31:45.854] error TS6305: Output file '/vercel/path0/vite.config.d.ts' has not been built from source file '/vercel/path0/vite.config.ts'.
-[22:31:45.856]   The file is in the program because:
-[22:31:45.856]     Matched by include pattern '.' in '/vercel/path0/tsconfig.json'
-[22:31:45.875] Error: Command "npm run build" exited with 2
-[22:31:46.000] 
-[22:31:48.736] Exiting build container
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "vite.config.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
