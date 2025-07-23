@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { DailyResults, GameResult, UserState, DailyCourtMatchups, DailyAttendance, Player } from '../types';
 import CourtScoreEntry from './CourtScoreEntry';
@@ -207,8 +206,8 @@ const ScoreEntryDashboard: React.FC<ScoreEntryDashboardProps> = ({
                         matchups={matchupsForDay[court]}
                         results={resultsForDay?.[court]}
                         attendanceForDay={attendanceForDay}
-                        onResultChange={(gameIndex, result) => onGameResultChange(court, gameIndex, result)}
-                        onPlayerMove={(gameIndex, playerId, fromTeam) => onPlayerMove(court, gameIndex, playerId, fromTeam)}
+                        onResultChange={(gameIndex: number, result: GameResult) => onGameResultChange(court, gameIndex, result)}
+                        onPlayerMove={(gameIndex: number, playerId: number, fromTeam: 'teamA' | 'teamB') => onPlayerMove(court, gameIndex, playerId, fromTeam)}
                         onSaveRefereeNote={onSaveRefereeNote}
                         userState={userState}
                         isDayLocked={isDayLocked}
