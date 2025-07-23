@@ -1,5 +1,3 @@
-
-
 import { Player, PlayerWithStats, DailyCourtMatchups, GameMatchup, Team, LeagueConfig } from '../types';
 
 // Fisher-Yates shuffle algorithm
@@ -37,6 +35,11 @@ function createMatchupsForCourt(courtPlayers: Player[], playersPerTeam: number, 
 }
 
 export function getDefaultCourtName(index: number, totalCourts: number): string {
+    if (totalCourts === 3) {
+        if (index === 0) return 'Royalty Court';
+        if (index === 1) return 'Challenger Court';
+        if (index === 2) return 'Foundation Court';
+    }
     if (totalCourts === 1) {
         return 'Royalty Court';
     }
