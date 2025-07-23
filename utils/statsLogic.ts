@@ -51,33 +51,32 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
                     }
                     processedPlayersThisGame.add(p.id);
                     
-                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
                     const player = playerStats[p.id];
                     if (!player) return;
 
-                    // Ensure every player in a matchup has an entry in the daily points map for this day.
+                    // Ensure every player in a matchup has an entry in the daily points map, defaulting to 0.
                     if (!dailyPointsMap.has(p.id)) {
                         dailyPointsMap.set(p.id, 0);
                     }
 
-                    if (!playerIsPresent) {
-                        // Player is absent for this game. Do not award any stats.
-                        return;
-                    }
+                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
                     
-                    // Player is present. Process all stats.
-                    player.gamesPlayed++;
-                    player.pointsFor += ownScore;
-                    player.pointsAgainst += opponentScore;
+                    // Only process stats if the player is marked as present for this specific game.
+                    // Absent players will receive 0 points and no change to their other stats for this game.
+                    if (playerIsPresent) {
+                        player.gamesPlayed++;
+                        player.pointsFor += ownScore;
+                        player.pointsAgainst += opponentScore;
 
-                    if (outcome === 'win') {
-                        player.wins++;
-                        dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
-                    } else if (outcome === 'tie') {
-                        player.ties++;
-                        dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
-                    } else if(outcome === 'loss') {
-                        player.losses++;
+                        if (outcome === 'win') {
+                            player.wins++;
+                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
+                        } else if (outcome === 'tie') {
+                            player.ties++;
+                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
+                        } else if(outcome === 'loss') {
+                            player.losses++;
+                        }
                     }
                 });
             };
