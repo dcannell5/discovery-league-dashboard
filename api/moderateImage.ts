@@ -1,9 +1,8 @@
 import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from "@google/genai";
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -38,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             }
         });
         
-        const decision = response.text.trim().toUpperCase();
+        const decision = (response.text ?? '').trim().toUpperCase();
         
         if (decision === 'SAFE' || decision === 'UNSAFE') {
             res.status(200).send(decision);
