@@ -19,7 +19,10 @@ export const initializePlayerStats = (players: Player[]): Record<number, PlayerW
 export const processDayResults = (playerStats: Record<number, PlayerWithStats>, day: number, dayResults: DailyResults | undefined, dayMatchups: DailyCourtMatchups | undefined, dayAttendance: DailyAttendance | undefined) => {
     const dailyPointsMap = new Map<number, number>();
     if (!dayResults || !dayMatchups) return;
-    
+
+    // Create a map to track which players have been processed for each game to avoid double-counting.
+    const processedPlayersByGame = new Map<number, Set<number>>(); // Map<gameIndex, Set<playerId>>
+
     Object.keys(dayMatchups).forEach(court => {
         const courtResults = dayResults[court];
         const courtMatchups = dayMatchups[court];
@@ -30,12 +33,24 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
             const matchup = courtMatchups[gameIndex];
             if (!matchup) return;
 
+            if (!processedPlayersByGame.has(gameIndex)) {
+                processedPlayersByGame.set(gameIndex, new Set<number>());
+            }
+            const processedPlayersThisGame = processedPlayersByGame.get(gameIndex)!;
+
             const { teamAScore, teamBScore } = result;
 
             const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
                 team.forEach(p => {
+                    // If player has already been processed for this game index, skip them.
+                    // This handles data errors where a player is scheduled on two courts at once.
+                    if (processedPlayersThisGame.has(p.id)) {
+                        return; 
+                    }
+                    processedPlayersThisGame.add(p.id);
+                    
                     const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
                     const player = playerStats[p.id];
                     if (!player) return;
@@ -65,6 +80,8 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
     });
 
     for (const id in playerStats) {
-        playerStats[id].dailyPoints[day] = dailyPointsMap.get(parseInt(id)) || 0;
+        if(dailyPointsMap.has(parseInt(id))) {
+            playerStats[id].dailyPoints[day] = dailyPointsMap.get(parseInt(id)) || 0;
+        }
     }
 };
