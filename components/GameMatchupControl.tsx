@@ -1,6 +1,4 @@
 
-
-
 import React from 'react';
 import { GameResult, UserState, GameMatchup, Player, DailyAttendance } from '../types';
 import { IconArrowsRightLeft, IconMessage } from './Icon';
@@ -15,7 +13,7 @@ interface GameMatchupControlProps {
     result: GameResult;
     attendanceForDay?: DailyAttendance;
     onResultChange: (gameIndex: number, result: GameResult) => void;
-    onPlayerMove: (gameIndex: number, playerId: number, fromTeam: 'teamA' | 'teamB') => void;
+    onPlayerMove: (playerId: number, fromTeam: 'teamA' | 'teamB') => void;
     onSaveRefereeNote: (playerId: number, note: string, day: number) => void;
     userState: UserState;
     isDayLocked: boolean;
@@ -108,8 +106,8 @@ const GameMatchupControl: React.FC<GameMatchupControlProps> = ({
 }) => {
     const canEdit = userState.role === 'REFEREE' || userState.role === 'SUPER_ADMIN';
 
-    const handlePlayerMove = (playerId: number, fromTeam: 'teamA' | 'teamB') => {
-        onPlayerMove(gameIndex, playerId, fromTeam);
+    const handlePlayerMoveInTeam = (playerId: number, fromTeam: 'teamA' | 'teamB') => {
+        onPlayerMove(playerId, fromTeam);
     };
 
     const scores = result === 'unplayed' ? { teamAScore: null, teamBScore: null } : result;
@@ -127,7 +125,7 @@ const GameMatchupControl: React.FC<GameMatchupControlProps> = ({
                     currentDay={currentDay}
                     gameIndex={gameIndex}
                     attendanceForDay={attendanceForDay}
-                    onPlayerMove={handlePlayerMove}
+                    onPlayerMove={handlePlayerMoveInTeam}
                     onSaveRefereeNote={onSaveRefereeNote}
                     userState={userState}
                     isDayLocked={isDayLocked}
@@ -142,7 +140,7 @@ const GameMatchupControl: React.FC<GameMatchupControlProps> = ({
                     currentDay={currentDay}
                     gameIndex={gameIndex}
                     attendanceForDay={attendanceForDay}
-                    onPlayerMove={handlePlayerMove}
+                    onPlayerMove={handlePlayerMoveInTeam}
                     onSaveRefereeNote={onSaveRefereeNote}
                     userState={userState}
                     isDayLocked={isDayLocked}
