@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -17,13 +18,12 @@ import Announcements from './Announcements';
 import AdminPanel from './AdminPanel';
 import LinksAndShare from './LinksAndShare';
 import PlayerAttendancePanel from './PlayerAttendancePanel';
-import { IconTrophy, IconUserSwap, IconLightbulb, IconQuote, IconVolleyball, IconAcademicCap, IconVideo } from './Icon';
+import { IconTrophy, IconLightbulb, IconQuote, IconVolleyball, IconAcademicCap, IconVideo } from './Icon';
 import PlayerCard from './PlayerCard';
 import { videoTips } from '../data/videoTips';
 
 interface DashboardProps {
     appData: AppData;
-    setAppData: React.Dispatch<React.SetStateAction<AppData | null>>;
     leagueConfig: LeagueConfig;
     userState: UserState;
     onLoginClick: () => void;
@@ -60,7 +60,7 @@ const InfoCard: React.FC<{icon: React.ReactNode, title: string, children: React.
 );
 
 const Dashboard: React.FC<DashboardProps> = ({
-    appData, setAppData, leagueConfig, userState, onLoginClick, onLogout, onDeleteLeague, onSwitchLeague, onAnnouncementsSave, onScheduleSave, onViewProfile, onSaveRefereeNote,
+    appData, leagueConfig, userState, onLoginClick, onLogout, onDeleteLeague, onSwitchLeague, onAnnouncementsSave, onScheduleSave, onViewProfile, onSaveRefereeNote,
     onSaveAdminFeedback,
     onSetPlayerDailyAttendance,
     onToggleDayLock,
@@ -111,7 +111,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     // Sum total points from new daily points and seeded points
     Object.values(playerStats).forEach(p => {
-        const newDailyTotal = Object.values(p.dailyPoints).reduce((sum: number, points: number) => sum + points, 0);
+        const newDailyTotal = Object.keys(p.dailyPoints).reduce((sum, dayKey) => sum + p.dailyPoints[Number(dayKey)], 0);
         p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal; 
         p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
     });
@@ -153,7 +153,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     // Sum up total points from *new* daily points and the seeded points.
     Object.values(stats).forEach(p => {
-        const newDailyTotal = Object.values(p.dailyPoints).reduce((sum: number, points: number) => sum + points, 0);
+        const newDailyTotal = Object.keys(p.dailyPoints).reduce((sum, dayKey) => sum + p.dailyPoints[Number(dayKey)], 0);
         p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
         p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
     });
