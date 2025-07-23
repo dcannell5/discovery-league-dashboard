@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconVolleyball, IconInfo } from './Icon';
+import { IconVolleyball } from './Icon';
 
 interface LoginScreenProps {
   onLogin: (code: string) => void;
