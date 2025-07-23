@@ -1,4 +1,4 @@
-import { Player, PlayerWithStats, AllDailyResults, AllDailyMatchups, AllDailyAttendance, DailyResults, DailyCourtMatchups, DailyAttendance } from './types';
+import { Player, PlayerWithStats, DailyResults, DailyCourtMatchups, DailyAttendance } from '../types';
 
 export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
     const stats: Record<number, PlayerWithStats> = {};
