@@ -1,9 +1,10 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Player, PlayerProfile, UserState, RefereeNote } from '../types';
 import { moderateImage } from '../services/geminiService';
 import { getPlayerCode, getParentCode } from '../utils/auth';
-import { IconLogout, IconUserCircle, IconEdit, IconMessage, IconLock, IconLightbulb } from './Icon';
+import { IconUserCircle, IconEdit, IconMessage, IconLock, IconLightbulb } from './Icon';
 import HelpIcon from './HelpIcon';
 
 interface ProfilePageProps {
