@@ -1,13 +1,11 @@
 
-
-
-
 import React, { useState, useMemo } from 'react';
 import { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
 import { initializePlayerStats, processDayResults } from '../utils/statsLogic';
 import { sortPlayersWithTieBreaking } from '../utils/rankingLogic';
 import DataManagementPanel from './DataManagementPanel';
+import { logoUrl } from '../assets/logo';
 
 interface LoginPageProps {
   appData: AppData;
@@ -195,6 +193,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
                     </button>
                 )}
             </div>
+            <img src={logoUrl} alt="Canadian Elite Academy Logo" className="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg bg-gray-800 p-2" />
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
               Canadian Elite Academy
             </h1>
