@@ -1,4 +1,4 @@
-import { PlayerWithStats, AllDailyMatchups, AllDailyResults } from "../types";
+import { PlayerWithStats, AllDailyMatchups, AllDailyResults, GameMatchup, GameResult } from "../types";
 
 /**
  * Calculates the head-to-head wins between two players.
@@ -18,7 +18,7 @@ function getHeadToHeadResult(playerA: PlayerWithStats, playerB: PlayerWithStats,
             const courtResults = dayResults[court as keyof typeof dayResults];
             if (!courtResults) continue;
 
-            courtMatchups.forEach((matchup, gameIndex) => {
+            courtMatchups.forEach((matchup: GameMatchup, gameIndex: number) => {
                 const result = courtResults[gameIndex];
                 if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
 
