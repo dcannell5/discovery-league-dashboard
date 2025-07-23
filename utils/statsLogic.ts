@@ -4,7 +4,9 @@ import {
   DailyResults,
   DailyCourtMatchups,
   DailyAttendance,
-  GameResult
+  GameResult,
+  GameMatchup,
+  Team
 } from '../types';
 
 export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
@@ -42,7 +44,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
             const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
-                team.forEach(p => {
+                team.forEach((p: Player) => {
                     // If player has already been processed for this game index, skip them.
                     // This handles data errors where a player is scheduled on two courts at once.
                     if (processedPlayersThisGame.has(p.id)) {
