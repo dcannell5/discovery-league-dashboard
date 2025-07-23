@@ -3,7 +3,9 @@ import {
   PlayerWithStats,
   DailyResults,
   DailyCourtMatchups,
-  DailyAttendance
+  DailyAttendance,
+  GameResult,
+  GameMatchup
 } from '../types';
 
 export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
@@ -23,7 +25,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
         const courtMatchups = dayMatchups[court];
         if (!courtResults || !courtMatchups) return;
 
-        courtResults.forEach((result, gameIndex) => {
+        courtResults.forEach((result: GameResult, gameIndex: number) => {
             if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
             const matchup = courtMatchups[gameIndex];
             if (!matchup) return;
