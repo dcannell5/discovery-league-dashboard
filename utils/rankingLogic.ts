@@ -1,4 +1,4 @@
-import { PlayerWithStats, AllDailyMatchups, AllDailyResults, GameMatchup, GameResult } from "../types";
+import { PlayerWithStats, AllDailyMatchups, AllDailyResults, GameMatchup } from "../types";
 
 /**
  * Calculates the head-to-head wins between two players.
