@@ -1,92 +1,128 @@
-import {
-  Player,
-  PlayerWithStats,
-  DailyResults,
-  DailyCourtMatchups,
-  DailyAttendance,
-  GameResult
-} from '../types';
+import { AppData } from '../types';
 
-export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
-    const stats: Record<number, PlayerWithStats> = {};
-    players.forEach(p => {
-        stats[p.id] = { ...p, dailyPoints: {}, leaguePoints: 0, gamesPlayed: 0, wins: 0, losses: 0, ties: 0, pointsFor: 0, pointsAgainst: 0, pointDifferential: 0 };
-    });
-    return stats;
-};
-
-export const processDayResults = (playerStats: Record<number, PlayerWithStats>, day: number, dayResults: DailyResults | undefined, dayMatchups: DailyCourtMatchups | undefined, dayAttendance: DailyAttendance | undefined) => {
-    const dailyPointsMap = new Map<number, number>();
-    if (!dayResults || !dayMatchups) return;
-
-    // Use a composite key to track processed players, preventing cross-court conflicts.
-    const processedPlayersByGame = new Map<string, Set<number>>(); // Map<court-gameIndex, Set<playerId>>
-
-    Object.keys(dayMatchups).forEach(court => {
-        const courtResults = dayResults[court];
-        const courtMatchups = dayMatchups[court];
-        if (!courtResults || !courtMatchups) return;
-
-        courtResults.forEach((result: GameResult, gameIndex: number) => {
-            if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
-            const matchup = courtMatchups[gameIndex];
-            if (!matchup) return;
-            
-            const gameKey = `${court}-${gameIndex}`;
-            if (!processedPlayersByGame.has(gameKey)) {
-                processedPlayersByGame.set(gameKey, new Set<number>());
-            }
-            const processedPlayersThisGame = processedPlayersByGame.get(gameKey)!;
-
-            const { teamAScore, teamBScore } = result;
-
-            const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
-                const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
-
-                team.forEach((p: Player) => {
-                    if (processedPlayersThisGame.has(p.id)) {
-                        return; 
-                    }
-                    processedPlayersThisGame.add(p.id);
-                    
-                    const player = playerStats[p.id];
-                    if (!player) return;
-
-                    // Ensure every player in a matchup has an entry in the daily points map, defaulting to 0.
-                    if (!dailyPointsMap.has(p.id)) {
-                        dailyPointsMap.set(p.id, 0);
-                    }
-
-                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
-                    
-                    // Only process stats if the player is marked as present for this specific game.
-                    // Absent players will receive 0 points and no change to their other stats for this game.
-                    if (playerIsPresent) {
-                        player.gamesPlayed++;
-                        player.pointsFor += ownScore;
-                        player.pointsAgainst += opponentScore;
-
-                        if (outcome === 'win') {
-                            player.wins++;
-                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
-                        } else if (outcome === 'tie') {
-                            player.ties++;
-                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
-                        } else if(outcome === 'loss') {
-                            player.losses++;
-                        }
-                    }
-                });
-            };
-
-            processTeam(matchup.teamA, teamAScore, teamBScore);
-            processTeam(matchup.teamB, teamBScore, teamAScore);
-        });
-    });
-
-    for (const id in playerStats) {
-        if(dailyPointsMap.has(parseInt(id))) {
-            playerStats[id].dailyPoints[day] = dailyPointsMap.get(parseInt(id)) || 0;
-        }
+export const initialAppData: AppData = {
+  "leagues": {
+    "league-1753071505651": {
+      "title": "Summer League",
+      "totalDays": 9,
+      "players": [
+        { "id": 1, "name": "Amy S" },
+        { "id": 2, "name": "Arravela E" },
+        { "id": 3, "name": "Ashlyn H" },
+        { "id": 4, "name": "Athena M" },
+        { "id": 5, "name": "Aurora P" },
+        { "id": 6, "name": "Bailey G" },
+        { "id": 7, "name": "Bayli L" },
+        { "id": 8, "name": "Bree E" },
+        { "id": 9, "name": "Breanna P" },
+        { "id": 10, "name": "Brie B" },
+        { "id": 11, "name": "Char B" },
+        { "id": 12, "name": "Cia S" },
+        { "id": 13, "name": "Cindel S" },
+        { "id": 14, "name": "Dana J" },
+        { "id": 15, "name": "Elise E" },
+        { "id": 16, "name": "Emily Sh" },
+        { "id": 17, "name": "Emily Sm" },
+        { "id": 18, "name": "Emma W" },
+        { "id": 19, "name": "Eumi D" },
+        { "id": 20, "name": "Ghazal A" },
+        { "id": 21, "name": "Grace B" },
+        { "id": 22, "name": "Imari L" },
+        { "id": 23, "name": "Isadora L" },
+        { "id": 24, "name": "Kalayah P" },
+        { "id": 25, "name": "Khaliun K" },
+        { "id": 26, "name": "Luca T" },
+        { "id": 27, "name": "Lucie K" },
+        { "id": 28, "name": "Lula B" },
+        { "id": 29, "name": "Michelle O" },
+        { "id": 30, "name": "Mikayla W" },
+        { "id": 31, "name": "Nash T" },
+        { "id": 32, "name": "Noa K" },
+        { "id": 33, "name": "Nour M" },
+        { "id": 34, "name": "Prabhleen K" },
+        { "id": 35, "name": "Quinn T" },
+        { "id": 36, "name": "Roseberrie Z" },
+        { "id": 37, "name": "Samantha M" },
+        { "id": 38, "name": "Sophia T" },
+        { "id": 39, "name": "Sophie Y" },
+        { "id": 40, "name": "Teagan S" },
+        { "id": 41, "name": "Tianna D" },
+        { "id": 42, "name": "Zara O" },
+      ],
+      "announcements": "Welcome! Player stats from Days 1-3 have been pre-loaded. The league will now continue from Day 4.",
+      "daySchedules": {
+        "1": "2025-07-02T19:00", "2": "2025-07-09T18:00", "3": "2025-07-16T19:00",
+        "4": "2025-07-23T19:00", "5": "2025-07-30T18:00", "6": "2025-08-06T18:00",
+        "7": "2025-08-13T18:00", "8": "2025-08-20T18:00", "9": "2025-08-27T18:00"
+      },
+      "leagueType": "standard", "numCourts": 3, "playersPerTeam": 7, "gamesPerDay": 6,
+      "courtNames": ["Royalty Court", "Challenger Court", "Foundation Court"],
+      "lockedDays": {},
+      "seededStats": {
+        "1": { "leaguePoints": 6, "pointsFor": 94, "pointsAgainst": 113 },
+        "2": { "leaguePoints": 11, "pointsFor": 298, "pointsAgainst": 382 },
+        "3": { "leaguePoints": 11, "pointsFor": 228, "pointsAgainst": 247 },
+        "4": { "leaguePoints": 30, "pointsFor": 328, "pointsAgainst": 340 },
+        "5": { "leaguePoints": 17, "pointsFor": 244, "pointsAgainst": 216 },
+        "6": { "leaguePoints": 0, "pointsFor": 0, "pointsAgainst": 0 },
+        "7": { "leaguePoints": 30, "pointsFor": 364, "pointsAgainst": 359 },
+        "8": { "leaguePoints": 24, "pointsFor": 335, "pointsAgainst": 380 },
+        "9": { "leaguePoints": 42, "pointsFor": 372, "pointsAgainst": 324 },
+        "10": { "leaguePoints": 24, "pointsFor": 321, "pointsAgainst": 334 },
+        "11": { "leaguePoints": 14, "pointsFor": 310, "pointsAgainst": 378 },
+        "12": { "leaguePoints": 24, "pointsFor": 354, "pointsAgainst": 351 },
+        "13": { "leaguePoints": 30, "pointsFor": 329, "pointsAgainst": 324 },
+        "14": { "leaguePoints": 18, "pointsFor": 311, "pointsAgainst": 358 },
+        "15": { "leaguePoints": 12, "pointsFor": 116, "pointsAgainst": 105 },
+        "16": { "leaguePoints": 11, "pointsFor": 128, "pointsAgainst": 118 },
+        "17": { "leaguePoints": 27, "pointsFor": 363, "pointsAgainst": 351 },
+        "18": { "leaguePoints": 14, "pointsFor": 230, "pointsAgainst": 230 },
+        "19": { "leaguePoints": 27, "pointsFor": 351, "pointsAgainst": 352 },
+        "20": { "leaguePoints": 33, "pointsFor": 372, "pointsAgainst": 330 },
+        "21": { "leaguePoints": 12, "pointsFor": 123, "pointsAgainst": 89 },
+        "22": { "leaguePoints": 9, "pointsFor": 148, "pointsAgainst": 199 },
+        "23": { "leaguePoints": 15, "pointsFor": 118, "pointsAgainst": 97 },
+        "24": { "leaguePoints": 30, "pointsFor": 316, "pointsAgainst": 266 },
+        "25": { "leaguePoints": 27, "pointsFor": 334, "pointsAgainst": 340 },
+        "26": { "leaguePoints": 12, "pointsFor": 120, "pointsAgainst": 109 },
+        "27": { "leaguePoints": 11, "pointsFor": 210, "pointsAgainst": 243 },
+        "28": { "leaguePoints": 27, "pointsFor": 337, "pointsAgainst": 330 },
+        "29": { "leaguePoints": 20, "pointsFor": 327, "pointsAgainst": 354 },
+        "30": { "leaguePoints": 30, "pointsFor": 366, "pointsAgainst": 333 },
+        "31": { "leaguePoints": 36, "pointsFor": 395, "pointsAgainst": 307 },
+        "32": { "leaguePoints": 11, "pointsFor": 224, "pointsAgainst": 243 },
+        "33": { "leaguePoints": 15, "pointsFor": 213, "pointsAgainst": 239 },
+        "34": { "leaguePoints": 33, "pointsFor": 361, "pointsAgainst": 346 },
+        "35": { "leaguePoints": 42, "pointsFor": 386, "pointsAgainst": 328 },
+        "36": { "leaguePoints": 24, "pointsFor": 313, "pointsAgainst": 359 },
+        "37": { "leaguePoints": 8, "pointsFor": 121, "pointsAgainst": 125 },
+        "38": { "leaguePoints": 33, "pointsFor": 377, "pointsAgainst": 337 },
+        "39": { "leaguePoints": 17, "pointsFor": 228, "pointsAgainst": 233 },
+        "40": { "leaguePoints": 33, "pointsFor": 365, "pointsAgainst": 324 },
+        "41": { "leaguePoints": 24, "pointsFor": 341, "pointsAgainst": 348 },
+        "42": { "leaguePoints": 18, "pointsFor": 316, "pointsAgainst": 353 }
+      }
     }
-};
+  },
+  "dailyResults": {
+    "league-1753071505651": {}
+  },
+  "allDailyMatchups": {
+    "league-1753071505651": {}
+  },
+  "allDailyAttendance": {
+    "league-1753071505651": {}
+  },
+  "allPlayerProfiles": { "league-1753071505651": {} },
+  "allRefereeNotes": { "league-1753071505651": {} },
+  "allAdminFeedback": { "league-1753071505651": [] },
+  "allPlayerFeedback": { "league-1753071505651": [] },
+  "allPlayerPINs": { "league-1753071505651": {} },
+  "activeLeagueId": "league-1753071505651",
+  "upcomingEvent": {
+    "title": "Next League Registration Open!",
+    "description": "Registration for the Fall Discovery League is now open. Sign up early to secure your spot!",
+    "buttonText": "Register Now",
+    "buttonUrl": "https://canadianeliteacademy.corsizio.com/"
+  }
+}
