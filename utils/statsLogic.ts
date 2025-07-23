@@ -4,9 +4,7 @@ import {
   DailyResults,
   DailyCourtMatchups,
   DailyAttendance,
-  GameResult,
-  GameMatchup,
-  Team
+  GameResult
 } from '../types';
 
 export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
