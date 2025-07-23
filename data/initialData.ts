@@ -59,26 +59,26 @@ export const initialAppData: AppData = {
         "7": "2025-08-13T18:00", "8": "2025-08-20T18:00", "9": "2025-08-27T18:00"
       },
       "leagueType": "standard", "numCourts": 3, "playersPerTeam": 7, "gamesPerDay": 6,
-      "courtNames": ["Royalty Court", "Challenger Court 1", "Foundation Court"],
+      "courtNames": ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"],
       "lockedDays": {}
     }
   },
   "dailyResults": {
     "league-1753071505651": {
       "1": {
-        "Royalty Court": [{"teamAScore": 20,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 21},{"teamAScore": 25,"teamBScore": 14},{"teamAScore": 12,"teamBScore": 26},{"teamAScore": 30,"teamBScore": 16},{"teamAScore": 10,"teamBScore": 13}],
-        "Challenger Court 1": [{"teamAScore": 16,"teamBScore": 18},{"teamAScore": 13,"teamBScore": 17},{"teamAScore": 6,"teamBScore": 23},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 17,"teamBScore": 28},{"teamAScore": 9,"teamBScore": 15}],
-        "Foundation Court": [{"teamAScore": 19,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 27},{"teamAScore": 18,"teamBScore": 10},{"teamAScore": 17,"teamBScore": 26},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 17,"teamBScore": 12}]
+        "Royalty Court 1": [{"teamAScore": 20,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 21},{"teamAScore": 25,"teamBScore": 14},{"teamAScore": 12,"teamBScore": 26},{"teamAScore": 30,"teamBScore": 16},{"teamAScore": 10,"teamBScore": 13}],
+        "Challenger Court 2": [{"teamAScore": 16,"teamBScore": 18},{"teamAScore": 13,"teamBScore": 17},{"teamAScore": 6,"teamBScore": 23},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 17,"teamBScore": 28},{"teamAScore": 9,"teamBScore": 15}],
+        "Foundation Court 3": [{"teamAScore": 19,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 27},{"teamAScore": 18,"teamBScore": 10},{"teamAScore": 17,"teamBScore": 26},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 17,"teamBScore": 12}]
       },
       "2": {
-        "Royalty Court": [{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 18},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 15,"teamBScore": 22},{"teamAScore": 21,"teamBScore": 20},{"teamAScore": 23,"teamBScore": 14}],
-        "Challenger Court 1": [{"teamAScore": 15,"teamBScore": 27},{"teamAScore": 17,"teamBScore": 13},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 20},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 16,"teamBScore": 22}],
-        "Foundation Court": [{"teamAScore": 22,"teamBScore": 21},{"teamAScore": 17,"teamBScore": 21},{"teamAScore": 10,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 15},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 16,"teamBScore": 23}]
+        "Royalty Court 1": [{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 18},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 15,"teamBScore": 22},{"teamAScore": 21,"teamBScore": 20},{"teamAScore": 23,"teamBScore": 14}],
+        "Challenger Court 2": [{"teamAScore": 15,"teamBScore": 27},{"teamAScore": 17,"teamBScore": 13},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 20},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 16,"teamBScore": 22}],
+        "Foundation Court 3": [{"teamAScore": 22,"teamBScore": 21},{"teamAScore": 17,"teamBScore": 21},{"teamAScore": 10,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 15},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 16,"teamBScore": 23}]
       },
       "3": {
-        "Royalty Court": [{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 15,"teamBScore": 24},{"teamAScore": 27,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 32},{"teamAScore": 31,"teamBScore": 17}],
-        "Challenger Court 1": [{"teamAScore": 20,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 14,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22}],
-        "Foundation Court": [{"teamAScore": 23,"teamBScore": 25},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 24,"teamBScore": 15},{"teamAScore": 17,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 22},{"teamAScore": 24,"teamBScore": 17}]
+        "Royalty Court 1": [{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 15,"teamBScore": 24},{"teamAScore": 27,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 32},{"teamAScore": 31,"teamBScore": 17}],
+        "Challenger Court 2": [{"teamAScore": 20,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 14,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22}],
+        "Foundation Court 3": [{"teamAScore": 23,"teamBScore": 25},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 24,"teamBScore": 15},{"teamAScore": 17,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 22},{"teamAScore": 24,"teamBScore": 17}]
       }
     }
   },
