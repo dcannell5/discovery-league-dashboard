@@ -1,140 +1,92 @@
+import {
+  Player,
+  PlayerWithStats,
+  DailyResults,
+  DailyCourtMatchups,
+  DailyAttendance,
+  GameResult
+} from '../types';
 
+export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
+    const stats: Record<number, PlayerWithStats> = {};
+    players.forEach(p => {
+        stats[p.id] = { ...p, dailyPoints: {}, leaguePoints: 0, gamesPlayed: 0, wins: 0, losses: 0, ties: 0, pointsFor: 0, pointsAgainst: 0, pointDifferential: 0 };
+    });
+    return stats;
+};
 
-import { AppData } from '../types';
-import { presetData } from './presetSchedule';
+export const processDayResults = (playerStats: Record<number, PlayerWithStats>, day: number, dayResults: DailyResults | undefined, dayMatchups: DailyCourtMatchups | undefined, dayAttendance: DailyAttendance | undefined) => {
+    const dailyPointsMap = new Map<number, number>();
+    if (!dayResults || !dayMatchups) return;
 
-export const initialAppData: AppData = {
-  "leagues": {
-    "league-1753071505651": {
-      "title": "Summer League",
-      "totalDays": 9,
-      "players": [
-        { "id": 1, "name": "Amy S" },
-        { "id": 2, "name": "Arravela E" },
-        { "id": 3, "name": "Ashlyn H" },
-        { "id": 4, "name": "Athena M" },
-        { "id": 5, "name": "Aurora P" },
-        { "id": 6, "name": "Bailey G" },
-        { "id": 7, "name": "Bayli L" },
-        { "id": 8, "name": "Bree E" },
-        { "id": 9, "name": "Breanna P" },
-        { "id": 10, "name": "Brie B" },
-        { "id": 11, "name": "Char B" },
-        { "id": 12, "name": "Cia S" },
-        { "id": 13, "name": "Cindel S" },
-        { "id": 14, "name": "Dana J" },
-        { "id": 15, "name": "Elise E" },
-        { "id": 16, "name": "Emily Sh" },
-        { "id": 17, "name": "Emily Sm" },
-        { "id": 18, "name": "Emma W" },
-        { "id": 19, "name": "Eumi D" },
-        { "id": 20, "name": "Ghazal A" },
-        { "id": 21, "name": "Grace B" },
-        { "id": 22, "name": "Imari L" },
-        { "id": 23, "name": "Isadora L" },
-        { "id": 24, "name": "Kalayah P" },
-        { "id": 25, "name": "Khaliun K" },
-        { "id": 26, "name": "Luca T" },
-        { "id": 27, "name": "Lucie K" },
-        { "id": 28, "name": "Lula B" },
-        { "id": 29, "name": "Michelle O" },
-        { "id": 30, "name": "Mikayla W" },
-        { "id": 31, "name": "Nash T" },
-        { "id": 32, "name": "Noa K" },
-        { "id": 33, "name": "Nour M" },
-        { "id": 34, "name": "Prabhleen K" },
-        { "id": 35, "name": "Quinn T" },
-        { "id": 36, "name": "Roseberrie Z" },
-        { "id": 37, "name": "Samantha M" },
-        { "id": 38, "name": "Sophia T" },
-        { "id": 39, "name": "Sophie Y" },
-        { "id": 40, "name": "Teagan S" },
-        { "id": 41, "name": "Tianna D" },
-        { "id": 42, "name": "Zara O" },
-      ],
-      "announcements": "Welcome to the league! Check back here for updates.",
-      "daySchedules": {
-        "1": "2025-07-02T19:00", "2": "2025-07-09T18:00", "3": "2025-07-16T19:00",
-        "4": "2025-07-23T19:00", "5": "2025-07-30T18:00", "6": "2025-08-06T18:00",
-        "7": "2025-08-13T18:00", "8": "2025-08-20T18:00", "9": "2025-08-27T18:00"
-      },
-      "leagueType": "standard", "numCourts": 3, "playersPerTeam": 7, "gamesPerDay": 6,
-      "courtNames": ["Royalty Court", "Challenger Court", "Foundation Court"],
-      "lockedDays": {}
+    // Use a composite key to track processed players, preventing cross-court conflicts.
+    const processedPlayersByGame = new Map<string, Set<number>>(); // Map<court-gameIndex, Set<playerId>>
+
+    Object.keys(dayMatchups).forEach(court => {
+        const courtResults = dayResults[court];
+        const courtMatchups = dayMatchups[court];
+        if (!courtResults || !courtMatchups) return;
+
+        courtResults.forEach((result: GameResult, gameIndex: number) => {
+            if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
+            const matchup = courtMatchups[gameIndex];
+            if (!matchup) return;
+            
+            const gameKey = `${court}-${gameIndex}`;
+            if (!processedPlayersByGame.has(gameKey)) {
+                processedPlayersByGame.set(gameKey, new Set<number>());
+            }
+            const processedPlayersThisGame = processedPlayersByGame.get(gameKey)!;
+
+            const { teamAScore, teamBScore } = result;
+
+            const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
+                const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
+
+                team.forEach((p: Player) => {
+                    if (processedPlayersThisGame.has(p.id)) {
+                        return; 
+                    }
+                    processedPlayersThisGame.add(p.id);
+                    
+                    const player = playerStats[p.id];
+                    if (!player) return;
+
+                    // Ensure every player in a matchup has an entry in the daily points map, defaulting to 0.
+                    if (!dailyPointsMap.has(p.id)) {
+                        dailyPointsMap.set(p.id, 0);
+                    }
+
+                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
+                    
+                    // Only process stats if the player is marked as present for this specific game.
+                    // Absent players will receive 0 points and no change to their other stats for this game.
+                    if (playerIsPresent) {
+                        player.gamesPlayed++;
+                        player.pointsFor += ownScore;
+                        player.pointsAgainst += opponentScore;
+
+                        if (outcome === 'win') {
+                            player.wins++;
+                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
+                        } else if (outcome === 'tie') {
+                            player.ties++;
+                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
+                        } else if(outcome === 'loss') {
+                            player.losses++;
+                        }
+                    }
+                });
+            };
+
+            processTeam(matchup.teamA, teamAScore, teamBScore);
+            processTeam(matchup.teamB, teamBScore, teamAScore);
+        });
+    });
+
+    for (const id in playerStats) {
+        if(dailyPointsMap.has(parseInt(id))) {
+            playerStats[id].dailyPoints[day] = dailyPointsMap.get(parseInt(id)) || 0;
+        }
     }
-  },
-  "dailyResults": {
-    "league-1753071505651": {
-      "1": {
-        "Royalty Court": [{"teamAScore": 20,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 21},{"teamAScore": 25,"teamBScore": 14},{"teamAScore": 12,"teamBScore": 26},{"teamAScore": 30,"teamBScore": 16},{"teamAScore": 10,"teamBScore": 13}],
-        "Challenger Court": [{"teamAScore": 16,"teamBScore": 18},{"teamAScore": 13,"teamBScore": 17},{"teamAScore": 6,"teamBScore": 23},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 17,"teamBScore": 28},{"teamAScore": 9,"teamBScore": 15}],
-        "Foundation Court": [{"teamAScore": 19,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 27},{"teamAScore": 18,"teamBScore": 10},{"teamAScore": 17,"teamBScore": 26},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 17,"teamBScore": 12}]
-      },
-      "2": {
-        "Royalty Court": [{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 18},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 15,"teamBScore": 22},{"teamAScore": 21,"teamBScore": 20},{"teamAScore": 23,"teamBScore": 14}],
-        "Challenger Court": [{"teamAScore": 15,"teamBScore": 27},{"teamAScore": 17,"teamBScore": 13},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 20},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 16,"teamBScore": 22}],
-        "Foundation Court": [{"teamAScore": 22,"teamBScore": 21},{"teamAScore": 17,"teamBScore": 21},{"teamAScore": 10,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 15},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 16,"teamBScore": 23}]
-      },
-      "3": {
-        "Royalty Court": [{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 15,"teamBScore": 24},{"teamAScore": 27,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 32},{"teamAScore": 31,"teamBScore": 17}],
-        "Challenger Court": [{"teamAScore": 20,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 14,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22}],
-        "Foundation Court": [{"teamAScore": 23,"teamBScore": 25},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 24,"teamBScore": 15},{"teamAScore": 17,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 22},{"teamAScore": 24,"teamBScore": 17}]
-      }
-    }
-  },
-  "allDailyMatchups": {
-    "league-1753071505651": presetData.matchups
-  },
-  "allDailyAttendance": {
-    "league-1753071505651": {
-      "1": {
-        "14": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "32": [false, false, false, false, false, false],
-        "38": [false, false, false, false, false, false],
-        "42": [false, false, false, false, false, false]
-      },
-      "2": {
-        "3": [false, false, false, false, false, false],
-        "6": [true, true, true, true, true, true],
-        "8": [false, false, false, false, false, false],
-        "14": [false, false, false, false, false, false],
-        "16": [false, false, false, false, false, false],
-        "18": [false, false, false, false, false, false],
-        "19": [false, false, false, false, false, false],
-        "20": [false, false, false, false, false, false],
-        "21": [false, false, false, false, false, false],
-        "23": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "30": [true, true, true, true, true, true],
-        "32": [false, false, false, false, false, false],
-        "36": [false, false, false, false, false, false],
-        "37": [false, false, false, false, false, false],
-        "42": [true, true, true, true, true, true]
-      },
-      "3": {
-        "3": [false, false, false, false, false, false],
-        "6": [true, true, false, false, false, true],
-        "8": [true, true, true, false, false, false],
-        "20": [false, false, false, false, false, false],
-        "23": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "30": [false, false, false, false, false, false],
-        "37": [false, false, false, false, false, false],
-        "42": [false, false, false, false, false, false]
-      }
-    }
-  },
-  "allPlayerProfiles": { "league-1753071505651": {} },
-  "allRefereeNotes": { "league-1753071505651": {} },
-  "allAdminFeedback": { "league-1753071505651": [] },
-  "allPlayerFeedback": { "league-1753071505651": [] },
-  "allPlayerPINs": { "league-1753071505651": {} },
-  "activeLeagueId": "league-1753071505651",
-  "upcomingEvent": {
-    "title": "Next League Registration Open!",
-    "description": "Registration for the Fall Discovery League is now open. Sign up early to secure your spot!",
-    "buttonText": "Register Now",
-    "buttonUrl": "https://canadianeliteacademy.corsizio.com/"
-  }
-}
+};
