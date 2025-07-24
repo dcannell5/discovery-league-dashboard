@@ -1,6 +1,7 @@
 
 
 
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -130,33 +131,45 @@ const Dashboard: React.FC<DashboardProps> = ({
     }
   }, [currentDay, allMatchups, gameResults, allAttendance, leagueConfig, setAllMatchups]);
   
-  // Memoized calculation for display data.
   const memoizedDisplayData = useMemo(() => {
     const stats = initializePlayerStats(leagueConfig.players);
-    const startDay = leagueConfig.seededStats ? 4 : 1;
 
-    // Apply seeded stats as a baseline if they exist
-    if (leagueConfig.seededStats) {
-        Object.entries(leagueConfig.seededStats).forEach(([playerIdStr, seeded]) => {
-            const playerId = parseInt(playerIdStr);
-            if (stats[playerId] && seeded) {
-                Object.assign(stats[playerId], seeded);
-                stats[playerId].dailyPoints = {};
-            }
-        });
-    }
+    // If seeded stats exist, they are the source of truth for the end of Day 3.
+    // For Day 1 & 2, calculate from scratch to show progression. For Day 3, show the seed. For Day 4+, build on the seed.
+    if (leagueConfig.seededStats && currentDay >= 3) {
+      // For Day 3 and beyond, start with the authoritative seeded stats.
+      Object.entries(leagueConfig.seededStats).forEach(([playerIdStr, seeded]) => {
+          const playerId = parseInt(playerIdStr);
+          if (stats[playerId] && seeded) {
+              Object.assign(stats[playerId], seeded);
+              stats[playerId].dailyPoints = {}; // Reset daily points from seed as they are baked in
+          }
+      });
+      
+      const startDay = 4; // Start processing new results from Day 4 onwards
+      for (let day = startDay; day <= currentDay; day++) {
+          processDayResults(stats, day, gameResults[day], allMatchups[day], allAttendance[day]);
+      }
 
-    // Process results for subsequent days up to the currently viewed day
-    for (let day = startDay; day <= currentDay; day++) {
+      // Sum up points from days *after* the seed.
+      Object.values(stats).forEach(p => {
+          const newDailyTotal = Object.values(p.dailyPoints).reduce((sum, points) => sum + points, 0);
+          p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
+          p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
+      });
+
+    } else {
+      // For Day 1, Day 2, or any un-seeded league, calculate from scratch.
+      for (let day = 1; day <= currentDay; day++) {
         processDayResults(stats, day, gameResults[day], allMatchups[day], allAttendance[day]);
+      }
+      
+      // Sum up all calculated daily points.
+      Object.values(stats).forEach(p => {
+        p.leaguePoints = Object.values(p.dailyPoints).reduce((sum, points) => sum + points, 0);
+        p.pointDifferential = p.pointsFor - p.pointsAgainst;
+      });
     }
-
-    // Sum up total points from *new* daily points and the seeded points.
-    Object.values(stats).forEach(p => {
-        const newDailyTotal = Object.keys(p.dailyPoints).reduce((sum, dayKey) => sum + p.dailyPoints[Number(dayKey)], 0);
-        p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
-        p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
-    });
     
     const displayStats = Object.values(stats);
     const sortedDisplayPlayers = sortPlayersWithTieBreaking(displayStats, allMatchups, gameResults, currentDay);
