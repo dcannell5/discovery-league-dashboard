@@ -4,7 +4,9 @@ import {
   DailyResults,
   DailyCourtMatchups,
   DailyAttendance,
-  GameResult
+  GameResult,
+  GameMatchup,
+  Team
 } from '../types';
 
 export const initializePlayerStats = (players: Player[]): Record<number, PlayerWithStats> => {
@@ -19,8 +21,8 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
     const dailyPointsMap = new Map<number, number>();
     if (!dayResults || !dayMatchups) return;
 
-    // Use a composite key to track processed players, preventing cross-court conflicts.
-    const processedPlayersByGame = new Map<string, Set<number>>(); // Map<court-gameIndex, Set<playerId>>
+    // Create a map to track which players have been processed for each game to avoid double-counting.
+    const processedPlayersByGame = new Map<number, Set<number>>(); // Map<gameIndex, Set<playerId>>
 
     Object.keys(dayMatchups).forEach(court => {
         const courtResults = dayResults[court];
@@ -31,12 +33,11 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
             if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
             const matchup = courtMatchups[gameIndex];
             if (!matchup) return;
-            
-            const gameKey = `${court}-${gameIndex}`;
-            if (!processedPlayersByGame.has(gameKey)) {
-                processedPlayersByGame.set(gameKey, new Set<number>());
+
+            if (!processedPlayersByGame.has(gameIndex)) {
+                processedPlayersByGame.set(gameIndex, new Set<number>());
             }
-            const processedPlayersThisGame = processedPlayersByGame.get(gameKey)!;
+            const processedPlayersThisGame = processedPlayersByGame.get(gameIndex)!;
 
             const { teamAScore, teamBScore } = result;
 
@@ -44,37 +45,32 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
                 team.forEach((p: Player) => {
+                    // If player has already been processed for this game index, skip them.
+                    // This handles data errors where a player is scheduled on two courts at once.
                     if (processedPlayersThisGame.has(p.id)) {
                         return; 
                     }
                     processedPlayersThisGame.add(p.id);
                     
+                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
                     const player = playerStats[p.id];
                     if (!player) return;
 
-                    // Ensure every player in a matchup has an entry in the daily points map, defaulting to 0.
-                    if (!dailyPointsMap.has(p.id)) {
-                        dailyPointsMap.set(p.id, 0);
-                    }
+                    // Only count stats if the player is present.
+                    if (!playerIsPresent) return;
 
-                    const playerIsPresent = dayAttendance?.[p.id]?.[gameIndex] ?? true;
-                    
-                    // Only process stats if the player is marked as present for this specific game.
-                    // Absent players will receive 0 points and no change to their other stats for this game.
-                    if (playerIsPresent) {
-                        player.gamesPlayed++;
-                        player.pointsFor += ownScore;
-                        player.pointsAgainst += opponentScore;
+                    player.gamesPlayed++;
+                    player.pointsFor += ownScore;
+                    player.pointsAgainst += opponentScore;
 
-                        if (outcome === 'win') {
-                            player.wins++;
-                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
-                        } else if (outcome === 'tie') {
-                            player.ties++;
-                            dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
-                        } else if(outcome === 'loss') {
-                            player.losses++;
-                        }
+                    if (outcome === 'win') {
+                        player.wins++;
+                        dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 3);
+                    } else if (outcome === 'tie') {
+                        player.ties++;
+                        dailyPointsMap.set(p.id, (dailyPointsMap.get(p.id) || 0) + 1);
+                    } else if(outcome === 'loss') {
+                        player.losses++;
                     }
                 });
             };
