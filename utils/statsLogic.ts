@@ -32,7 +32,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
 
         courtResults.forEach((result: GameResult, gameIndex: number) => {
             if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
-            const matchup = courtMatchups[gameIndex];
+            const matchup: GameMatchup = courtMatchups[gameIndex];
             if (!matchup) return;
 
             if (!processedPlayersByGame.has(gameIndex)) {
