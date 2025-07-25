@@ -64,9 +64,11 @@ export function sortPlayersWithTieBreaking(
 
         // --- TIE-BREAKING CRITERIA ---
 
-        // 2. Point Differential
-        if (a.pointDifferential !== b.pointDifferential) {
-            return b.pointDifferential - a.pointDifferential;
+        // 2. PF/PA Ratio
+        const ratioA = a.pointsAgainst === 0 ? (a.pointsFor > 0 ? Infinity : 0) : a.pointsFor / a.pointsAgainst;
+        const ratioB = b.pointsAgainst === 0 ? (b.pointsFor > 0 ? Infinity : 0) : b.pointsFor / b.pointsAgainst;
+        if (ratioA !== ratioB) {
+            return ratioB - ratioA;
         }
 
         // 3. Points For
@@ -74,9 +76,9 @@ export function sortPlayersWithTieBreaking(
             return b.pointsFor - a.pointsFor;
         }
         
-        // 4. Total Wins
-        if (a.wins !== b.wins) {
-            return b.wins - a.wins;
+        // 4. Points Against (lower is better)
+        if (a.pointsAgainst !== b.pointsAgainst) {
+            return a.pointsAgainst - b.pointsAgainst;
         }
 
         // 5. Head-to-Head (as a deeper tie-breaker)
