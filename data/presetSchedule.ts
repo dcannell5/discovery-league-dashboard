@@ -1,4 +1,5 @@
 
+
 import { Player, AllDailyMatchups, LeagueConfig } from '../types';
 
 // Player list (42 players)
@@ -67,17 +68,17 @@ const matchups: AllDailyMatchups = {
       { teamA: [p('Lucie K'), p('Amy S'), p('Noa K'), p('Lula B'), p('Grace B'), p('Ghazal A'), p('Bailey G')], teamB: [p('Eumi D'), p('Roseberrie Z'), p('Nour M'), p('Cindel S'), p('Samantha M'), p('Quinn T'), p('Arravela E')] },
       { teamA: [p('Cia S'), p('Arravela E'), p('Lucie K'), p('Michelle O'), p('Brie B'), p('Ashlyn H'), p('Cindel S')], teamB: [p('Bree E'), p('Eumi D'), p('Dana J'), p('Lula B'), p('Noa K'), p('Isadora L'), p('Athena M')] },
       { teamA: [p('Samantha M'), p('Lucie K'), p('Prabhleen K'), p('Zara O'), p('Imari L'), p('Sophie Y'), p('Athena M')], teamB: [p('Elise E'), p('Bailey G'), p('Breanna P'), p('Emily Sh'), p('Sophia T'), p('Aurora P'), p('Ashlyn H')] },
-      { teamA: [p('Emily Sm'), p('Lucie K'), p('Bree E'), p('Roseberrie Z'), p('Breanna P'), p('Nour M'), p('Tianna D')], teamB: [p('Khaliun K'), p('Samantha M'), p('Grace B'), p('Lula B'), p('Sophia Y'), p('Isadora L'), p('Bayli L')] },
-      { teamA: [p('Shopia T'), p('Lula B'), p('Char B'), p('Sophie Y'), p('Samantha M'), p('Dana J'), p('Luca T')], teamB: [p('Cia S'), p('Eumi D'), p('Isodora L'), p('Grace B'), p('Bree E'), p('Nash T'), p('Lucie K')] },
-      { teamA: [p('Michelle O'), p('Cia S'), p('Cindel S'), p('Dana J'), p('Roseberrie Z'), p('Grace B'), p('Nour M')], teamB: [p('Zara O'), p('Ghazai A'), p('Sophia T'), p('Emma W'), p('Bayli L'), p('Nash T'), p('Isodora L')] },
+      { teamA: [p('Emily Sm'), p('Lucie K'), p('Bree E'), p('Roseberrie Z'), p('Breanna P'), p('Nour M'), p('Tianna D')], teamB: [p('Khaliun K'), p('Samantha M'), p('Grace B'), p('Lula B'), p('Sophie Y'), p('Isadora L'), p('Bayli L')] },
+      { teamA: [p('Sophia T'), p('Lula B'), p('Char B'), p('Sophie Y'), p('Samantha M'), p('Dana J'), p('Luca T')], teamB: [p('Cia S'), p('Eumi D'), p('Isadora L'), p('Grace B'), p('Bree E'), p('Nash T'), p('Lucie K')] },
+      { teamA: [p('Michelle O'), p('Cia S'), p('Cindel S'), p('Dana J'), p('Roseberrie Z'), p('Grace B'), p('Nour M')], teamB: [p('Zara O'), p('Ghazal A'), p('Sophia T'), p('Emma W'), p('Bayli L'), p('Nash T'), p('Isadora L')] },
     ],
     "Foundation Court 3": [
       { teamA: [p('Isadora L'), p('Ashlyn H'), p('Breanna P'), p('Athena M'), p('Brie B'), p('Dana J'), p('Luca T')], teamB: [p('Imari L'), p('Emily Sm'), p('Sophie Y'), p('Cia S'), p('Emma W'), p('Mikayla W'), p('Teagan S')] },
-      { teamA: [p('Elise E'), p('Amy S'), p('Emma W'), p('Zara O'), p('Imari L'), p('Sophia T'), p('Bailey G')], teamB: [p('Bayli L'), p('Kalayah P'), p('Nour M'), p('Ghazai A'), p('Grace B'), p('Emily SM'), p('Luca T')] },
+      { teamA: [p('Elise E'), p('Amy S'), p('Emma W'), p('Zara O'), p('Imari L'), p('Sophia T'), p('Bailey G')], teamB: [p('Bayli L'), p('Kalayah P'), p('Nour M'), p('Ghazal A'), p('Grace B'), p('Emily Sm'), p('Luca T')] },
       { teamA: [p('Grace B'), p('Char B'), p('Ghazal A'), p('Cindel S'), p('Mikayla W'), p('Lula B'), p('Nash T')], teamB: [p('Eumi D'), p('Emma W'), p('Brie B'), p('Tianna D'), p('Amy S'), p('Arravela E'), p('Dana J')] },
-      { teamA: [p('Noa K'), p('Dana J'), p('Aurora P'), p('Emily Sh'), p('Prabhleen K'), p('Athena M'), p('Mikayla W')], teamB: [p('Ghazai A'), p('Eumi D'), p('Amy S'), p('Cia S'), p('Quin T'), p('Teagan S'), p('Sophia T')] },
-      { teamA: [p('Khaliun K'), p('Athena M'), p('Zara O'), p('Brie B'), p('Kalayah P'), p('Amy S'), p('Teagan S')], teamB: [p('Ghazai A'), p('Cindel S'), p('Breanna P'), p('Tianna D'), p('Michelle O'), p('Roseberrie Z'), p('Ashlyn H')] },
-      { teamA: [p('Teagan S'), p('Char B'), p('Elsie E'), p('Imari L'), p('Bree E'), p('Prabhleen K'), p('Luca T')], teamB: [p('Arravela E'), p('Lucie K'), p('Sophie Y'), p('Noa K'), p('Athena M'), p('Eumi D'), p('Lula B')] },
+      { teamA: [p('Noa K'), p('Dana J'), p('Aurora P'), p('Emily Sh'), p('Prabhleen K'), p('Athena M'), p('Mikayla W')], teamB: [p('Ghazal A'), p('Eumi D'), p('Amy S'), p('Cia S'), p('Quinn T'), p('Teagan S'), p('Sophia T')] },
+      { teamA: [p('Khaliun K'), p('Athena M'), p('Zara O'), p('Brie B'), p('Kalayah P'), p('Amy S'), p('Teagan S')], teamB: [p('Ghazal A'), p('Cindel S'), p('Breanna P'), p('Tianna D'), p('Michelle O'), p('Roseberrie Z'), p('Ashlyn H')] },
+      { teamA: [p('Teagan S'), p('Char B'), p('Elise E'), p('Imari L'), p('Bree E'), p('Prabhleen K'), p('Luca T')], teamB: [p('Arravela E'), p('Lucie K'), p('Sophie Y'), p('Noa K'), p('Athena M'), p('Eumi D'), p('Lula B')] },
     ]
   },
   2: { // Day 2
@@ -95,7 +96,7 @@ const matchups: AllDailyMatchups = {
         { teamA: [p('Mikayla W'), p('Emma W'), p('Tianna D'), p('Zara O'), p('Prabhleen K'), p('Cindel S'), p('Nour M')], teamB: [p('Cia S'), p('Michelle O'), p('Amy S'), p('Lula B'), p('Brie B'), p('Khaliun K'), p('Noa K')] },
         { teamA: [p('Brie B'), p('Emma W'), p('Tianna D'), p('Michelle O'), p('Cia S'), p('Nour M'), p('Zara O')], teamB: [p('Lula B'), p('Noa K'), p('Amy S'), p('Prabhleen K'), p('Khaliun K'), p('Mikayla W'), p('Cindel S')] },
         { teamA: [p('Cia S'), p('Emma W'), p('Nour M'), p('Zara O'), p('Khaliun K'), p('Michelle O'), p('Prabhleen K')], teamB: [p('Lula B'), p('Cindel S'), p('Mikayla W'), p('Tianna D'), p('Noa K'), p('Brie B'), p('Amy S')] },
-        { teamA: [p('Emma W'), p('Khaliun K'), p('Michelle O'), p('Nour m'), p('Prabhleen K'), p('Zara O'), p('Mikayla W')], teamB: [p('Cindel S'), p('Cia S'), p('Noa K'), p('Amy S'), p('Lula B'), p('Tianna D'), p('Brie B')] },
+        { teamA: [p('Emma W'), p('Khaliun K'), p('Michelle O'), p('Nour M'), p('Prabhleen K'), p('Zara O'), p('Mikayla W')], teamB: [p('Cindel S'), p('Cia S'), p('Noa K'), p('Amy S'), p('Lula B'), p('Tianna D'), p('Brie B')] },
     ],
     "Foundation Court 3": [
         { teamA: [p('Char B'), p('Roseberrie Z'), p('Dana J'), p('Athena M'), p('Emily Sm'), p('Lucie K'), p('Sophie Y')], teamB: [p('Arravela E'), p('Imari L'), p('Emily Sh'), p('Bailey G'), p('Samantha M'), p('Ashlyn H'), p('Luca T')] },
@@ -103,7 +104,7 @@ const matchups: AllDailyMatchups = {
         { teamA: [p('Ashlyn H'), p('Arravela E'), p('Char B'), p('Roseberrie Z'), p('Samantha M'), p('Bailey G'), p('Luca T')], teamB: [p('Dana J'), p('Imari L'), p('Athena M'), p('Emily Sm'), p('Lucie K'), p('Sophie Y'), p('Emily Sh')] },
         { teamA: [p('Roseberrie Z'), p('Dana J'), p('Emily Sm'), p('Imari L'), p('Sophie Y'), p('Luca T'), p('Bailey G')], teamB: [p('Arravela E'), p('Char B'), p('Athena M'), p('Samantha M'), p('Lucie K'), p('Ashlyn H'), p('Emily Sh')] },
         { teamA: [p('Char B'), p('Roseberrie Z'), p('Emily Sh'), p('Athena M'), p('Lucie K'), p('Dana J'), p('Samantha M')], teamB: [p('Arravela E'), p('Imari L'), p('Emily Sm'), p('Sophie Y'), p('Bailey G'), p('Ashlyn H'), p('Luca T')] },
-        { teamA: [p('Arravela E'), p('Char B'), p('Roseberrie Z'), p('Emily Sh'), p('Samantha M'), p('Dana J'), p('Imara L')], teamB: [p('Bailey G'), p('Luca T'), p('Athena M'), p('Emily Sm'), p('Lucie K'), p('Sophie Y'), p('Ashlyn H')] },
+        { teamA: [p('Arravela E'), p('Char B'), p('Roseberrie Z'), p('Emily Sh'), p('Samantha M'), p('Dana J'), p('Imari L')], teamB: [p('Bailey G'), p('Luca T'), p('Athena M'), p('Emily Sm'), p('Lucie K'), p('Sophie Y'), p('Ashlyn H')] },
     ]
   },
   3: { // Day 3
@@ -127,7 +128,7 @@ const matchups: AllDailyMatchups = {
         { teamA: [p('Michelle O'), p('Aurora P'), p('Emma W'), p('Char B'), p('Arravela E'), p('Ashlyn H'), p('Noa K')], teamB: [p('Amy S'), p('Lucie K'), p('Sophie Y'), p('Imari L'), p('Emily Sh'), p('Bailey G'), p('Samantha M')] },
         { teamA: [p('Michelle O'), p('Imari L'), p('Emma W'), p('Arravela E'), p('Samantha M'), p('Emily Sh'), p('Bailey G')], teamB: [p('Lucie K'), p('Aurora P'), p('Char B'), p('Ashlyn H'), p('Noa K'), p('Sophie Y'), p('Amy S')] },
         { teamA: [p('Bailey G'), p('Amy S'), p('Michelle O'), p('Samantha M'), p('Emily Sh'), p('Imari L'), p('Sophie Y')], teamB: [p('Emma W'), p('Lucie K'), p('Char B'), p('Arravela E'), p('Ashlyn H'), p('Noa K'), p('Aurora P')] },
-        { teamA: [p('Aurora P'), p('Emma W'), p('Arravela E'), p('Emily Sh'), p('Noa K'), p('Sophie U')], p('Imari L')], teamB: [p('Amy S'), p('Samantha M'), p('Char B'), p('Lucie K'), p('Ashlyn H'), p('Bailey G'), p('Michelle O')] },
+        { teamA: [p('Aurora P'), p('Emma W'), p('Arravela E'), p('Emily Sh'), p('Noa K'), p('Sophie Y'), p('Imari L')], teamB: [p('Amy S'), p('Samantha M'), p('Char B'), p('Lucie K'), p('Ashlyn H'), p('Bailey G'), p('Michelle O')] },
         { teamA: [p('Michelle O'), p('Amy S'), p('Sophie Y'), p('Char B'), p('Ashlyn H'), p('Lucie K'), p('Emily Sh')], teamB: [p('Aurora P'), p('Samantha M'), p('Arravela E'), p('Noa K'), p('Imari L'), p('Bailey G'), p('Emma W')] },
         { teamA: [p('Amy S'), p('Michelle O'), p('Aurora P'), p('Sophie Y'), p('Emily Sh'), p('Emma W'), p('Bailey G')], teamB: [p('Imari L'), p('Lucie K'), p('Arravela E'), p('Samantha M'), p('Ashlyn H'), p('Noa K'), p('Char B')] },
     ]
