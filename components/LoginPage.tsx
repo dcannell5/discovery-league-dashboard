@@ -78,7 +78,7 @@ const LeagueCard: React.FC<{
 
         const sortedPlayers = sortPlayersWithTieBreaking(Object.values(stats), allDailyMatchups[league.id] || {}, dailyResults[league.id] || {}, lastRecordedDay);
         
-        const top3Players = sortedPlayers.slice(0, 3);
+        const top3Players: PlayerWithStats[] = sortedPlayers.slice(0, 3);
         
         const findNextGameDate = () => {
             if (!league.daySchedules) return null;
