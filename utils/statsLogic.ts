@@ -1,3 +1,4 @@
+
 import {
   Player,
   PlayerWithStats,
@@ -41,7 +42,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
 
             const { teamAScore, teamBScore } = result;
 
-            const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
+            const processTeam = (team: Team, ownScore: number, opponentScore: number) => {
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
                 team.forEach((p: Player) => {
