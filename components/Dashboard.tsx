@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -180,7 +174,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     const courtKeys = getAllCourtNames(leagueConfig);
     const dailyCourtGroups: Record<string, PlayerWithStats[]> = {};
-    const { playersPerTeam, numCourts, leagueType } = leagueConfig;
+    const { playersPerTeam, leagueType } = leagueConfig;
     const playersPerCourt = playersPerTeam * 2;
 
     // For standard leagues on Day 2+, we display groups based on the current day's final rankings
