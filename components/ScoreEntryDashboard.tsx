@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { DailyResults, GameResult, UserState, DailyCourtMatchups, DailyAttendance, Player } from '../types';
 import CourtScoreEntry from './CourtScoreEntry';
@@ -18,6 +19,7 @@ interface ScoreEntryDashboardProps {
     onSaveRefereeNote: (playerId: number, note: string, day: number) => void;
     onSaveAdminFeedback: (feedbackText: string) => void;
     onToggleDayLock: (day: number) => void;
+    onPrintCourt: (courtTitle: string, day: number) => void;
     isDayLocked: boolean;
     userState: UserState;
     isSwapMode: boolean;
@@ -105,6 +107,7 @@ const ScoreEntryDashboard: React.FC<ScoreEntryDashboardProps> = ({
     onSaveRefereeNote,
     onSaveAdminFeedback,
     onToggleDayLock,
+    onPrintCourt,
     isDayLocked,
     userState,
     isSwapMode,
@@ -209,6 +212,7 @@ const ScoreEntryDashboard: React.FC<ScoreEntryDashboardProps> = ({
                         onResultChange={(gameIndex: number, result: GameResult) => onGameResultChange(court, gameIndex, result)}
                         onPlayerMove={(gameIndex: number, playerId: number, fromTeam: 'teamA' | 'teamB') => onPlayerMove(court, gameIndex, playerId, fromTeam)}
                         onSaveRefereeNote={onSaveRefereeNote}
+                        onPrintCourt={onPrintCourt}
                         userState={userState}
                         isDayLocked={isDayLocked}
                         isSwapMode={isSwapMode}
