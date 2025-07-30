@@ -1,5 +1,6 @@
 
-import { PlayerWithStats, AllDailyMatchups, AllDailyResults } from "../types";
+
+import { PlayerWithStats } from "../types";
 
 /**
  * A helper function to calculate the Points For / Points Against ratio, handling division by zero.
@@ -29,11 +30,7 @@ function getPointsRatio(player: PlayerWithStats): number {
  * 5. Player ID (asc, for stability)
  */
 export function sortPlayersWithTieBreaking(
-    players: PlayerWithStats[], 
-    // The following parameters are kept for signature compatibility but are not used in this sorting logic.
-    allMatchups: AllDailyMatchups, 
-    allResults: AllDailyResults, 
-    maxDay: number = Infinity
+    players: PlayerWithStats[]
 ): PlayerWithStats[] {
     const sortedPlayers = [...players];
 
