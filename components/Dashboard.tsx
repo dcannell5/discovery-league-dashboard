@@ -2,6 +2,8 @@
 
 
 
+
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -75,6 +77,7 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [featuredVideoId, setFeaturedVideoId] = useState<string | null>(null);
   const [isSwapMode, setIsSwapMode] = useState(false);
   const [playerToSwap, setPlayerToSwap] = useState<{ player: Player; gameIndex: number } | null>(null);
+  const [printableContent, setPrintableContent] = useState<React.ReactNode | null>(null);
 
   const realCurrentLeagueDay = useMemo(() => getActiveDay(new Date(), leagueConfig), [leagueConfig]);
   const isDayLocked = !!leagueConfig.lockedDays?.[currentDay];
@@ -375,192 +378,252 @@ const Dashboard: React.FC<DashboardProps> = ({
     }
   };
 
+  const handlePrintCourt = (courtTitle: string, day: number) => {
+    const matchups = allMatchups[day]?.[courtTitle];
+    if (!matchups) return;
+
+    const printableComponent = (
+        <div className="print-container">
+            <div className="print-header">
+                <h1>{leagueConfig.title} - Day {day}</h1>
+                <h2>{courtTitle} - Matchups</h2>
+            </div>
+            <div className="print-games-grid">
+                {matchups.map((matchup, index) => (
+                    <div key={index} className="print-game-card">
+                        <h3>Game {index + 1}</h3>
+                        <div className="print-teams-container">
+                             <div>
+                                <h4>Team A</h4>
+                                <ul className="print-team-list">
+                                    {matchup.teamA.map(p => <li key={p.id}>{p.name}</li>)}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>Team B</h4>
+                                <ul className="print-team-list">
+                                    {matchup.teamB.map(p => <li key={p.id}>{p.name}</li>)}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    setPrintableContent(printableComponent);
+  };
+
+  useEffect(() => {
+    const handleAfterPrint = () => {
+      setPrintableContent(null);
+    };
+
+    window.addEventListener('afterprint', handleAfterPrint);
+    
+    if (printableContent) {
+        window.print();
+    }
+
+    return () => {
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
+  }, [printableContent]);
+
   const isClickable = userState.role !== 'NONE';
   const showDiscoveryView = leagueConfig.leagueType === 'custom' || (leagueConfig.leagueType === 'standard' && currentDay === 1);
   const isPlayerOrParent = userState.role === 'PLAYER' || userState.role === 'PARENT';
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <main className="container mx-auto p-4 md:p-8">
-        <Header 
-            title={leagueConfig.title} 
-            userState={userState} 
-            onLoginClick={onLoginClick} 
-            onLogout={onLogout} 
-            onDeleteLeague={onDeleteLeague}
-            onSwitchLeague={onSwitchLeague}
-            onViewProfile={onViewProfile} 
-        />
-        
-        <Announcements 
-            text={leagueConfig.announcements}
-            userRole={userState.role}
-            onSave={onAnnouncementsSave}
-        />
-
-        {userState.role === 'NONE' && <LinksAndShare leagueTitle={leagueConfig.title} />}
-        {isPlayerOrParent && (
-          <PlayerAttendancePanel 
-            leagueConfig={leagueConfig}
-            userState={userState}
-            allAttendance={allAttendance}
-            onSetPlayerDailyAttendance={onSetPlayerDailyAttendance}
-            realCurrentLeagueDay={realCurrentLeagueDay}
+    <>
+      <div className="min-h-screen bg-gray-900 text-gray-100">
+        <main className="container mx-auto p-4 md:p-8">
+          <Header 
+              title={leagueConfig.title} 
+              userState={userState} 
+              onLoginClick={onLoginClick} 
+              onLogout={onLogout} 
+              onDeleteLeague={onDeleteLeague}
+              onSwitchLeague={onSwitchLeague}
+              onViewProfile={onViewProfile} 
           />
-        )}
-        {userState.role === 'SUPER_ADMIN' && (
-          <>
-            <AdminPanel 
-                appData={appData}
-                leagueConfig={leagueConfig} 
-                onScheduleSave={onScheduleSave} 
-                allPlayerPINs={allPlayerPINs}
-                onResetPlayerPIN={onResetPlayerPIN}
-                allAdminFeedback={allAdminFeedback}
-                allPlayerFeedback={allPlayerFeedback}
-            />
-          </>
-        )}
-
-
-        <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center">
-                <IconTrophy className="w-6 h-6 mr-3"/>
-                Standings: Day {currentDay}
-                <span className="text-lg text-gray-400 ml-2 font-normal">{formatScheduledDate(leagueConfig.daySchedules?.[currentDay])}</span>
-            </h2>
-            <DaySelector
-                currentDay={currentDay}
-                totalDays={leagueConfig.totalDays}
-                daySchedules={leagueConfig.daySchedules}
-                lockedDays={leagueConfig.lockedDays}
-                onDayChange={setCurrentDay}
-                userRole={userState.role}
-                realCurrentLeagueDay={realCurrentLeagueDay}
-            />
-            <Leaderboard players={sortedDisplayPlayers.slice(0, 3)} />
-        </div>
-
-        <ScoreEntryDashboard 
-            currentDay={currentDay}
-            courtKeys={courtKeys}
-            matchupsForDay={allMatchups[currentDay]}
-            resultsForDay={gameResults[currentDay]}
-            attendanceForDay={allAttendance[currentDay]}
-            gamesPerDay={leagueConfig.gamesPerDay}
-            onGameResultChange={(court, gameIndex, result) => handleGameResultChange(currentDay, court, gameIndex, result)}
-            onAttendanceChange={(playerId, gameIndex, isPresent) => handleAttendanceChange(currentDay, playerId, gameIndex, isPresent)}
-            onPlayerMove={(court, gameIndex, playerId, fromTeam) => handlePlayerMoveInTeam(currentDay, court, gameIndex, playerId, fromTeam)}
-            onSaveRefereeNote={onSaveRefereeNote}
-            onSaveAdminFeedback={onSaveAdminFeedback}
-            onToggleDayLock={onToggleDayLock}
-            isDayLocked={isDayLocked}
-            userState={userState}
-            isSwapMode={isSwapMode}
-            playerToSwap={playerToSwap}
-            toggleSwapMode={toggleSwapMode}
-            onPlayerSelectForSwap={handlePlayerSelectForSwap}
-        />
-
-        <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-            <h2 className="text-2xl font-bold text-yellow-400 mb-4 md:mb-0">Coach's Playbook</h2>
-            {userState.role !== 'NONE' && (
-              <button 
-                onClick={handleGenerateCoachingTip}
-                disabled={isLoadingCoachingTip || !leader}
-                className="px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center"
-              >
-                {isLoadingCoachingTip ? 'Generating...' : "Get a New Playbook Tip"}
-              </button>
-            )}
-          </div>
           
-            {isLoadingCoachingTip && <div className="text-center text-gray-400">Generating new tip...</div>}
-            {coachingTipError && <div className="p-4 bg-red-900/50 rounded-lg text-red-300 text-center">{coachingTipError}</div>}
+          <Announcements 
+              text={leagueConfig.announcements}
+              userRole={userState.role}
+              onSave={onAnnouncementsSave}
+          />
 
-            { (coachingTip || featuredVideoId) &&
-              <div className="space-y-4">
-                {featuredVideoId && (
-                  <InfoCard icon={<IconVideo className="w-4 h-4" />} title="Featured Video Tip" className="col-span-1 md:col-span-2 lg:col-span-3">
-                     <div className="aspect-video bg-black rounded-md overflow-hidden">
-                        <iframe
-                            width="100%"
-                            height="100%"
-                            src={`https://www.youtube.com/embed/${featuredVideoId}`}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
+          {userState.role === 'NONE' && <LinksAndShare leagueTitle={leagueConfig.title} />}
+          {isPlayerOrParent && (
+            <PlayerAttendancePanel 
+              leagueConfig={leagueConfig}
+              userState={userState}
+              allAttendance={allAttendance}
+              onSetPlayerDailyAttendance={onSetPlayerDailyAttendance}
+              realCurrentLeagueDay={realCurrentLeagueDay}
+            />
+          )}
+          {userState.role === 'SUPER_ADMIN' && (
+            <>
+              <AdminPanel 
+                  appData={appData}
+                  leagueConfig={leagueConfig} 
+                  onScheduleSave={onScheduleSave} 
+                  allPlayerPINs={allPlayerPINs}
+                  onResetPlayerPIN={onResetPlayerPIN}
+                  allAdminFeedback={allAdminFeedback}
+                  allPlayerFeedback={allPlayerFeedback}
+              />
+            </>
+          )}
+
+
+          <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center">
+                  <IconTrophy className="w-6 h-6 mr-3"/>
+                  Standings: Day {currentDay}
+                  <span className="text-lg text-gray-400 ml-2 font-normal">{formatScheduledDate(leagueConfig.daySchedules?.[currentDay])}</span>
+              </h2>
+              <DaySelector
+                  currentDay={currentDay}
+                  totalDays={leagueConfig.totalDays}
+                  daySchedules={leagueConfig.daySchedules}
+                  lockedDays={leagueConfig.lockedDays}
+                  onDayChange={setCurrentDay}
+                  userRole={userState.role}
+                  realCurrentLeagueDay={realCurrentLeagueDay}
+              />
+              <Leaderboard players={sortedDisplayPlayers.slice(0, 3)} />
+          </div>
+
+          <ScoreEntryDashboard 
+              currentDay={currentDay}
+              courtKeys={courtKeys}
+              matchupsForDay={allMatchups[currentDay]}
+              resultsForDay={gameResults[currentDay]}
+              attendanceForDay={allAttendance[currentDay]}
+              gamesPerDay={leagueConfig.gamesPerDay}
+              onGameResultChange={(court, gameIndex, result) => handleGameResultChange(currentDay, court, gameIndex, result)}
+              onAttendanceChange={(playerId, gameIndex, isPresent) => handleAttendanceChange(currentDay, playerId, gameIndex, isPresent)}
+              onPlayerMove={(court, gameIndex, playerId, fromTeam) => handlePlayerMoveInTeam(currentDay, court, gameIndex, playerId, fromTeam)}
+              onSaveRefereeNote={onSaveRefereeNote}
+              onSaveAdminFeedback={onSaveAdminFeedback}
+              onToggleDayLock={onToggleDayLock}
+              onPrintCourt={handlePrintCourt}
+              isDayLocked={isDayLocked}
+              userState={userState}
+              isSwapMode={isSwapMode}
+              playerToSwap={playerToSwap}
+              toggleSwapMode={toggleSwapMode}
+              onPlayerSelectForSwap={handlePlayerSelectForSwap}
+          />
+
+          <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-4 md:mb-0">Coach's Playbook</h2>
+              {userState.role !== 'NONE' && (
+                <button 
+                  onClick={handleGenerateCoachingTip}
+                  disabled={isLoadingCoachingTip || !leader}
+                  className="px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center"
+                >
+                  {isLoadingCoachingTip ? 'Generating...' : "Get a New Playbook Tip"}
+                </button>
+              )}
+            </div>
+            
+              {isLoadingCoachingTip && <div className="text-center text-gray-400">Generating new tip...</div>}
+              {coachingTipError && <div className="p-4 bg-red-900/50 rounded-lg text-red-300 text-center">{coachingTipError}</div>}
+
+              { (coachingTip || featuredVideoId) &&
+                <div className="space-y-4">
+                  {featuredVideoId && (
+                    <InfoCard icon={<IconVideo className="w-4 h-4" />} title="Featured Video Tip" className="col-span-1 md:col-span-2 lg:col-span-3">
+                       <div className="aspect-video bg-black rounded-md overflow-hidden">
+                          <iframe
+                              width="100%"
+                              height="100%"
+                              src={`https://www.youtube.com/embed/${featuredVideoId}`}
+                              title="YouTube video player"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                          ></iframe>
+                      </div>
+                    </InfoCard>
+                  )}
+                  {coachingTip && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-3 gap-4">
+                        <InfoCard icon={<IconLightbulb className="w-4 h-4"/>} title={coachingTip.volleyballTip.title} className="lg:col-span-2">
+                            <p className="whitespace-pre-wrap">{coachingTip.volleyballTip.content}</p>
+                        </InfoCard>
+                        <InfoCard icon={<IconTrophy className="w-4 h-4"/>} title="Leader Shoutout">
+                            <p>{coachingTip.leaderShoutout}</p>
+                        </InfoCard>
+                        <InfoCard icon={<IconQuote className="w-4 h-4"/>} title="Food for Thought">
+                            <blockquote className="italic">
+                                "{coachingTip.positiveQuote.quote}"
+                                <footer className="not-italic text-right mt-2 text-gray-400">— {coachingTip.positiveQuote.author}</footer>
+                            </blockquote>
+                        </InfoCard>
+                        <InfoCard icon={<IconVolleyball className="w-4 h-4"/>} title="The Discovery Method">
+                            <p>{coachingTip.leaguePhilosophy}</p>
+                        </InfoCard>
+                        <InfoCard icon={<IconAcademicCap className="w-4 h-4"/>} title="Academy Spotlight">
+                            <p>{coachingTip.academyPlug}</p>
+                        </InfoCard>
                     </div>
-                  </InfoCard>
-                )}
-                {coachingTip && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-3 gap-4">
-                      <InfoCard icon={<IconLightbulb className="w-4 h-4"/>} title={coachingTip.volleyballTip.title} className="lg:col-span-2">
-                          <p className="whitespace-pre-wrap">{coachingTip.volleyballTip.content}</p>
-                      </InfoCard>
-                      <InfoCard icon={<IconTrophy className="w-4 h-4"/>} title="Leader Shoutout">
-                          <p>{coachingTip.leaderShoutout}</p>
-                      </InfoCard>
-                      <InfoCard icon={<IconQuote className="w-4 h-4"/>} title="Food for Thought">
-                          <blockquote className="italic">
-                              "{coachingTip.positiveQuote.quote}"
-                              <footer className="not-italic text-right mt-2 text-gray-400">— {coachingTip.positiveQuote.author}</footer>
-                          </blockquote>
-                      </InfoCard>
-                      <InfoCard icon={<IconVolleyball className="w-4 h-4"/>} title="The Discovery Method">
-                          <p>{coachingTip.leaguePhilosophy}</p>
-                      </InfoCard>
-                      <InfoCard icon={<IconAcademicCap className="w-4 h-4"/>} title="Academy Spotlight">
-                          <p>{coachingTip.academyPlug}</p>
-                      </InfoCard>
-                  </div>
-                )}
-              </div>
-            }
-            { !coachingTip && !featuredVideoId && !isLoadingCoachingTip && !coachingTipError && (
-                 <p className="text-gray-500 text-center py-8">
-                  {userState.role !== 'NONE' ? "Click the button to get your first playbook tip!" : "The daily coach's playbook will appear here once generated by a league member."}
-                </p>
-            )}
-        </div>
-
-        {showDiscoveryView ? (
-            <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
-                <h2 className="text-2xl font-bold text-center text-yellow-400 mb-4">
-                    {leagueConfig.leagueType === 'standard' ? 'Day 1 Discovery Round' : 'All Players'}
-                </h2>
-                <p className="text-center text-gray-400 max-w-2xl mx-auto mb-8">For this event format, all players are mixed and will play with different teammates to promote discovery and varied competition.</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                    {sortedDisplayPlayers.map(player => (
-                        <PlayerCard 
-                            key={player.id} 
-                            player={player} 
-                            onClick={onViewProfile}
-                            isClickable={isClickable}
-                        />
-                    ))}
+                  )}
                 </div>
-            </div>
-        ) : (
-             <div>
-                 <h2 className="text-3xl font-bold text-yellow-400 mt-8 mb-4 text-center">Daily Groups</h2>
-                <DailyGroups 
-                    dailyCourtGroups={dailyCourtGroups}
-                    courtOrder={courtKeys}
-                    onPlayerClick={onViewProfile} 
-                    userState={userState}
-                />
-            </div>
-        )}
+              }
+              { !coachingTip && !featuredVideoId && !isLoadingCoachingTip && !coachingTipError && (
+                   <p className="text-gray-500 text-center py-8">
+                    {userState.role !== 'NONE' ? "Click the button to get your first playbook tip!" : "The daily coach's playbook will appear here once generated by a league member."}
+                  </p>
+              )}
+          </div>
 
-        <div className="mt-12">
-          <PlayerTable players={sortedDisplayPlayers} onPlayerClick={onViewProfile} userState={userState} />
+          {showDiscoveryView ? (
+              <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
+                  <h2 className="text-2xl font-bold text-center text-yellow-400 mb-4">
+                      {leagueConfig.leagueType === 'standard' ? 'Day 1 Discovery Round' : 'All Players'}
+                  </h2>
+                  <p className="text-center text-gray-400 max-w-2xl mx-auto mb-8">For this event format, all players are mixed and will play with different teammates to promote discovery and varied competition.</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                      {sortedDisplayPlayers.map(player => (
+                          <PlayerCard 
+                              key={player.id} 
+                              player={player} 
+                              onClick={onViewProfile}
+                              isClickable={isClickable}
+                          />
+                      ))}
+                  </div>
+              </div>
+          ) : (
+               <div>
+                   <h2 className="text-3xl font-bold text-yellow-400 mt-8 mb-4 text-center">Daily Groups</h2>
+                  <DailyGroups 
+                      dailyCourtGroups={dailyCourtGroups}
+                      courtOrder={courtKeys}
+                      onPlayerClick={onViewProfile} 
+                      userState={userState}
+                  />
+              </div>
+          )}
+
+          <div className="mt-12">
+            <PlayerTable players={sortedDisplayPlayers} onPlayerClick={onViewProfile} userState={userState} />
+          </div>
+        </main>
+      </div>
+      {printableContent && (
+        <div className="printable">
+          {printableContent}
         </div>
-      </main>
-    </div>
+      )}
+    </>
   );
 };
 
