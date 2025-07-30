@@ -119,7 +119,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     const playersForGenerator = (leagueConfig.leagueType === 'standard' && currentDay === 1)
         ? Object.values(playerStats)
-        : sortPlayersWithTieBreaking(Object.values(playerStats), allMatchups, gameResults, currentDay - 1);
+        : sortPlayersWithTieBreaking(Object.values(playerStats));
 
     const newDayMatchups = generateDailyMatchups(currentDay, playersForGenerator, leagueConfig);
 
@@ -172,7 +172,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     }
     
     const displayStats = Object.values(stats);
-    const sortedDisplayPlayers = sortPlayersWithTieBreaking(displayStats, allMatchups, gameResults, currentDay);
+    const sortedDisplayPlayers = sortPlayersWithTieBreaking(displayStats);
 
     const courtKeys = getAllCourtNames(leagueConfig);
 
@@ -190,7 +190,7 @@ const Dashboard: React.FC<DashboardProps> = ({
             })
            
             const courtPlayersWithStats = Array.from(playersMap.keys()).map(id => sortedDisplayPlayers.find(p => p.id === id)).filter(Boolean) as PlayerWithStats[];
-            dailyCourtGroups[courtKey] = sortPlayersWithTieBreaking(courtPlayersWithStats, allMatchups, gameResults, currentDay);
+            dailyCourtGroups[courtKey] = sortPlayersWithTieBreaking(courtPlayersWithStats);
         });
     }
 
