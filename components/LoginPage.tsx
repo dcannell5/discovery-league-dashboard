@@ -1,6 +1,7 @@
 
+
 import React, { useState, useMemo } from 'react';
-import { AppData, LeagueConfig, PlayerWithStats, UpcomingEvent, UserState } from '../types';
+import { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
 import { initializePlayerStats, processDayResults } from '../utils/statsLogic';
 import { sortPlayersWithTieBreaking } from '../utils/rankingLogic';
@@ -36,6 +37,7 @@ const LeagueCard: React.FC<{
     const leagueData = useMemo(() => {
         const { dailyResults, allDailyMatchups, allDailyAttendance } = appData;
 
+        // FIX: Determine progress based on actual recorded data, not the current date.
         const leagueResults = dailyResults[league.id] || {};
         const recordedDays = Object.keys(leagueResults)
           .map(Number)
@@ -43,8 +45,9 @@ const LeagueCard: React.FC<{
         const lastRecordedDay = recordedDays.length > 0 ? Math.max(...recordedDays) : 0;
         
         const stats = initializePlayerStats(league.players);
+        const startDay = league.seededStats ? 4 : 1;
         
-        if (league.seededStats && lastRecordedDay >= 3) {
+        if (league.seededStats) {
             Object.entries(league.seededStats).forEach(([playerIdStr, seeded]) => {
                 const playerId = parseInt(playerIdStr);
                 if (stats[playerId] && seeded) {
@@ -52,33 +55,22 @@ const LeagueCard: React.FC<{
                     stats[playerId].dailyPoints = {};
                 }
             });
-
-            const startDay = 4;
-            for (let day = startDay; day <= lastRecordedDay; day++) {
-                processDayResults(stats, day, dailyResults[league.id]?.[day], allDailyMatchups[league.id]?.[day], allDailyAttendance[league.id]?.[day]);
-            }
-
-            Object.values(stats).forEach(p => {
-                const newDailyTotal = Object.values(p.dailyPoints).reduce((sum, points) => sum + points, 0);
-                p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
-                p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
-            });
-
-        } else {
-            // For days before seeding is active, or for un-seeded leagues, calculate from scratch.
-            for (let day = 1; day <= lastRecordedDay; day++) {
-                processDayResults(stats, day, dailyResults[league.id]?.[day], allDailyMatchups[league.id]?.[day], allDailyAttendance[league.id]?.[day]);
-            }
-
-            Object.values(stats).forEach(p => {
-                p.leaguePoints = Object.values(p.dailyPoints).reduce((sum, points) => sum + points, 0);
-                p.pointDifferential = p.pointsFor - p.pointsAgainst;
-            });
+        }
+        
+        // Process results for all days that have data.
+        for (let day = startDay; day <= lastRecordedDay; day++) {
+            processDayResults(stats, day, dailyResults[league.id]?.[day], allDailyMatchups[league.id]?.[day], allDailyAttendance[league.id]?.[day]);
         }
 
-        const sortedPlayers = sortPlayersWithTieBreaking(Object.values(stats), allDailyMatchups[league.id] || {}, dailyResults[league.id] || {}, lastRecordedDay);
+        Object.values(stats).forEach(p => {
+            const newDailyTotal = Object.keys(p.dailyPoints).reduce((sum, dayKey) => sum + p.dailyPoints[Number(dayKey)], 0);
+            p.leaguePoints = (p.leaguePoints || 0) + newDailyTotal;
+            p.pointDifferential = (p.pointsFor || 0) - (p.pointsAgainst || 0);
+        });
+
+        const sortedPlayers = sortPlayersWithTieBreaking(Object.values(stats));
         
-        const top3Players: PlayerWithStats[] = sortedPlayers.slice(0, 3);
+        const top3Players = sortedPlayers.slice(0, 3);
         
         const findNextGameDate = () => {
             if (!league.daySchedules) return null;
