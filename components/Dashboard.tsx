@@ -4,6 +4,7 @@
 
 
 
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -178,23 +179,41 @@ const Dashboard: React.FC<DashboardProps> = ({
     const sortedDisplayPlayers = sortPlayersWithTieBreaking(displayStats);
 
     const courtKeys = getAllCourtNames(leagueConfig);
-
     const dailyCourtGroups: Record<string, PlayerWithStats[]> = {};
-    const matchupsForCurrentDay = allMatchups[currentDay];
-    
-    if (matchupsForCurrentDay && Object.keys(matchupsForCurrentDay).length > 0) {
-        courtKeys.forEach(courtKey => {
-            const playersMap = new Map<number, Player>();
-            // Use all games to gather all players on the court for the day
-            matchupsForCurrentDay[courtKey]?.forEach(game => {
-                 [...game.teamA, ...game.teamB].forEach(p => {
-                    if(!playersMap.has(p.id)) playersMap.set(p.id, p);
-                });
-            })
-           
-            const courtPlayersWithStats = Array.from(playersMap.keys()).map(id => sortedDisplayPlayers.find(p => p.id === id)).filter(Boolean) as PlayerWithStats[];
-            dailyCourtGroups[courtKey] = sortPlayersWithTieBreaking(courtPlayersWithStats);
+    const { playersPerTeam, numCourts, leagueType } = leagueConfig;
+    const playersPerCourt = playersPerTeam * 2;
+
+    // For standard leagues on Day 2+, we display groups based on the current day's final rankings
+    // to match the overall player table. This reflects the projected tiers for the *next* day.
+    if (leagueType === 'standard' && currentDay > 1) {
+        courtKeys.forEach((courtName, i) => {
+            const startIndex = i * playersPerCourt;
+            const endIndex = startIndex + playersPerCourt;
+            
+            const courtPlayers = sortedDisplayPlayers.slice(startIndex, endIndex);
+            dailyCourtGroups[courtName] = courtPlayers; // Already sorted
         });
+    } else {
+        // For Day 1 of standard leagues or for any day of a custom tournament, players are mixed.
+        // In this case, we show the actual players who were grouped onto each court for that day.
+        const matchupsForCurrentDay = allMatchups[currentDay];
+        if (matchupsForCurrentDay && Object.keys(matchupsForCurrentDay).length > 0) {
+            courtKeys.forEach(courtKey => {
+                const playersMap = new Map<number, Player>();
+                // Use all games to gather all unique players on the court for the day
+                matchupsForCurrentDay[courtKey]?.forEach(game => {
+                    [...game.teamA, ...game.teamB].forEach(p => {
+                        if(!playersMap.has(p.id)) playersMap.set(p.id, p);
+                    });
+                });
+            
+                const courtPlayersWithStats = Array.from(playersMap.keys())
+                    .map(id => sortedDisplayPlayers.find(p => p.id === id)) // get up-to-date stats
+                    .filter(Boolean) as PlayerWithStats[];
+
+                dailyCourtGroups[courtKey] = sortPlayersWithTieBreaking(courtPlayersWithStats);
+            });
+        }
     }
 
     return { 
@@ -603,7 +622,8 @@ const Dashboard: React.FC<DashboardProps> = ({
               </div>
           ) : (
                <div>
-                   <h2 className="text-3xl font-bold text-yellow-400 mt-8 mb-4 text-center">Daily Groups</h2>
+                   <h2 className="text-3xl font-bold text-yellow-400 mt-12 mb-4 text-center">Ranked Court Tiers</h2>
+                   <p className="text-center text-gray-400 max-w-2xl mx-auto -mt-2 mb-8">Based on the current overall rankings, these are the projected court tiers for the next day of play.</p>
                   <DailyGroups 
                       dailyCourtGroups={dailyCourtGroups}
                       courtOrder={courtKeys}
