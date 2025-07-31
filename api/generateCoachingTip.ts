@@ -7,33 +7,25 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 const coachingTipSchema = {
     type: Type.OBJECT,
     properties: {
-        volleyballTip: {
+        skillTip: {
             type: Type.OBJECT,
-            description: "A practical tip about volleyball teamwork, communication, or mindset.",
+            description: "A simple, practical volleyball skill tip (2-3 sentences) suitable for beginners. Focus on fundamentals like passing, setting, or serving posture.",
             properties: {
-                title: { type: Type.STRING, description: "A catchy title for the volleyball tip." },
-                content: { type: Type.STRING, description: "The main content of the tip. Focus on concepts like making teammates comfortable, calling the ball, including everyone, and having fun to make those around them better." }
+                title: { type: Type.STRING, description: "A catchy title for the skill tip." },
+                content: { type: Type.STRING, description: "The main content of the skill tip." }
             }
         },
-        positiveQuote: {
+        quote: {
             type: Type.OBJECT,
             description: "An inspiring quote for young athletes.",
             properties: {
-                quote: { type: Type.STRING, description: "The text of the inspiring quote." },
+                text: { type: Type.STRING, description: "The text of the inspiring quote." },
                 author: { type: Type.STRING, description: "The author of the quote. Use 'Anonymous' if unknown." }
             }
         },
-        leaderShoutout: {
+        communicationTip: {
             type: Type.STRING,
-            description: "A brief, encouraging shoutout for the league's current points leader."
-        },
-        leaguePhilosophy: {
-            type: Type.STRING,
-            description: "A comment reinforcing the league's unique 'discovery learning' design, mentioning playing with new people, being sorted into different level courts, and how it builds adaptable players. Can occasionally suggest looking at the Academy Photo Gallery to see pictures from past events."
-        },
-        academyPlug: {
-            type: Type.STRING,
-            description: "A subtle, encouraging mention of the Canadian Volleyball Elite Academy. This can be about skill sessions, upcoming registrations, or suggesting players check out the League News & Blog for more info."
+            description: "A friendly tip (2-3 sentences) encouraging players to communicate, introduce themselves to new teammates, and embrace the discovery learning aspect of the league."
         }
     }
 };
@@ -44,14 +36,8 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        const { leagueTitle, leaderName, leaderPoints } = req.body;
-
-        if (!leagueTitle || !leaderName || leaderPoints === undefined) {
-            return res.status(400).json({ error: 'Missing required fields' });
-        }
-
-        const systemInstruction = `You are Discovery Coach, an expert and highly motivational youth volleyball coach for the '${leagueTitle}' for the Canadian Volleyball Elite Academy. Your goal is to provide encouraging, actionable, and varied tips that help players grow individually and as teammates. Your tone is always positive, supportive, and focused on development and fun. Generate a unique and fresh set of coaching insights each time. You can also suggest they check out the League News & Blog or the Academy Photo Gallery for more content.`;
-        const userPrompt = `Generate a new playbook tip for the players. The current points leader is ${leaderName} with ${leaderPoints} points.`;
+        const systemInstruction = `You are Discovery Coach, a motivational youth volleyball coach for the Canadian Volleyball Elite Academy. Your tone is positive, supportive, and focuses on development, teamwork, and fun. Generate unique and fresh coaching insights for beginner players.`;
+        const userPrompt = `Generate a new playbook tip with a skill tip, a communication tip, and an inspiring quote.`;
   
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
