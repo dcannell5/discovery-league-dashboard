@@ -1,3 +1,5 @@
+
+
 import { Player, PlayerWithStats, DailyCourtMatchups, GameMatchup, Team, LeagueConfig } from '../types';
 
 // Fisher-Yates shuffle algorithm
@@ -35,21 +37,26 @@ function createMatchupsForCourt(courtPlayers: Player[], playersPerTeam: number, 
 }
 
 export function getDefaultCourtName(index: number, totalCourts: number): string {
+    const courtNumber = index + 1;
+
+    // Handle specific case for 3 courts as per user request
     if (totalCourts === 3) {
-        if (index === 0) return 'Royalty Court';
-        if (index === 1) return 'Challenger Court';
-        if (index === 2) return 'Foundation Court';
+        if (index === 0) return `Royalty Court 1`;
+        if (index === 1) return `Challenger Court 2`;
+        if (index === 2) return `Foundation Court 3`;
     }
+
     if (totalCourts === 1) {
-        return 'Royalty Court';
+        return 'Royalty Court'; // A single court doesn't need a number
     }
     if (totalCourts === 2) {
-        return index === 0 ? 'Royalty Court' : 'Foundation Court';
+        return index === 0 ? 'Royalty Court 1' : 'Foundation Court 2';
     }
-    if (index === 0) return 'Royalty Court';
-    if (index === totalCourts - 1) return 'Foundation Court';
+    // Generic case for 4+ courts
+    if (index === 0) return `Royalty Court 1`;
+    if (index === totalCourts - 1) return `Foundation Court ${courtNumber}`;
     
-    return `Challenger Court ${index}`;
+    return `Challenger Court ${courtNumber}`;
 }
 
 
@@ -64,12 +71,10 @@ export function getAllCourtNames(leagueConfig: LeagueConfig): string[] {
     
     if (numCourts === 0) return [];
 
-    // Use custom court names if they are provided and match the required number
     if (courtNames && courtNames.length === numCourts) {
         return courtNames;
     }
 
-    // Otherwise, generate default names
     const defaultNames: string[] = [];
     for (let i = 0; i < numCourts; i++) {
         defaultNames.push(getDefaultCourtName(i, numCourts));
@@ -95,16 +100,13 @@ function generateDiscoveryPairingMatchups(allPlayers: Player[], leagueConfig: Le
     const dailyMatchups: DailyCourtMatchups = {};
     courtNames.forEach(name => dailyMatchups[name] = []);
 
-    // Generate games, re-shuffling all players for each game to ensure variation
     for (let gameIndex = 0; gameIndex < gamesPerDay; gameIndex++) {
         const playerPool = shuffle([...allPlayers]);
 
-        // Assign players to courts for this specific game
         for (let courtIndex = 0; courtIndex < numCourts; courtIndex++) {
             const courtName = courtNames[courtIndex];
             
             if (playerPool.length < playersPerCourt) {
-                // Not enough players left for a full game on this court
                 dailyMatchups[courtName].push({ teamA: [], teamB: [] });
                 continue;
             }
@@ -139,7 +141,7 @@ function generateRankedMatchups(sortedPlayers: PlayerWithStats[], leagueConfig: 
         const startIndex = i * playersPerCourt;
         const endIndex = startIndex + playersPerCourt;
         
-        if (sortedPlayers.length < endIndex) continue; // Not enough players for this court
+        if (sortedPlayers.length < endIndex) continue;
         
         const courtPlayers = sortedPlayers.slice(startIndex, endIndex);
         matchups[courtName] = createMatchupsForCourt(courtPlayers, playersPerTeam, gamesPerDay);
@@ -161,16 +163,12 @@ export function generateDailyMatchups(day: number, players: PlayerWithStats[], l
     const { leagueType } = leagueConfig;
 
     if (leagueType === 'custom') {
-        // Custom tournaments always use discovery pairing
         return generateDiscoveryPairingMatchups(players, leagueConfig);
     } 
     
-    // Standard League Logic
     if (day === 1) {
-        // For Day 1, use the special mixing logic. It ignores pre-sorting.
         return generateDiscoveryPairingMatchups(players, leagueConfig);
     } else {
-        // For Day 2+, use ranking-based grouping. It requires pre-sorted players.
         return generateRankedMatchups(players, leagueConfig);
     }
 }
