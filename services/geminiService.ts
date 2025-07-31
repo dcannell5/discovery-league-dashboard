@@ -1,14 +1,14 @@
 
 import { CoachingTip } from "../types";
 
-export const generateCoachingTip = async (leagueTitle: string, leaderName: string, leaderPoints: number): Promise<CoachingTip | null> => {
+export const generateCoachingTip = async (): Promise<CoachingTip | null> => {
   try {
     const response = await fetch('/api/generateCoachingTip', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ leagueTitle, leaderName, leaderPoints }),
+      body: JSON.stringify({}), // No data needed anymore
     });
 
     if (!response.ok) {
