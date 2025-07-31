@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
@@ -16,9 +15,8 @@ import Announcements from './Announcements';
 import AdminPanel from './AdminPanel';
 import LinksAndShare from './LinksAndShare';
 import PlayerAttendancePanel from './PlayerAttendancePanel';
-import { IconTrophy, IconLightbulb, IconQuote, IconVolleyball, IconAcademicCap, IconVideo } from './Icon';
+import { IconTrophy, IconLightbulb, IconQuote, IconVideo, IconLock, IconMessage } from './Icon';
 import PlayerCard from './PlayerCard';
-import { videoTips } from '../data/videoTips';
 
 interface DashboardProps {
     appData: AppData;
@@ -69,7 +67,6 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [coachingTip, setCoachingTip] = useState<CoachingTip | null>(null);
   const [isLoadingCoachingTip, setIsLoadingCoachingTip] = useState<boolean>(false);
   const [coachingTipError, setCoachingTipError] = useState<string>('');
-  const [featuredVideoId, setFeaturedVideoId] = useState<string | null>(null);
   const [isSwapMode, setIsSwapMode] = useState(false);
   const [playerToSwap, setPlayerToSwap] = useState<{ player: Player; gameIndex: number } | null>(null);
   const [printableContent, setPrintableContent] = useState<React.ReactNode | null>(null);
@@ -178,7 +175,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     const playersPerCourt = playersPerTeam * 2;
 
     // For standard leagues on Day 2+, we display groups based on the current day's final rankings
-    // to match the overall player table. This reflects the projected tiers for the *next* day.
+    // to match the overall player table. This reflects the projected court tiers for the *next* day.
     if (leagueType === 'standard' && currentDay > 1) {
         courtKeys.forEach((courtName, i) => {
             const startIndex = i * playersPerCourt;
@@ -221,11 +218,8 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   useEffect(() => {
     setCoachingTip(null);
-    setFeaturedVideoId(null);
     setCoachingTipError('');
   }, [currentDay]);
-
-  const leader = useMemo(() => sortedDisplayPlayers[0] || null, [sortedDisplayPlayers]);
 
   const handleGameResultChange = useCallback((day: number, court: string, gameIndex: number, result: GameResult) => {
     if (leagueConfig.lockedDays?.[day]) {
@@ -361,13 +355,11 @@ const Dashboard: React.FC<DashboardProps> = ({
     }, [isSwapMode, isDayLocked, playerToSwap, handlePlayerSwapInGame, currentDay]);
 
   const handleGenerateCoachingTip = useCallback(async () => {
-    if (!leader) return;
     setIsLoadingCoachingTip(true);
     setCoachingTip(null);
     setCoachingTipError('');
-    setFeaturedVideoId(videoTips[Math.floor(Math.random() * videoTips.length)]);
     try {
-      const tip = await generateCoachingTip(leagueConfig.title, leader.name, leader.leaguePoints);
+      const tip = await generateCoachingTip();
       if (tip) {
         setCoachingTip(tip);
       } else {
@@ -379,7 +371,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     } finally {
       setIsLoadingCoachingTip(false);
     }
-  }, [leader, leagueConfig.title]);
+  }, []);
   
   const formatScheduledDate = (dateString?: string) => {
     if (!dateString) return '';
@@ -533,68 +525,61 @@ const Dashboard: React.FC<DashboardProps> = ({
           />
 
           <div className="my-8 p-6 bg-gray-800/50 rounded-2xl shadow-2xl border border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-4 md:mb-0">Coach's Playbook</h2>
+            <h2 className="text-2xl font-bold text-center text-yellow-400 mb-4">Coach's Playbook</h2>
               {userState.role !== 'NONE' && (
-                <button 
-                  onClick={handleGenerateCoachingTip}
-                  disabled={isLoadingCoachingTip || !leader}
-                  className="px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center"
-                >
-                  {isLoadingCoachingTip ? 'Generating...' : "Get a New Playbook Tip"}
-                </button>
+                <div className="text-center mb-6">
+                    <button 
+                      onClick={handleGenerateCoachingTip}
+                      disabled={isLoadingCoachingTip}
+                      className="px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center mx-auto"
+                    >
+                      {isLoadingCoachingTip ? 'Generating...' : "Get New Tips"}
+                    </button>
+                </div>
               )}
-            </div>
             
-              {isLoadingCoachingTip && <div className="text-center text-gray-400">Generating new tip...</div>}
+              {isLoadingCoachingTip && <div className="text-center text-gray-400">Generating new tips...</div>}
               {coachingTipError && <div className="p-4 bg-red-900/50 rounded-lg text-red-300 text-center">{coachingTipError}</div>}
 
-              { (coachingTip || featuredVideoId) &&
+              { coachingTip &&
                 <div className="space-y-4">
-                  {featuredVideoId && (
-                    <InfoCard icon={<IconVideo className="w-4 h-4" />} title="Featured Video Tip" className="col-span-1 md:col-span-2 lg:col-span-3">
-                       <div className="aspect-video bg-black rounded-md overflow-hidden">
-                          <iframe
-                              width="100%"
-                              height="100%"
-                              src={`https://www.youtube.com/embed/${featuredVideoId}`}
-                              title="YouTube video player"
-                              frameBorder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                          ></iframe>
-                      </div>
-                    </InfoCard>
-                  )}
-                  {coachingTip && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-3 gap-4">
-                        <InfoCard icon={<IconLightbulb className="w-4 h-4"/>} title={coachingTip.volleyballTip.title} className="lg:col-span-2">
-                            <p className="whitespace-pre-wrap">{coachingTip.volleyballTip.content}</p>
-                        </InfoCard>
-                        <InfoCard icon={<IconTrophy className="w-4 h-4"/>} title="Leader Shoutout">
-                            <p>{coachingTip.leaderShoutout}</p>
-                        </InfoCard>
-                        <InfoCard icon={<IconQuote className="w-4 h-4"/>} title="Food for Thought">
-                            <blockquote className="italic">
-                                "{coachingTip.positiveQuote.quote}"
-                                <footer className="not-italic text-right mt-2 text-gray-400">— {coachingTip.positiveQuote.author}</footer>
-                            </blockquote>
-                        </InfoCard>
-                        <InfoCard icon={<IconVolleyball className="w-4 h-4"/>} title="The Discovery Method">
-                            <p>{coachingTip.leaguePhilosophy}</p>
-                        </InfoCard>
-                        <InfoCard icon={<IconAcademicCap className="w-4 h-4"/>} title="Academy Spotlight">
-                            <p>{coachingTip.academyPlug}</p>
-                        </InfoCard>
-                    </div>
-                  )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InfoCard icon={<IconLightbulb className="w-4 h-4"/>} title={coachingTip.skillTip.title}>
+                          <p className="whitespace-pre-wrap">{coachingTip.skillTip.content}</p>
+                      </InfoCard>
+                      <InfoCard icon={<IconMessage className="w-4 h-4"/>} title="Teamwork Tip">
+                          <p>{coachingTip.communicationTip}</p>
+                      </InfoCard>
+                      <InfoCard icon={<IconQuote className="w-4 h-4"/>} title="Quote of the Day" className="md:col-span-2">
+                          <blockquote className="italic">
+                              "{coachingTip.quote.text}"
+                              <footer className="not-italic text-right mt-2 text-gray-400">— {coachingTip.quote.author}</footer>
+                          </blockquote>
+                      </InfoCard>
+                  </div>
                 </div>
               }
-              { !coachingTip && !featuredVideoId && !isLoadingCoachingTip && !coachingTipError && (
-                   <p className="text-gray-500 text-center py-8">
-                    {userState.role !== 'NONE' ? "Click the button to get your first playbook tip!" : "The daily coach's playbook will appear here once generated by a league member."}
+              { !coachingTip && !isLoadingCoachingTip && !coachingTipError && (
+                   <p className="text-center text-gray-500 py-8">
+                    {userState.role !== 'NONE' ? "Click the button to get your playbook tips!" : "The daily coach's playbook will appear here once generated by a league member."}
                   </p>
               )}
+               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div className="bg-gray-700/50 p-4 rounded-lg flex items-start gap-3">
+                        <IconLock className="w-8 h-8 text-yellow-400 mt-1 shrink-0"/>
+                        <div>
+                            <h4 className="font-bold text-yellow-400">Did You Know?</h4>
+                            <p className="text-gray-300">You can set a custom 4-6 digit PIN for easier login. Visit your profile page to set it up!</p>
+                        </div>
+                    </div>
+                    <a href="https://www.youtube.com/@canadianeliteacademy/videos" target="_blank" rel="noopener noreferrer" className="bg-gray-700/50 p-4 rounded-lg flex items-start gap-3 hover:bg-gray-700 transition-colors">
+                        <IconVideo className="w-8 h-8 text-red-500 mt-1 shrink-0"/>
+                        <div>
+                            <h4 className="font-bold text-yellow-400">Video Resources</h4>
+                            <p className="text-gray-300">Check out the Canadian Elite Academy YouTube channel for more tips and drills. <span className="underline">Watch now &rarr;</span></p>
+                        </div>
+                    </a>
+                </div>
           </div>
 
           {showDiscoveryView ? (
