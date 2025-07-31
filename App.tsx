@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
@@ -37,10 +38,53 @@ const App: React.FC = () => {
         Object.values(parsedData.leagues).forEach(league => {
             if (!league.lockedDays) league.lockedDays = {};
         });
+
+        // --- ONE-TIME DATA MIGRATION SCRIPT ---
+        // This script checks for old court names and updates them to the correct format.
+        Object.keys(parsedData.leagues).forEach(leagueId => {
+          const league = parsedData.leagues[leagueId];
+          const oldNames = ['Royalty Court', 'Challenger Court 1', 'Foundation Court'];
+          const newNames = ['Royalty Court 1', 'Challenger Court 2', 'Foundation Court 3'];
+
+          if (league && league.courtNames && league.courtNames.length === 3 && league.courtNames.join(',') === oldNames.join(',')) {
+              console.log(`Applying one-time court name migration for league: ${league.title}`);
+              
+              // 1. Update league config with new names
+              league.courtNames = newNames;
+
+              const nameMap: Record<string, string> = {
+                  [oldNames[0]]: newNames[0],
+                  [oldNames[1]]: newNames[1],
+                  [oldNames[2]]: newNames[2],
+              };
+
+              const migrateKeys = (dataObject: Record<string, any> | undefined) => {
+                  if (!dataObject) return;
+                  Object.keys(nameMap).forEach(oldKey => {
+                      if (dataObject[oldKey]) {
+                          dataObject[nameMap[oldKey]] = dataObject[oldKey];
+                          delete dataObject[oldKey];
+                      }
+                  });
+              };
+
+              // 2. Update keys in dailyResults
+              const leagueResults = parsedData.dailyResults[leagueId];
+              if (leagueResults) {
+                  Object.values(leagueResults).forEach(migrateKeys);
+              }
+
+              // 3. Update keys in allDailyMatchups
+              const leagueMatchups = parsedData.allDailyMatchups[leagueId];
+              if (leagueMatchups) {
+                  Object.values(leagueMatchups).forEach(migrateKeys);
+              }
+          }
+        });
+        // --- END OF MIGRATION SCRIPT ---
         
         setAppData(parsedData);
         
-        // If only one league exists, load it directly. Otherwise, show hub or saved league.
         const leagueIds = Object.keys(parsedData.leagues);
         if (leagueIds.length === 1) {
             setActiveLeagueId(leagueIds[0]);
@@ -53,7 +97,6 @@ const App: React.FC = () => {
         }
       } catch (error) {
         console.error("Failed to parse app data from localStorage, resetting state.", error);
-        // If parsing fails, load initial data to prevent data loss
         setAppData(initialAppData);
         const leagueIds = Object.keys(initialAppData.leagues);
         if (leagueIds.length === 1) {
@@ -66,7 +109,6 @@ const App: React.FC = () => {
         }
       }
     } else {
-      // First time user or cleared storage, load initial data
       setAppData(initialAppData);
       const leagueIds = Object.keys(initialAppData.leagues);
       if (leagueIds.length === 1) {
@@ -140,9 +182,6 @@ const App: React.FC = () => {
     if (appData && Object.keys(appData.leagues).length > 0) {
         setActiveLeagueId(null); // Go back to hub if leagues exist
     } else {
-        // No leagues exist, what to do? Maybe nothing, stay on setup.
-        // Or reset to a state where they must create one.
-        // For now, setting to null is fine.
         setActiveLeagueId(null);
     }
   }, [appData]);
@@ -160,7 +199,6 @@ const App: React.FC = () => {
         for (const leagueId in appData.leagues) {
             const leagueConfig = { ...appData.leagues[leagueId], id: leagueId };
             
-            // 1. Check for custom player PIN
             const playerPINs = appData.allPlayerPINs?.[leagueId] || {};
             for (const player of leagueConfig.players) {
                 if (playerPINs[player.id] && upperCaseCode === playerPINs[player.id]) {
@@ -171,7 +209,6 @@ const App: React.FC = () => {
                 }
             }
 
-            // 2. Check for Referee code
             const courtNames = getAllCourtNames(leagueConfig);
             for (const courtName of courtNames) {
                 if (upperCaseCode === getRefereeCodeForCourt(new Date(), courtName)) {
@@ -182,7 +219,6 @@ const App: React.FC = () => {
                 }
             }
             
-            // 3. Check for default Player/Parent codes
             for (const player of leagueConfig.players) {
                 if (upperCaseCode === getPlayerCode(player)) { 
                     setUserState({ role: 'PLAYER', playerId: player.id }); 
@@ -413,7 +449,7 @@ const App: React.FC = () => {
         }
         return { ...prev, leagues: newLeagues };
       }
-      return prev; // Return previous state if confirmation is cancelled
+      return prev;
     });
   }, [activeLeagueId, updateAppData]);
 
@@ -422,7 +458,7 @@ const App: React.FC = () => {
     else setShowLoginModal(true);
   }, [userState.role]);
 
-  if (!appData) return <div className="bg-gray-900 min-h-screen"></div>; // Loading state
+  if (!appData) return <div className="bg-gray-900 min-h-screen"></div>;
 
   let pageContent;
 
