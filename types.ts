@@ -119,17 +119,15 @@ export interface PlayerFeedback {
 
 // --- AI Service Types ---
 export interface CoachingTip {
-    volleyballTip: {
+    skillTip: {
         title: string;
         content: string;
     };
-    positiveQuote: {
-        quote: string;
+    quote: {
+        text: string;
         author: string;
     };
-    leaderShoutout: string;
-    leaguePhilosophy: string;
-    academyPlug: string;
+    communicationTip: string;
 }
 
 // --- Upcoming Event Type ---
