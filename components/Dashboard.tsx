@@ -171,7 +171,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     const courtKeys = getAllCourtNames(leagueConfig);
     const dailyCourtGroups: Record<string, PlayerWithStats[]> = {};
-    const { playersPerTeam, leagueType } = leagueConfig;
+    const { playersPerTeam, leagueType, numCourts } = leagueConfig;
     const playersPerCourt = playersPerTeam * 2;
 
     // For standard leagues on Day 2+, we display groups based on the current day's final rankings
