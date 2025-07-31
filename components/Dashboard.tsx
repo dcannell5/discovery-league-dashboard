@@ -572,11 +572,11 @@ const Dashboard: React.FC<DashboardProps> = ({
                             <p className="text-gray-300">You can set a custom 4-6 digit PIN for easier login. Visit your profile page to set it up!</p>
                         </div>
                     </div>
-                    <a href="https://www.youtube.com/@canadianeliteacademy/videos" target="_blank" rel="noopener noreferrer" className="bg-gray-700/50 p-4 rounded-lg flex items-start gap-3 hover:bg-gray-700 transition-colors">
+                    <a href="https://www.youtube.com/@darrencannell/videos" target="_blank" rel="noopener noreferrer" className="bg-gray-700/50 p-4 rounded-lg flex items-start gap-3 hover:bg-gray-700 transition-colors">
                         <IconVideo className="w-8 h-8 text-red-500 mt-1 shrink-0"/>
                         <div>
                             <h4 className="font-bold text-yellow-400">Video Resources</h4>
-                            <p className="text-gray-300">Check out the Canadian Elite Academy YouTube channel for more tips and drills. <span className="underline">Watch now &rarr;</span></p>
+                            <p className="text-gray-300">Follow the official league YouTube channel for daily tips and subscribe to stay updated. <span className="underline">Watch now &rarr;</span></p>
                         </div>
                     </a>
                 </div>
