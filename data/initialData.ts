@@ -1,184 +1,163 @@
 
+export interface Player {
+  id: number;
+  name: string;
+  grade?: number; // Optional as it might not be part of initial data
+}
 
-import { AppData } from '../types';
-import { presetData } from './presetSchedule';
+export interface PlayerWithStats extends Player {
+    leaguePoints: number;
+    gamesPlayed: number;
+    wins: number;
+    losses: number;
+    ties: number;
+    dailyPoints: Record<number, number>;
+    pointsFor: number;
+    pointsAgainst: number;
+    pointDifferential: number;
+}
 
-export const initialAppData: AppData = {
-  "leagues": {
-    "league-1753071505651": {
-      "title": "Summer League",
-      "totalDays": 9,
-      "players": [
-        { "id": 1, "name": "Amy S" },
-        { "id": 2, "name": "Arravela E" },
-        { "id": 3, "name": "Ashlyn H" },
-        { "id": 4, "name": "Athena M" },
-        { "id": 5, "name": "Aurora P" },
-        { "id": 6, "name": "Bailey G" },
-        { "id": 7, "name": "Bayli L" },
-        { "id": 8, "name": "Bree E" },
-        { "id": 9, "name": "Breanna P" },
-        { "id": 10, "name": "Brie B" },
-        { "id": 11, "name": "Char B" },
-        { "id": 12, "name": "Cia S" },
-        { "id": 13, "name": "Cindel S" },
-        { "id": 14, "name": "Dana J" },
-        { "id": 15, "name": "Elise E" },
-        { "id": 16, "name": "Emily Sh" },
-        { "id": 17, "name": "Emily Sm" },
-        { "id": 18, "name": "Emma W" },
-        { "id": 19, "name": "Eumi D" },
-        { "id": 20, "name": "Ghazal A" },
-        { "id": 21, "name": "Grace B" },
-        { "id": 22, "name": "Imari L" },
-        { "id": 23, "name": "Isadora L" },
-        { "id": 24, "name": "Kalayah P" },
-        { "id": 25, "name": "Khaliun K" },
-        { "id": 26, "name": "Luca T" },
-        { "id": 27, "name": "Lucie K" },
-        { "id": 28, "name": "Lula B" },
-        { "id": 29, "name": "Michelle O" },
-        { "id": 30, "name": "Mikayla W" },
-        { "id": 31, "name": "Nash T" },
-        { "id": 32, "name": "Noa K" },
-        { "id": 33, "name": "Nour M" },
-        { "id": 34, "name": "Prabhleen K" },
-        { "id": 35, "name": "Quinn T" },
-        { "id": 36, "name": "Roseberrie Z" },
-        { "id": 37, "name": "Samantha M" },
-        { "id": 38, "name": "Sophia T" },
-        { "id": 39, "name": "Sophie Y" },
-        { "id": 40, "name": "Teagan S" },
-        { "id": 41, "name": "Tianna D" },
-        { "id": 42, "name": "Zara O" },
-      ],
-      "announcements": "Welcome to the league! Check back here for updates.",
-      "daySchedules": {
-        "1": "2025-07-02T19:00", "2": "2025-07-09T18:00", "3": "2025-07-16T19:00",
-        "4": "2025-07-23T19:00", "5": "2025-07-30T18:00", "6": "2025-08-06T18:00",
-        "7": "2025-08-13T18:00", "8": "2025-08-20T18:00", "9": "2025-08-27T18:00"
-      },
-      "leagueType": "standard", "numCourts": 3, "playersPerTeam": 7, "gamesPerDay": 6,
-      "courtNames": ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"],
-      "seededStats": {
-        "1":  { "leaguePoints": 6,  "pointsFor": 94,  "pointsAgainst": 113, "gamesPlayed": 18, "wins": 2, "losses": 16, "ties": 0 },
-        "2":  { "leaguePoints": 11, "pointsFor": 298, "pointsAgainst": 382, "gamesPlayed": 18, "wins": 3, "losses": 14, "ties": 2 },
-        "3":  { "leaguePoints": 11, "pointsFor": 228, "pointsAgainst": 247, "gamesPlayed": 12, "wins": 3, "losses": 8, "ties": 1 },
-        "4":  { "leaguePoints": 30, "pointsFor": 328, "pointsAgainst": 340, "gamesPlayed": 18, "wins": 10, "losses": 8, "ties": 0 },
-        "5":  { "leaguePoints": 17, "pointsFor": 244, "pointsAgainst": 216, "gamesPlayed": 18, "wins": 5, "losses": 12, "ties": 2 },
-        "6":  { "leaguePoints": 0,  "pointsFor": 0,   "pointsAgainst": 0,   "gamesPlayed": 15, "wins": 0, "losses": 15, "ties": 0 },
-        "7":  { "leaguePoints": 30, "pointsFor": 364, "pointsAgainst": 359, "gamesPlayed": 18, "wins": 10, "losses": 8, "ties": 0 },
-        "8":  { "leaguePoints": 24, "pointsFor": 335, "pointsAgainst": 380, "gamesPlayed": 15, "wins": 8, "losses": 7, "ties": 0 },
-        "9":  { "leaguePoints": 42, "pointsFor": 372, "pointsAgainst": 324, "gamesPlayed": 18, "wins": 14, "losses": 4, "ties": 0 },
-        "10": { "leaguePoints": 24, "pointsFor": 321, "pointsAgainst": 334, "gamesPlayed": 18, "wins": 8, "losses": 10, "ties": 0 },
-        "11": { "leaguePoints": 14, "pointsFor": 310, "pointsAgainst": 378, "gamesPlayed": 18, "wins": 4, "losses": 13, "ties": 1 },
-        "12": { "leaguePoints": 24, "pointsFor": 354, "pointsAgainst": 351, "gamesPlayed": 18, "wins": 8, "losses": 10, "ties": 0 },
-        "13": { "leaguePoints": 30, "pointsFor": 329, "pointsAgainst": 324, "gamesPlayed": 18, "wins": 10, "losses": 8, "ties": 0 },
-        "14": { "leaguePoints": 18, "pointsFor": 311, "pointsAgainst": 358, "gamesPlayed": 6,  "wins": 6, "losses": 0, "ties": 0 },
-        "15": { "leaguePoints": 12, "pointsFor": 116, "pointsAgainst": 105, "gamesPlayed": 18, "wins": 4, "losses": 14, "ties": 0 },
-        "16": { "leaguePoints": 11, "pointsFor": 128, "pointsAgainst": 118, "gamesPlayed": 12, "wins": 3, "losses": 8, "ties": 1 },
-        "17": { "leaguePoints": 27, "pointsFor": 363, "pointsAgainst": 351, "gamesPlayed": 18, "wins": 9, "losses": 9, "ties": 0 },
-        "18": { "leaguePoints": 14, "pointsFor": 230, "pointsAgainst": 230, "gamesPlayed": 12, "wins": 4, "losses": 6, "ties": 2 },
-        "19": { "leaguePoints": 27, "pointsFor": 351, "pointsAgainst": 352, "gamesPlayed": 12, "wins": 9, "losses": 3, "ties": 0 },
-        "20": { "leaguePoints": 33, "pointsFor": 372, "pointsAgainst": 330, "gamesPlayed": 12, "wins": 11, "losses": 1, "ties": 0 },
-        "21": { "leaguePoints": 12, "pointsFor": 123, "pointsAgainst": 89,  "gamesPlayed": 12, "wins": 4, "losses": 8, "ties": 0 },
-        "22": { "leaguePoints": 9,  "pointsFor": 148, "pointsAgainst": 199, "gamesPlayed": 18, "wins": 3, "losses": 15, "ties": 0 },
-        "23": { "leaguePoints": 15, "pointsFor": 118, "pointsAgainst": 97,  "gamesPlayed": 12, "wins": 5, "losses": 7, "ties": 0 },
-        "24": { "leaguePoints": 30, "pointsFor": 316, "pointsAgainst": 266, "gamesPlayed": 18, "wins": 10, "losses": 8, "ties": 0 },
-        "25": { "leaguePoints": 27, "pointsFor": 334, "pointsAgainst": 340, "gamesPlayed": 6,  "wins": 9, "losses": -3, "ties": 0 },
-        "26": { "leaguePoints": 12, "pointsFor": 120, "pointsAgainst": 109, "gamesPlayed": 18, "wins": 4, "losses": 14, "ties": 0 },
-        "27": { "leaguePoints": 11, "pointsFor": 210, "pointsAgainst": 243, "gamesPlayed": 18, "wins": 3, "losses": 14, "ties": 1 },
-        "28": { "leaguePoints": 27, "pointsFor": 337, "pointsAgainst": 330, "gamesPlayed": 18, "wins": 9, "losses": 9, "ties": 0 },
-        "29": { "leaguePoints": 20, "pointsFor": 327, "pointsAgainst": 354, "gamesPlayed": 18, "wins": 6, "losses": 10, "ties": 2 },
-        "30": { "leaguePoints": 30, "pointsFor": 366, "pointsAgainst": 333, "gamesPlayed": 12, "wins": 10, "losses": 2, "ties": 0 },
-        "31": { "leaguePoints": 36, "pointsFor": 395, "pointsAgainst": 307, "gamesPlayed": 18, "wins": 12, "losses": 6, "ties": 0 },
-        "32": { "leaguePoints": 11, "pointsFor": 224, "pointsAgainst": 243, "gamesPlayed": 12, "wins": 3, "losses": 8, "ties": 1 },
-        "33": { "leaguePoints": 15, "pointsFor": 213, "pointsAgainst": 239, "gamesPlayed": 18, "wins": 5, "losses": 13, "ties": 0 },
-        "34": { "leaguePoints": 33, "pointsFor": 361, "pointsAgainst": 346, "gamesPlayed": 18, "wins": 11, "losses": 7, "ties": 0 },
-        "35": { "leaguePoints": 42, "pointsFor": 386, "pointsAgainst": 328, "gamesPlayed": 18, "wins": 14, "losses": 4, "ties": 0 },
-        "36": { "leaguePoints": 24, "pointsFor": 313, "pointsAgainst": 359, "gamesPlayed": 12, "wins": 8, "losses": 4, "ties": 0 },
-        "37": { "leaguePoints": 8,  "pointsFor": 121, "pointsAgainst": 125, "gamesPlayed": 12, "wins": 2, "losses": 9, "ties": 1 },
-        "38": { "leaguePoints": 33, "pointsFor": 377, "pointsAgainst": 337, "gamesPlayed": 12, "wins": 11, "losses": 1, "ties": 0 },
-        "39": { "leaguePoints": 17, "pointsFor": 228, "pointsAgainst": 233, "gamesPlayed": 18, "wins": 5, "losses": 11, "ties": 2 },
-        "40": { "leaguePoints": 33, "pointsFor": 365, "pointsAgainst": 324, "gamesPlayed": 18, "wins": 11, "losses": 7, "ties": 0 },
-        "41": { "leaguePoints": 24, "pointsFor": 341, "pointsAgainst": 348, "gamesPlayed": 18, "wins": 8, "losses": 10, "ties": 0 },
-        "42": { "leaguePoints": 18, "pointsFor": 316, "pointsAgainst": 353, "gamesPlayed": 6,  "wins": 6, "losses": 0, "ties": 0 }
-      },
-      "lockedDays": {}
-    }
-  },
-  "dailyResults": {
-    "league-1753071505651": {
-      "1": {
-        "Royalty Court 1": [{"teamAScore": 20,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 21},{"teamAScore": 25,"teamBScore": 14},{"teamAScore": 12,"teamBScore": 26},{"teamAScore": 30,"teamBScore": 16},{"teamAScore": 10,"teamBScore": 13}],
-        "Challenger Court 2": [{"teamAScore": 16,"teamBScore": 18},{"teamAScore": 13,"teamBScore": 17},{"teamAScore": 6,"teamBScore": 23},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 17,"teamBScore": 28},{"teamAScore": 9,"teamBScore": 15}],
-        "Foundation Court 3": [{"teamAScore": 19,"teamBScore": 18},{"teamAScore": 14,"teamBScore": 27},{"teamAScore": 18,"teamBScore": 10},{"teamAScore": 17,"teamBScore": 26},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 17,"teamBScore": 12}]
-      },
-      "2": {
-        "Royalty Court 1": [{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 18},{"teamAScore": 15,"teamBScore": 25},{"teamAScore": 15,"teamBScore": 22},{"teamAScore": 21,"teamBScore": 20},{"teamAScore": 23,"teamBScore": 14}],
-        "Challenger Court 2": [{"teamAScore": 15,"teamBScore": 27},{"teamAScore": 17,"teamBScore": 13},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 20},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 16,"teamBScore": 22}],
-        "Foundation Court 3": [{"teamAScore": 22,"teamBScore": 21},{"teamAScore": 17,"teamBScore": 21},{"teamAScore": 10,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 15},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 16,"teamBScore": 23}]
-      },
-      "3": {
-        "Royalty Court 1": [{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22},{"teamAScore": 15,"teamBScore": 24},{"teamAScore": 27,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 32},{"teamAScore": 31,"teamBScore": 17}],
-        "Challenger Court 2": [{"teamAScore": 20,"teamBScore": 16},{"teamAScore": 15,"teamBScore": 23},{"teamAScore": 14,"teamBScore": 23},{"teamAScore": 21,"teamBScore": 17},{"teamAScore": 26,"teamBScore": 17},{"teamAScore": 19,"teamBScore": 22}],
-        "Foundation Court 3": [{"teamAScore": 23,"teamBScore": 25},{"teamAScore": 16,"teamBScore": 24},{"teamAScore": 24,"teamBScore": 15},{"teamAScore": 17,"teamBScore": 17},{"teamAScore": 22,"teamBScore": 22},{"teamAScore": 24,"teamBScore": 17}]
-      }
-    }
-  },
-  "allDailyMatchups": {
-    "league-1753071505651": presetData.matchups
-  },
-  "allDailyAttendance": {
-    "league-1753071505651": {
-      "1": {
-        "14": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "32": [false, false, false, false, false, false],
-        "38": [false, false, false, false, false, false],
-        "42": [false, false, false, false, false, false]
-      },
-      "2": {
-        "3": [false, false, false, false, false, false],
-        "6": [true, true, true, true, true, true],
-        "8": [false, false, false, false, false, false],
-        "14": [false, false, false, false, false, false],
-        "16": [false, false, false, false, false, false],
-        "18": [false, false, false, false, false, false],
-        "19": [false, false, false, false, false, false],
-        "20": [false, false, false, false, false, false],
-        "21": [false, false, false, false, false, false],
-        "23": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "30": [true, true, true, true, true, true],
-        "32": [false, false, false, false, false, false],
-        "36": [false, false, false, false, false, false],
-        "37": [false, false, false, false, false, false],
-        "42": [true, true, true, true, true, true]
-      },
-      "3": {
-        "3": [false, false, false, false, false, false],
-        "6": [true, true, false, false, false, true],
-        "8": [true, true, true, false, false, false],
-        "20": [false, false, false, false, false, false],
-        "23": [false, false, false, false, false, false],
-        "25": [false, false, false, false, false, false],
-        "30": [false, false, false, false, false, false],
-        "37": [false, false, false, false, false, false],
-        "42": [false, false, false, false, false, false]
-      }
-    }
-  },
-  "allPlayerProfiles": { "league-1753071505651": {} },
-  "allRefereeNotes": { "league-1753071505651": {} },
-  "allAdminFeedback": { "league-1753071505651": [] },
-  "allPlayerFeedback": { "league-1753071505651": [] },
-  "allPlayerPINs": { "league-1753071505651": {} },
-  "activeLeagueId": "league-1753071505651",
-  "upcomingEvent": {
-    "title": "Next League Registration Open!",
-    "description": "Registration for the Fall Discovery League is now open. Sign up early to secure your spot!",
-    "buttonText": "Register Now",
-    "buttonUrl": "https://canadianeliteacademy.corsizio.com/"
-  }
+export type Team = Player[];
+
+export type GameResult = { teamAScore: number | null; teamBScore: number | null } | 'unplayed';
+
+export type CourtResults = GameResult[];
+
+export type DailyResults = {
+  [courtKey: string]: CourtResults;
+};
+
+export type AllDailyResults = Record<number, DailyResults>;
+
+export interface GameMatchup {
+  teamA: Team;
+  teamB: Team;
+}
+
+export type DailyCourtMatchups = Record<string, GameMatchup[]>;
+
+export type AllDailyMatchups = Record<number, DailyCourtMatchups>;
+
+// --- User and Auth Types ---
+export type UserState = 
+  | { role: 'NONE' }
+  | { role: 'SUPER_ADMIN' }
+  | { role: 'REFEREE', court: string }
+  | { role: 'PLAYER', playerId: number }
+  | { role: 'PARENT', playerId: number };
+
+// --- Attendance Types ---
+export type PlayerDailyAttendance = boolean[];
+export type DailyAttendance = Record<number, PlayerDailyAttendance>;
+export type AllDailyAttendance = Record<number, DailyAttendance>;
+
+// --- League Configuration ---
+export interface LeagueConfig {
+    id: string; // Unique ID for each league
+    title: string;
+    totalDays: number;
+    players: Player[];
+    announcements: string;
+    daySchedules?: Record<number, string>;
+    lockedDays?: Record<number, boolean>;
+    
+    // New structure for flexibility
+    leagueType: 'standard' | 'custom';
+    numCourts: number;
+    playersPerTeam: number;
+    gamesPerDay: number;
+    
+    // Optional custom names
+    courtNames?: string[];
+
+    // Optional seeded stats for import
+    seededStats?: Record<number, Partial<PlayerWithStats>>;
+}
+
+// --- Player Profile Types ---
+export interface PlayerProfile {
+  imageUrl?: string;
+  bio?: string;
+  suggestions?: string;
+  guardianName?: string;
+  guardianPhone?: string;
+  guardianEmail?: string;
+}
+
+export type AllPlayerProfiles = Record<number, PlayerProfile>;
+
+// --- Referee Notes Types ---
+export interface RefereeNote {
+  note: string;
+  day: number;
+  court: string;
+  date: string;
+}
+export type AllRefereeNotes = Record<number, RefereeNote[]>; // Keyed by Player ID
+
+// --- Admin Feedback Types ---
+export interface AdminFeedback {
+  id: string;
+  feedbackText: string;
+  submittedBy: {
+    role: 'REFEREE';
+    court: string;
+  };
+  submittedAt: string;
+}
+
+export interface PlayerFeedback {
+  id: string;
+  feedbackText: string;
+  submittedBy: {
+    role: 'PLAYER' | 'PARENT';
+    playerId: number;
+    playerName: string;
+  };
+  submittedAt: string;
+}
+
+
+// --- AI Service Types ---
+export interface CoachingTip {
+    skillTip: {
+        title: string;
+        content: string;
+    };
+    quote: {
+        text: string;
+        author: string;
+    };
+    communicationTip: string;
+}
+
+// --- Upcoming Event Type ---
+export interface UpcomingEvent {
+    title: string;
+    description: string;
+    buttonText: string;
+    buttonUrl: string;
+}
+
+// --- Login Tracking Types ---
+export interface LoginCounts {
+  playerLogins: number;
+  parentLogins: number;
+}
+
+
+// --- Top-level Application Data Structure for Multi-League ---
+export interface AppData {
+    leagues: Record<string, Omit<LeagueConfig, 'id'>>;
+    dailyResults: Record<string, AllDailyResults>;
+    allDailyMatchups: Record<string, AllDailyMatchups>;
+    allDailyAttendance: Record<string, AllDailyAttendance>;
+    allPlayerProfiles: Record<string, AllPlayerProfiles>;
+    allRefereeNotes: Record<string, AllRefereeNotes>;
+    allAdminFeedback?: Record<string, AdminFeedback[]>; // leagueId -> referee feedback[]
+    allPlayerFeedback?: Record<string, PlayerFeedback[]>; // leagueId -> player/parent feedback[]
+    allPlayerPINs?: Record<string, Record<number, string>>; // leagueId -> playerId -> PIN
+    loginCounters?: Record<string, Record<number, LoginCounts>>; // leagueId -> playerId -> LoginCounts
+    activeLeagueId?: string | null;
+    upcomingEvent?: UpcomingEvent;
 }
