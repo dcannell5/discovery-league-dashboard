@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
+import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, LoginCounts } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
@@ -35,6 +35,8 @@ const App: React.FC = () => {
         if (!parsedData.allAdminFeedback) parsedData.allAdminFeedback = {};
         if (!parsedData.allPlayerFeedback) parsedData.allPlayerFeedback = {};
         if (!parsedData.allPlayerPINs) parsedData.allPlayerPINs = {};
+        if (!parsedData.loginCounters) parsedData.loginCounters = {};
+
         Object.values(parsedData.leagues).forEach(league => {
             if (!league.lockedDays) league.lockedDays = {};
         });
@@ -136,7 +138,7 @@ const App: React.FC = () => {
   }, [appData, activeLeagueId]);
   
   const activeDataSlices = useMemo(() => {
-    if (!appData || !activeLeagueId) return { dailyResults: {}, allDailyMatchups: {}, allDailyAttendance: {}, allPlayerProfiles: {}, allRefereeNotes: {}, allAdminFeedback: [], allPlayerFeedback: [], allPlayerPINs: {} };
+    if (!appData || !activeLeagueId) return { dailyResults: {}, allDailyMatchups: {}, allDailyAttendance: {}, allPlayerProfiles: {}, allRefereeNotes: {}, allAdminFeedback: [], allPlayerFeedback: [], allPlayerPINs: {}, loginCounters: {} };
     return {
       dailyResults: appData.dailyResults[activeLeagueId] || {},
       allDailyMatchups: appData.allDailyMatchups[activeLeagueId] || {},
@@ -146,6 +148,7 @@ const App: React.FC = () => {
       allAdminFeedback: appData.allAdminFeedback?.[activeLeagueId] || [],
       allPlayerFeedback: appData.allPlayerFeedback?.[activeLeagueId] || [],
       allPlayerPINs: appData.allPlayerPINs?.[activeLeagueId] || {},
+      loginCounters: appData.loginCounters?.[activeLeagueId] || {},
     };
   }, [appData, activeLeagueId]);
 
@@ -174,6 +177,7 @@ const App: React.FC = () => {
       allAdminFeedback: { ...prev.allAdminFeedback, [newLeagueId]: [] },
       allPlayerFeedback: { ...prev.allPlayerFeedback, [newLeagueId]: [] },
       allPlayerPINs: { ...prev.allPlayerPINs, [newLeagueId]: {} },
+      loginCounters: { ...prev.loginCounters, [newLeagueId]: {} },
     }));
     setActiveLeagueId(newLeagueId);
   }, [updateAppData]);
@@ -189,6 +193,7 @@ const App: React.FC = () => {
   const handleLogin = useCallback((code: string) => {
     setAuthError('');
     const upperCaseCode = code.trim().toUpperCase();
+
     if (upperCaseCode === SUPER_ADMIN_CODE) {
         setUserState({ role: 'SUPER_ADMIN' });
         setShowLoginModal(false);
@@ -198,17 +203,8 @@ const App: React.FC = () => {
     if (appData?.leagues) {
         for (const leagueId in appData.leagues) {
             const leagueConfig = { ...appData.leagues[leagueId], id: leagueId };
-            
-            const playerPINs = appData.allPlayerPINs?.[leagueId] || {};
-            for (const player of leagueConfig.players) {
-                if (playerPINs[player.id] && upperCaseCode === playerPINs[player.id]) {
-                    setUserState({ role: 'PLAYER', playerId: player.id });
-                    setActiveLeagueId(leagueId);
-                    setShowLoginModal(false);
-                    return;
-                }
-            }
 
+            // Referee check first
             const courtNames = getAllCourtNames(leagueConfig);
             for (const courtName of courtNames) {
                 if (upperCaseCode === getRefereeCodeForCourt(new Date(), courtName)) {
@@ -219,25 +215,49 @@ const App: React.FC = () => {
                 }
             }
             
+            // Player/Parent check
             for (const player of leagueConfig.players) {
-                if (upperCaseCode === getPlayerCode(player)) { 
-                    setUserState({ role: 'PLAYER', playerId: player.id }); 
-                    setActiveLeagueId(leagueId);
-                    setShowLoginModal(false); 
-                    return; 
+                const playerPINs = appData.allPlayerPINs?.[leagueId] || {};
+                let successfulRole: 'PLAYER' | 'PARENT' | null = null;
+
+                // Priority: Custom PIN, Player Code, Parent Code
+                if (playerPINs[player.id] && upperCaseCode === playerPINs[player.id]) {
+                    successfulRole = 'PLAYER'; // Assumption: PIN login is for the player
+                } else if (upperCaseCode === getPlayerCode(player)) { 
+                    successfulRole = 'PLAYER';
+                } else if (upperCaseCode === getParentCode(player)) { 
+                    successfulRole = 'PARENT';
                 }
-                if (upperCaseCode === getParentCode(player)) { 
-                    setUserState({ role: 'PARENT', playerId: player.id }); 
+
+                if (successfulRole) {
+                    setUserState({ role: successfulRole, playerId: player.id });
                     setActiveLeagueId(leagueId);
-                    setShowLoginModal(false); 
-                    return; 
+                    setShowLoginModal(false);
+
+                    // Increment login counter
+                    updateAppData(prev => {
+                        const counters = prev.loginCounters || {};
+                        const leagueCounters = counters[leagueId] || {};
+                        const playerCounters = leagueCounters[player.id] || { playerLogins: 0, parentLogins: 0 };
+
+                        if (successfulRole === 'PLAYER') {
+                            playerCounters.playerLogins = (playerCounters.playerLogins || 0) + 1;
+                        } else if (successfulRole === 'PARENT') {
+                            playerCounters.parentLogins = (playerCounters.parentLogins || 0) + 1;
+                        }
+
+                        const newLeagueCounters = { ...leagueCounters, [player.id]: playerCounters };
+                        const newAllCounters = { ...counters, [leagueId]: newLeagueCounters };
+                        
+                        return { ...prev, loginCounters: newAllCounters };
+                    });
+                    return;
                 }
             }
         }
     }
     setAuthError('Invalid access code. Please try again.');
-  }, [appData]);
-
+}, [appData, updateAppData]);
 
   const handleLogout = useCallback(() => {
     setUserState({ role: 'NONE' });
@@ -273,6 +293,7 @@ const App: React.FC = () => {
         const { [activeLeagueId]: _______, ...remainingAllPlayerPINs } = prev.allPlayerPINs || {};
         const { [activeLeagueId]: ________, ...remainingAdminFeedback } = prev.allAdminFeedback || {};
         const { [activeLeagueId]: _________, ...remainingPlayerFeedback } = prev.allPlayerFeedback || {};
+        const { [activeLeagueId]: __________, ...remainingLoginCounters } = prev.loginCounters || {};
 
         return {
           leagues: remainingLeagues,
@@ -283,7 +304,8 @@ const App: React.FC = () => {
           allRefereeNotes: remainingAllRefereeNotes,
           allAdminFeedback: remainingAdminFeedback,
           allPlayerFeedback: remainingPlayerFeedback,
-          allPlayerPINs: remainingAllPlayerPINs
+          allPlayerPINs: remainingAllPlayerPINs,
+          loginCounters: remainingLoginCounters,
         };
       });
       setActiveLeagueId(null);
@@ -507,6 +529,7 @@ const App: React.FC = () => {
               allPlayerFeedback={activeDataSlices.allPlayerFeedback}
               allPlayerPINs={activeDataSlices.allPlayerPINs}
               onResetPlayerPIN={handleResetPlayerPIN}
+              loginCounters={activeDataSlices.loginCounters}
           />;
       }
   } else {
