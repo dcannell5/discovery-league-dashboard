@@ -1,11 +1,10 @@
 
-
 import React, { useState, useEffect } from 'react';
-import { AdminFeedback, PlayerFeedback, LeagueConfig, AppData } from '../types';
+import { AdminFeedback, PlayerFeedback, LeagueConfig, AppData, LoginCounts } from '../types';
 import { getPlayerCode, getParentCode, getRefereeCodeForCourt } from '../utils/auth';
 import { getAllCourtNames } from '../utils/leagueLogic';
 import HelpIcon from './HelpIcon';
-import { IconLightbulb, IconRefresh, IconDownload } from './Icon';
+import { IconLightbulb, IconRefresh, IconDownload, IconUsers } from './Icon';
 
 interface AdminPanelProps {
   appData: AppData;
@@ -15,6 +14,7 @@ interface AdminPanelProps {
   onResetPlayerPIN: (playerId: number) => void;
   allAdminFeedback: AdminFeedback[];
   allPlayerFeedback: PlayerFeedback[];
+  loginCounters: Record<number, LoginCounts>;
 }
 
 const CodeRow: React.FC<{label: string, code: string, isPIN?: boolean, onReset?: () => void}> = ({label, code, isPIN, onReset}) => (
@@ -37,7 +37,7 @@ const CodeRow: React.FC<{label: string, code: string, isPIN?: boolean, onReset?:
     </div>
 );
 
-const AdminPanel: React.FC<AdminPanelProps> = ({ appData, leagueConfig, onScheduleSave, allPlayerPINs, onResetPlayerPIN, allAdminFeedback, allPlayerFeedback }) => {
+const AdminPanel: React.FC<AdminPanelProps> = ({ appData, leagueConfig, onScheduleSave, allPlayerPINs, onResetPlayerPIN, allAdminFeedback, allPlayerFeedback, loginCounters }) => {
   const today = new Date();
   const courtNames = getAllCourtNames(leagueConfig);
   const [schedules, setSchedules] = useState(leagueConfig.daySchedules || {});
@@ -136,6 +136,28 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ appData, leagueConfig, onSchedu
                 </button>
            </div>
 
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-3 text-center flex items-center justify-center">
+              <IconLightbulb className="w-5 h-5 mr-2" />
+              Referee Feedback
+              <HelpIcon text="Ideas and comments submitted by referees."/>
+            </h3>
+            <div className="bg-gray-700/50 p-3 rounded-lg space-y-3 max-h-60 overflow-y-auto">
+              {allAdminFeedback.length > 0 ? (
+                [...allAdminFeedback].reverse().map(feedback => (
+                  <div key={feedback.id} className="bg-gray-900/70 p-3 rounded-md">
+                    <p className="text-gray-200 text-sm whitespace-pre-wrap">"{feedback.feedbackText}"</p>
+                    <p className="text-xs text-gray-400 mt-2 text-right">
+                        — From {feedback.submittedBy.court} on {new Date(feedback.submittedAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center text-sm py-4">No referee feedback has been submitted yet.</p>
+              )}
+            </div>
+          </div>
+
         </div>
         
         <div className="space-y-6">
@@ -164,29 +186,37 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ appData, leagueConfig, onSchedu
               ))}
             </div>
           </div>
-
-          <div>
+          
+           <div>
             <h3 className="text-lg font-semibold text-white mb-3 text-center flex items-center justify-center">
-              <IconLightbulb className="w-5 h-5 mr-2" />
-              Referee Feedback
-              <HelpIcon text="Ideas and comments submitted by referees."/>
+              <IconUsers className="w-5 h-5 mr-2" />
+              Player Login Activity
+              <HelpIcon text="Tracks the number of times each user type logs in."/>
             </h3>
-            <div className="bg-gray-700/50 p-3 rounded-lg space-y-3 max-h-60 overflow-y-auto">
-              {allAdminFeedback.length > 0 ? (
-                [...allAdminFeedback].reverse().map(feedback => (
-                  <div key={feedback.id} className="bg-gray-900/70 p-3 rounded-md">
-                    <p className="text-gray-200 text-sm whitespace-pre-wrap">"{feedback.feedbackText}"</p>
-                    <p className="text-xs text-gray-400 mt-2 text-right">
-                        — From {feedback.submittedBy.court} on {new Date(feedback.submittedAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500 text-center text-sm py-4">No referee feedback has been submitted yet.</p>
-              )}
+            <div className="bg-gray-700/50 p-3 rounded-lg max-h-60 overflow-y-auto">
+                <div className="sticky top-0 bg-gray-700/50 grid grid-cols-4 gap-2 text-xs font-bold text-gray-400 border-b border-gray-600 pb-2 mb-2">
+                    <span>Player</span>
+                    <span className="text-center">Player</span>
+                    <span className="text-center">Parent</span>
+                    <span className="text-center">PIN Set?</span>
+                </div>
+                <div className="space-y-2">
+                {leagueConfig.players.sort((a,b) => a.name.localeCompare(b.name)).map(player => {
+                    const counts = loginCounters[player.id] || { playerLogins: 0, parentLogins: 0 };
+                    const hasPIN = !!allPlayerPINs[player.id];
+                    return (
+                        <div key={player.id} className="grid grid-cols-4 gap-2 items-center text-sm">
+                            <span className="text-white truncate">{player.name}</span>
+                            <span className="text-center text-gray-300">{counts.playerLogins}</span>
+                            <span className="text-center text-gray-300">{counts.parentLogins}</span>
+                            <span className={`text-center font-semibold ${hasPIN ? 'text-green-400' : 'text-gray-500'}`}>{hasPIN ? 'Yes' : 'No'}</span>
+                        </div>
+                    );
+                })}
+                </div>
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold text-white mb-3 text-center flex items-center justify-center">
               <IconLightbulb className="w-5 h-5 mr-2" />
