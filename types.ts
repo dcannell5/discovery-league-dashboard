@@ -1,3 +1,4 @@
+
 export interface Player {
   id: number;
   name: string;
@@ -138,6 +139,12 @@ export interface UpcomingEvent {
     buttonUrl: string;
 }
 
+// --- Login Tracking Types ---
+export interface LoginCounts {
+  playerLogins: number;
+  parentLogins: number;
+}
+
 
 // --- Top-level Application Data Structure for Multi-League ---
 export interface AppData {
@@ -150,6 +157,8 @@ export interface AppData {
     allAdminFeedback?: Record<string, AdminFeedback[]>; // leagueId -> referee feedback[]
     allPlayerFeedback?: Record<string, PlayerFeedback[]>; // leagueId -> player/parent feedback[]
     allPlayerPINs?: Record<string, Record<number, string>>; // leagueId -> playerId -> PIN
+    loginCounters?: Record<string, Record<number, LoginCounts>>; // leagueId -> playerId -> LoginCounts
     activeLeagueId?: string | null;
     upcomingEvent?: UpcomingEvent;
 }
+
