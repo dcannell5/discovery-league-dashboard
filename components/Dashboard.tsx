@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData } from '../types';
+import { Player, AllDailyResults, GameResult, UserState, AllDailyMatchups, PlayerWithStats, AllDailyAttendance, LeagueConfig, CourtResults, CoachingTip, AdminFeedback, PlayerFeedback, AppData, LoginCounts } from '../types';
 import { generateCoachingTip } from '../services/geminiService';
 import { generateDailyMatchups, getAllCourtNames } from '../utils/leagueLogic';
 import { sortPlayersWithTieBreaking } from '../utils/rankingLogic';
@@ -43,6 +44,7 @@ interface DashboardProps {
     allPlayerFeedback: PlayerFeedback[];
     allPlayerPINs: Record<number, string>;
     onResetPlayerPIN: (playerId: number) => void;
+    loginCounters: Record<number, LoginCounts>;
 }
 
 const InfoCard: React.FC<{icon: React.ReactNode, title: string, children: React.ReactNode, className?: string}> = ({icon, title, children, className}) => (
@@ -61,7 +63,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     onSetPlayerDailyAttendance,
     onToggleDayLock,
     gameResults, setGameResults, allMatchups, setAllMatchups, allAttendance, setAllAttendance,
-    allAdminFeedback, allPlayerFeedback, allPlayerPINs, onResetPlayerPIN
+    allAdminFeedback, allPlayerFeedback, allPlayerPINs, onResetPlayerPIN, loginCounters
 }) => {
   const [currentDay, setCurrentDay] = useState<number>(1);
   const [coachingTip, setCoachingTip] = useState<CoachingTip | null>(null);
@@ -479,6 +481,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                   onResetPlayerPIN={onResetPlayerPIN}
                   allAdminFeedback={allAdminFeedback}
                   allPlayerFeedback={allPlayerFeedback}
+                  loginCounters={loginCounters}
               />
             </>
           )}
