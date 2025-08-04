@@ -1,7 +1,7 @@
 
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, LoginCounts } from './types';
+import React, { useState, useCallback, useMemo } from 'react';
+import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
@@ -13,7 +13,7 @@ import dbData from './data/database.json';
 
 
 const App: React.FC = () => {
-  const [appData, setAppData] = useState<AppData>(dbData as AppData);
+  const [appData, setAppData] = useState<AppData | null>(dbData as AppData);
   const [userState, setUserState] = useState<UserState>({ role: 'NONE' });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
@@ -29,7 +29,7 @@ const App: React.FC = () => {
   };
 
   const updateAppData = useCallback((updater: (prevData: AppData) => AppData) => {
-    setAppData(prev => prev ? updater(prev) : null!);
+    setAppData(prev => (prev ? updater(prev) : prev));
   }, []);
 
   // Handler to be passed down to simple components
