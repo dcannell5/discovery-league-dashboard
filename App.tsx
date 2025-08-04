@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, LoginCounts } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
@@ -8,128 +9,41 @@ import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
-import { initialAppData } from './data/initialData';
+import dbData from './data/database.json';
 
-const APP_DATA_KEY = 'discoveryLeagueAppData';
 
 const App: React.FC = () => {
-  const [appData, setAppData] = useState<AppData | null>(null);
-  const [activeLeagueId, setActiveLeagueId] = useState<string | null>(null);
+  const [appData, setAppData] = useState<AppData>(dbData as AppData);
   const [userState, setUserState] = useState<UserState>({ role: 'NONE' });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
   const [viewingProfileOfPlayerId, setViewingProfileOfPlayerId] = useState<number | null>(null);
-  const [upcomingEvent, setUpcomingEvent] = useState<UpcomingEvent>({
+
+  // activeLeagueId and upcomingEvent are now derived from appData state
+  const activeLeagueId = appData?.activeLeagueId;
+  const upcomingEvent = appData?.upcomingEvent || {
     title: 'Next League Registration Open!',
     description: 'Registration for the Fall Discovery League is now open. Sign up early to secure your spot!',
     buttonText: 'Register Now',
     buttonUrl: 'https://canadianeliteacademy.corsizio.com/'
-  });
+  };
 
-  useEffect(() => {
-    const savedData = localStorage.getItem(APP_DATA_KEY);
-    if (savedData) {
-      try {
-        const parsedData: AppData = JSON.parse(savedData);
-        // Ensure new fields exist for backward compatibility
-        if (!parsedData.allAdminFeedback) parsedData.allAdminFeedback = {};
-        if (!parsedData.allPlayerFeedback) parsedData.allPlayerFeedback = {};
-        if (!parsedData.allPlayerPINs) parsedData.allPlayerPINs = {};
-        if (!parsedData.loginCounters) parsedData.loginCounters = {};
-
-        Object.values(parsedData.leagues).forEach(league => {
-            if (!league.lockedDays) league.lockedDays = {};
-        });
-
-        // --- ONE-TIME DATA MIGRATION SCRIPT ---
-        // This script checks for old court names and updates them to the correct format.
-        Object.keys(parsedData.leagues).forEach(leagueId => {
-          const league = parsedData.leagues[leagueId];
-          const oldNames = ['Royalty Court', 'Challenger Court 1', 'Foundation Court'];
-          const newNames = ['Royalty Court 1', 'Challenger Court 2', 'Foundation Court 3'];
-
-          if (league && league.courtNames && league.courtNames.length === 3 && league.courtNames.join(',') === oldNames.join(',')) {
-              console.log(`Applying one-time court name migration for league: ${league.title}`);
-              
-              // 1. Update league config with new names
-              league.courtNames = newNames;
-
-              const nameMap: Record<string, string> = {
-                  [oldNames[0]]: newNames[0],
-                  [oldNames[1]]: newNames[1],
-                  [oldNames[2]]: newNames[2],
-              };
-
-              const migrateKeys = (dataObject: Record<string, any> | undefined) => {
-                  if (!dataObject) return;
-                  Object.keys(nameMap).forEach(oldKey => {
-                      if (dataObject[oldKey]) {
-                          dataObject[nameMap[oldKey]] = dataObject[oldKey];
-                          delete dataObject[oldKey];
-                      }
-                  });
-              };
-
-              // 2. Update keys in dailyResults
-              const leagueResults = parsedData.dailyResults[leagueId];
-              if (leagueResults) {
-                  Object.values(leagueResults).forEach(migrateKeys);
-              }
-
-              // 3. Update keys in allDailyMatchups
-              const leagueMatchups = parsedData.allDailyMatchups[leagueId];
-              if (leagueMatchups) {
-                  Object.values(leagueMatchups).forEach(migrateKeys);
-              }
-          }
-        });
-        // --- END OF MIGRATION SCRIPT ---
-        
-        setAppData(parsedData);
-        
-        const leagueIds = Object.keys(parsedData.leagues);
-        if (leagueIds.length === 1) {
-            setActiveLeagueId(leagueIds[0]);
-        } else {
-            setActiveLeagueId(parsedData.activeLeagueId || null);
-        }
-
-        if (parsedData.upcomingEvent) {
-          setUpcomingEvent(parsedData.upcomingEvent);
-        }
-      } catch (error) {
-        console.error("Failed to parse app data from localStorage, resetting state.", error);
-        setAppData(initialAppData);
-        const leagueIds = Object.keys(initialAppData.leagues);
-        if (leagueIds.length === 1) {
-            setActiveLeagueId(leagueIds[0]);
-        } else {
-            setActiveLeagueId(initialAppData.activeLeagueId || null);
-        }
-        if (initialAppData.upcomingEvent) {
-            setUpcomingEvent(initialAppData.upcomingEvent);
-        }
-      }
-    } else {
-      setAppData(initialAppData);
-      const leagueIds = Object.keys(initialAppData.leagues);
-      if (leagueIds.length === 1) {
-          setActiveLeagueId(leagueIds[0]);
-      } else {
-          setActiveLeagueId(initialAppData.activeLeagueId || null);
-      }
-      if (initialAppData.upcomingEvent) {
-        setUpcomingEvent(initialAppData.upcomingEvent);
-      }
-    }
+  const updateAppData = useCallback((updater: (prevData: AppData) => AppData) => {
+    setAppData(prev => prev ? updater(prev) : null!);
   }, []);
 
-  useEffect(() => {
-    if (appData) {
-      const dataToSave: AppData = { ...appData, activeLeagueId, upcomingEvent };
-      localStorage.setItem(APP_DATA_KEY, JSON.stringify(dataToSave));
-    }
-  }, [appData, activeLeagueId, upcomingEvent]);
+  // Handler to be passed down to simple components
+  const handleSetActiveLeagueId = (id: string | null) => {
+    updateAppData(prev => ({ ...prev, activeLeagueId: id }));
+  };
+  
+  const handleUpdateUpcomingEvent = useCallback((event: UpcomingEvent) => {
+    updateAppData(prev => ({
+      ...prev,
+      upcomingEvent: event
+    }));
+  }, [updateAppData]);
+
 
   const activeLeague = useMemo((): LeagueConfig | null => {
     if (!appData || !activeLeagueId) return null;
@@ -152,18 +66,6 @@ const App: React.FC = () => {
     };
   }, [appData, activeLeagueId]);
 
-  const updateAppData = useCallback((updater: (prevData: AppData) => AppData) => {
-    setAppData(prev => prev ? updater(prev) : null);
-  }, []);
-  
-  const handleUpdateUpcomingEvent = useCallback((event: UpcomingEvent) => {
-    setUpcomingEvent(event);
-    updateAppData(prev => ({
-      ...prev,
-      upcomingEvent: event
-    }));
-  }, [updateAppData]);
-
   const handleCreateLeague = useCallback((config: Omit<LeagueConfig, 'id'>) => {
     const newLeagueId = `league-${Date.now()}`;
     updateAppData(prev => ({
@@ -178,17 +80,13 @@ const App: React.FC = () => {
       allPlayerFeedback: { ...prev.allPlayerFeedback, [newLeagueId]: [] },
       allPlayerPINs: { ...prev.allPlayerPINs, [newLeagueId]: {} },
       loginCounters: { ...prev.loginCounters, [newLeagueId]: {} },
+      activeLeagueId: newLeagueId,
     }));
-    setActiveLeagueId(newLeagueId);
   }, [updateAppData]);
 
   const handleCancelCreateLeague = useCallback(() => {
-    if (appData && Object.keys(appData.leagues).length > 0) {
-        setActiveLeagueId(null); // Go back to hub if leagues exist
-    } else {
-        setActiveLeagueId(null);
-    }
-  }, [appData]);
+    handleSetActiveLeagueId(null);
+  }, []);
 
   const handleLogin = useCallback((code: string) => {
     setAuthError('');
@@ -209,7 +107,7 @@ const App: React.FC = () => {
             for (const courtName of courtNames) {
                 if (upperCaseCode === getRefereeCodeForCourt(new Date(), courtName)) {
                     setUserState({ role: 'REFEREE', court: courtName });
-                    setActiveLeagueId(leagueId);
+                    handleSetActiveLeagueId(leagueId);
                     setShowLoginModal(false);
                     return;
                 }
@@ -231,7 +129,7 @@ const App: React.FC = () => {
 
                 if (successfulRole) {
                     setUserState({ role: successfulRole, playerId: player.id });
-                    setActiveLeagueId(leagueId);
+                    handleSetActiveLeagueId(leagueId);
                     setShowLoginModal(false);
 
                     // Increment login counter
@@ -296,6 +194,7 @@ const App: React.FC = () => {
         const { [activeLeagueId]: __________, ...remainingLoginCounters } = prev.loginCounters || {};
 
         return {
+          ...prev,
           leagues: remainingLeagues,
           dailyResults: remainingGameResults,
           allDailyMatchups: remainingAllMatchups,
@@ -306,9 +205,9 @@ const App: React.FC = () => {
           allPlayerFeedback: remainingPlayerFeedback,
           allPlayerPINs: remainingAllPlayerPINs,
           loginCounters: remainingLoginCounters,
+          activeLeagueId: null,
         };
       });
-      setActiveLeagueId(null);
     }
   }, [activeLeagueId, activeLeague, updateAppData]);
 
@@ -511,7 +410,7 @@ const App: React.FC = () => {
               onLoginClick={() => setShowLoginModal(true)}
               onLogout={handleLogout}
               onDeleteLeague={handleDeleteLeague}
-              onSwitchLeague={() => setActiveLeagueId(null)}
+              onSwitchLeague={() => handleSetActiveLeagueId(null)}
               onAnnouncementsSave={handleAnnouncementsSave}
               onScheduleSave={handleScheduleSave}
               onViewProfile={handleViewProfile}
@@ -536,8 +435,8 @@ const App: React.FC = () => {
       pageContent = <LoginPage 
           appData={appData}
           setAppData={setAppData}
-          onSelectLeague={setActiveLeagueId} 
-          onCreateNew={() => setActiveLeagueId('new')}
+          onSelectLeague={handleSetActiveLeagueId} 
+          onCreateNew={() => handleSetActiveLeagueId('new')}
           userState={userState}
           upcomingEvent={upcomingEvent}
           onUpdateUpcomingEvent={handleUpdateUpcomingEvent}
