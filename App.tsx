@@ -1,7 +1,9 @@
 
 
+
+
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
+import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
@@ -9,6 +11,8 @@ import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
+import AiHelper from './components/AiHelper';
+import AiHelperButton from './components/AiHelperButton';
 import dbData from './data/database.json';
 
 
@@ -30,6 +34,55 @@ const getInitialAppData = (): AppData => {
   return dbData as AppData;
 };
 
+const SevereWarningModal: React.FC<{
+  show: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}> = ({ show, onClose, onConfirm }) => {
+  const [confirmText, setConfirmText] = useState('');
+  const isConfirmEnabled = confirmText === 'RESET';
+
+  useEffect(() => {
+    if (show) {
+      setConfirmText(''); // Reset on open
+    }
+  }, [show]);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-50" onClick={onClose}>
+      <div 
+        className="w-full max-w-lg mx-auto p-8 bg-gray-800 rounded-2xl shadow-2xl border-2 border-red-500 text-center"
+        onClick={e => e.stopPropagation()}
+      >
+        <h2 className="text-3xl font-bold text-red-400 mb-4">Permanent Action Required</h2>
+        <p className="text-gray-300 mb-6">You are about to <strong className="text-red-400">permanently delete ALL data</strong>, including all leagues, scores, and settings. This cannot be undone.</p>
+        <p className="text-gray-300 mb-4">To confirm, please type <strong className="text-yellow-300 tracking-widest">RESET</strong> into the box below:</p>
+        
+        <input
+          type="text"
+          value={confirmText}
+          onChange={(e) => setConfirmText(e.target.value)}
+          className="w-full px-4 py-3 bg-gray-900 border-2 border-gray-600 rounded-lg text-white text-center text-lg tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-red-400"
+          autoFocus
+        />
+
+        <div className="flex justify-end gap-4 mt-8">
+            <button onClick={onClose} className="px-6 py-2 text-sm font-bold rounded-lg bg-gray-600 hover:bg-gray-500 transition-colors">Cancel</button>
+            <button 
+              onClick={onConfirm} 
+              disabled={!isConfirmEnabled}
+              className="px-6 py-2 text-sm font-bold rounded-lg bg-red-600 text-white hover:bg-red-500 transition-colors disabled:bg-red-900/50 disabled:text-gray-500 disabled:cursor-not-allowed"
+            >
+              Permanently Reset Data
+            </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const App: React.FC = () => {
   const [appData, setAppData] = useState<AppData | null>(getInitialAppData());
@@ -37,7 +90,12 @@ const App: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
   const [viewingProfileOfPlayerId, setViewingProfileOfPlayerId] = useState<number | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   
+  const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
+  const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
+
+
   useEffect(() => {
     if (appData) {
       try {
@@ -122,14 +180,17 @@ const App: React.FC = () => {
     setViewingProfileOfPlayerId(null);
   }, []);
 
-  const handleResetAllData = useCallback(() => {
-    if (window.confirm("Are you sure you want to reset ALL data? This will remove all leagues and revert the application to its initial state. This action cannot be undone.")) {
-        localStorage.removeItem('discoveryLeagueData');
-        setAppData(dbData as AppData); // Re-initialize with default data
-        handleLogout(); // Log out the user as well
-        alert("Application data has been reset to default.");
-    }
+  const executeReset = useCallback(() => {
+    localStorage.removeItem('discoveryLeagueData');
+    setAppData(dbData as AppData);
+    handleLogout();
+    setShowResetConfirm(false);
+    alert("Application data has been reset to default.");
   }, [handleLogout]);
+
+  const handleResetAllData = useCallback(() => {
+    setShowResetConfirm(true);
+  }, []);
 
   const handleLogin = useCallback((code: string) => {
     setAuthError('');
@@ -416,6 +477,47 @@ const App: React.FC = () => {
     if (userState.role !== 'NONE') setViewingProfileOfPlayerId(playerId);
     else setShowLoginModal(true);
   }, [userState.role]);
+  
+  const handleAiQuery = useCallback(async (query: string) => {
+    if (!appData) return;
+
+    const userMessage: AiMessage = { id: `user-${Date.now()}`, role: 'user', content: query };
+    const thinkingMessage: AiMessage = { id: `assistant-${Date.now()}`, role: 'assistant', content: '...', isThinking: true };
+    
+    setAiConversation(prev => [...prev, userMessage, thinkingMessage]);
+
+    try {
+      const response = await fetch('/api/aiHelper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, appData, userState }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.statusText}`);
+      }
+      
+      const responseData = await response.json();
+      
+      const assistantMessage: AiMessage = {
+          id: `assistant-${Date.now()}-2`,
+          role: 'assistant',
+          content: responseData.response,
+      };
+
+      setAiConversation(prev => [...prev.slice(0, -1), assistantMessage]); // Replace thinking message
+
+    } catch (error) {
+      console.error("AI Helper Error:", error);
+      const errorMessage: AiMessage = {
+        id: `assistant-${Date.now()}-error`,
+        role: 'assistant',
+        content: "Sorry, I encountered an error. Please check the server configuration or try again later.",
+      };
+      setAiConversation(prev => [...prev.slice(0, -1), errorMessage]); // Replace thinking message
+    }
+  }, [appData, userState]);
+
 
   if (!appData) return <div className="bg-gray-900 min-h-screen"></div>;
 
@@ -497,6 +599,18 @@ const App: React.FC = () => {
           }}
         />
       )}
+      <SevereWarningModal 
+        show={showResetConfirm}
+        onClose={() => setShowResetConfirm(false)}
+        onConfirm={executeReset}
+      />
+      <AiHelperButton onClick={() => setIsAiHelperOpen(true)} />
+      <AiHelper 
+        isOpen={isAiHelperOpen}
+        onClose={() => setIsAiHelperOpen(false)}
+        conversation={aiConversation}
+        onSendQuery={handleAiQuery}
+      />
     </>
   );
 };
