@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useMemo } from 'react';
 import { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
@@ -18,6 +19,7 @@ interface LoginPageProps {
   onUpdateUpcomingEvent: (event: UpcomingEvent) => void;
   onLoginClick: () => void;
   onLogout: () => void;
+  onResetAllData: () => void;
 }
 
 const roleTextMap: Record<UserState['role'], string> = {
@@ -160,7 +162,7 @@ const UpcomingEventEditor: React.FC<{
 };
 
 
-const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData }) => {
   const leagueEntries = Object.entries(appData.leagues);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
@@ -229,7 +231,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
         </div>
 
         {userState.role === 'SUPER_ADMIN' && (
-            <DataManagementPanel appData={appData} setAppData={setAppData} onSelectLeague={onSelectLeague} />
+            <DataManagementPanel appData={appData} setAppData={setAppData} onSelectLeague={onSelectLeague} onResetAllData={onResetAllData} />
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
