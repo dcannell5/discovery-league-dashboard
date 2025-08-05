@@ -1,6 +1,7 @@
 
 
-import React, { useState, useCallback, useMemo } from 'react';
+
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
@@ -12,12 +13,41 @@ import LoginPage from './components/LoginPage';
 import dbData from './data/database.json';
 
 
+const getInitialAppData = (): AppData => {
+  try {
+    const storedData = localStorage.getItem('discoveryLeagueData');
+    if (storedData) {
+      // Basic validation to make sure it's not just "null" or some other invalid JSON
+      const parsedData = JSON.parse(storedData);
+      if (parsedData && typeof parsedData === 'object' && parsedData.leagues) {
+        return parsedData;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to parse app data from localStorage", error);
+    // If parsing fails, localStorage will be cleared on next save.
+  }
+  // Fallback to the default JSON file
+  return dbData as AppData;
+};
+
+
 const App: React.FC = () => {
-  const [appData, setAppData] = useState<AppData | null>(dbData as AppData);
+  const [appData, setAppData] = useState<AppData | null>(getInitialAppData());
   const [userState, setUserState] = useState<UserState>({ role: 'NONE' });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
   const [viewingProfileOfPlayerId, setViewingProfileOfPlayerId] = useState<number | null>(null);
+  
+  useEffect(() => {
+    if (appData) {
+      try {
+        localStorage.setItem('discoveryLeagueData', JSON.stringify(appData));
+      } catch (error) {
+        console.error("Failed to save app data to localStorage", error);
+      }
+    }
+  }, [appData]);
 
   // activeLeagueId and upcomingEvent are now derived from appData state
   const activeLeagueId = appData?.activeLeagueId;
@@ -87,6 +117,20 @@ const App: React.FC = () => {
   const handleCancelCreateLeague = useCallback(() => {
     handleSetActiveLeagueId(null);
   }, []);
+  
+  const handleLogout = useCallback(() => {
+    setUserState({ role: 'NONE' });
+    setViewingProfileOfPlayerId(null);
+  }, []);
+
+  const handleResetAllData = useCallback(() => {
+    if (window.confirm("Are you sure you want to reset ALL data? This will remove all leagues and revert the application to its initial state. This action cannot be undone.")) {
+        localStorage.removeItem('discoveryLeagueData');
+        setAppData(dbData as AppData); // Re-initialize with default data
+        handleLogout(); // Log out the user as well
+        alert("Application data has been reset to default.");
+    }
+  }, [handleLogout]);
 
   const handleLogin = useCallback((code: string) => {
     setAuthError('');
@@ -156,11 +200,6 @@ const App: React.FC = () => {
     }
     setAuthError('Invalid access code. Please try again.');
 }, [appData, updateAppData]);
-
-  const handleLogout = useCallback(() => {
-    setUserState({ role: 'NONE' });
-    setViewingProfileOfPlayerId(null);
-  }, []);
   
   const handleAnnouncementsSave = useCallback((newAnnouncements: string) => {
       if (!activeLeagueId) return;
@@ -442,6 +481,7 @@ const App: React.FC = () => {
           onUpdateUpcomingEvent={handleUpdateUpcomingEvent}
           onLoginClick={() => setShowLoginModal(true)}
           onLogout={handleLogout}
+          onResetAllData={handleResetAllData}
       />;
   }
 
