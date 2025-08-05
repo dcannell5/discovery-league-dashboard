@@ -9,8 +9,8 @@ import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
-import AiHelper from './components/AiHelper.tsx';
-import AiHelperButton from './components/AiHelperButton.tsx';
+import AiHelper from './components/AiHelper';
+import AiHelperButton from './components/AiHelperButton';
 import dbData from './data/database.json';
 
 
