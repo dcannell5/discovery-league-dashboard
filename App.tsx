@@ -1,7 +1,5 @@
 
 
-
-
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
@@ -11,8 +9,8 @@ import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
-import AiHelper from './components/AiHelper';
-import AiHelperButton from './components/AiHelperButton';
+import AiHelper from './components/AiHelper.tsx';
+import AiHelperButton from './components/AiHelperButton.tsx';
 import dbData from './data/database.json';
 
 
