@@ -1,4 +1,5 @@
 
+
 export interface Player {
   id: number;
   name: string;
@@ -131,6 +132,13 @@ export interface CoachingTip {
     communicationTip: string;
 }
 
+export interface AiMessage {
+    id: string;
+    role: 'user' | 'assistant' | 'system';
+    content: string;
+    isThinking?: boolean;
+}
+
 // --- Upcoming Event Type ---
 export interface UpcomingEvent {
     title: string;
@@ -161,4 +169,3 @@ export interface AppData {
     activeLeagueId?: string | null;
     upcomingEvent?: UpcomingEvent;
 }
-
