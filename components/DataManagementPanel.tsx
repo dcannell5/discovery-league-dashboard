@@ -1,6 +1,5 @@
 
 
-
 import React, { useRef } from 'react';
 import { AppData } from '../types';
 import { presetData } from '../data/presetSchedule';
