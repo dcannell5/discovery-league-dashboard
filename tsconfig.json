@@ -24,7 +24,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "api", "assets", "components", "data", "services", "utils", "App.tsx", "index.tsx", "types.ts"],
-  "exclude": ["api"],
+  "include": ["src", "assets", "components", "data", "services", "utils", "App.tsx", "index.tsx", "types.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
