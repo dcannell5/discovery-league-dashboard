@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { LeagueConfig, Player } from '../types';
-import { IconVolleyball, IconSettings } from './Icon';
+import { IconVolleyball, IconSettings, IconUpload } from './Icon';
 import { getDefaultCourtName } from '../utils/leagueLogic';
 
 interface SetupScreenProps {
@@ -46,6 +47,8 @@ const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel }) 
 
   // Estimator fields
   const [gameDuration, setGameDuration] = useState(15);
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
 
   const parsedPlayers = useMemo(() => playerNames.split('\n').filter(Boolean), [playerNames]);
@@ -114,6 +117,33 @@ const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel }) 
   const handleScheduleChange = (day: number, value: string) => {
     setDaySchedules(prev => ({...prev, [day]: value}));
   }
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const text = e.target?.result as string;
+            const lines = text.split(/\r\n|\n/);
+            // Ignore header if it's 'Name'
+            const startIndex = lines[0].trim().toLowerCase() === 'name' ? 1 : 0;
+            const names = lines.slice(startIndex)
+                               .map(line => line.split(',')[0].trim()) // Take only first column
+                               .filter(name => name); // Filter out empty lines
+            setPlayerNames(names.join('\n'));
+        } catch (error) {
+            setError('Failed to parse CSV file.');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // Reset for re-upload
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -278,13 +308,24 @@ const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel }) 
             </div>
             
             <div>
-                 <label htmlFor="player-roster" className="block text-sm font-medium text-gray-300 mb-1">Player Roster</label>
+                 <div className="flex justify-between items-center mb-1">
+                    <label htmlFor="player-roster" className="block text-sm font-medium text-gray-300">Player Roster</label>
+                    <button 
+                        type="button" 
+                        onClick={handleUploadClick}
+                        className="flex items-center gap-2 text-xs font-semibold text-yellow-400 hover:text-yellow-300 transition-colors"
+                    >
+                        <IconUpload className="w-4 h-4" />
+                        Upload CSV
+                    </button>
+                    <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".csv" className="hidden" />
+                 </div>
                 <textarea
                     id="player-roster"
                     rows={10}
                     value={playerNames}
                     onChange={(e) => setPlayerNames(e.target.value)}
-                    placeholder="Enter one player name per line..."
+                    placeholder="Enter one player name per line, or upload a CSV file."
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
                     required
                 />
