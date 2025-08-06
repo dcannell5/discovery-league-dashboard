@@ -76,9 +76,9 @@ const App: React.FC = () => {
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
 
-  // Fetch initial data from the server
+  // Load initial data from the server
   useEffect(() => {
-    const fetchInitialData = async () => {
+    const fetchData = async () => {
         setIsLoading(true);
         try {
             const response = await fetch('/api/getData');
@@ -90,28 +90,33 @@ const App: React.FC = () => {
             isInitialized.current = true;
         } catch (error) {
             console.error("Could not load initial application data:", error);
-            // In case of error, appData remains null, and an error screen is shown.
+            setAppData(null);
         } finally {
             setIsLoading(false);
         }
     };
-    fetchInitialData();
+    fetchData();
   }, []);
 
-  // Save data to the server whenever it changes, with debouncing
+  // Save data to server whenever it changes, with debouncing
   useEffect(() => {
     if (!isInitialized.current || !appData) {
         return;
     }
 
-    const handler = setTimeout(() => {
-        fetch('/api/saveData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(appData),
-        }).catch(error => console.error("Failed to save app data:", error));
+    const handler = setTimeout(async () => {
+        try {
+            const response = await fetch('/api/saveData', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(appData),
+            });
+             if (!response.ok) {
+                console.error("Failed to save app data to server:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Failed to save app data to server:", error);
+        }
     }, 1000); // Debounce save for 1 second
 
     return () => {
@@ -194,23 +199,20 @@ const App: React.FC = () => {
     setViewingProfileOfPlayerId(null);
   }, []);
 
-  const executeReset = useCallback(() => {
-    const resetOnServer = async () => {
-        try {
-            const response = await fetch('/api/resetData', { method: 'POST' });
-            if (!response.ok) {
-                throw new Error('Server failed to reset data.');
-            }
-            alert("Application data has been reset. The page will now reload.");
-            window.location.reload();
-        } catch (error) {
-            console.error("Failed to reset data on server", error);
-            alert("Failed to reset server data. Please try again.");
-        } finally {
-            setShowResetConfirm(false);
+  const executeReset = useCallback(async () => {
+    try {
+        const response = await fetch('/api/resetData', { method: 'POST' });
+        if (!response.ok) {
+            throw new Error('Server failed to reset data.');
         }
-    };
-    resetOnServer();
+        alert("Application data has been reset on the server. The page will now reload.");
+        window.location.reload();
+    } catch (error) {
+        console.error("Failed to reset data on server", error);
+        alert("Failed to reset server data. Please try again.");
+    } finally {
+        setShowResetConfirm(false);
+    }
   }, []);
 
   const handleResetAllData = useCallback(() => {
