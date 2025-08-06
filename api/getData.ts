@@ -1,7 +1,7 @@
 
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import dbData from '../data/database.json';
+import { dbData } from '../data/database';
 import type { AppData } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
