@@ -2,7 +2,28 @@
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import type { AppData } from '../types';
-import { initialAppData } from '../data/initialData';
+
+// A minimal, empty structure to initialize the database on first load.
+// This is defined directly here to avoid build issues with cross-directory imports in Vercel serverless functions.
+const initialAppData: AppData = {
+  leagues: {},
+  dailyResults: {},
+  allDailyMatchups: {},
+  allDailyAttendance: {},
+  allPlayerProfiles: {},
+  allRefereeNotes: {},
+  allAdminFeedback: {},
+  allPlayerFeedback: {},
+  allPlayerPINs: {},
+  loginCounters: {},
+  activeLeagueId: null,
+  upcomingEvent: {
+    title: 'Next League Registration Open!',
+    description: 'Registration for the Fall Discovery League is now open. Sign up early to secure your spot!',
+    buttonText: 'Register Now',
+    buttonUrl: 'https://canadianeliteacademy.corsizio.com/',
+  },
+};
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
@@ -14,7 +35,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // If no data exists in the database (e.g., first-time run),
     // seed it with a clean, minimal initial state.
-    // This prevents any hardcoded league data from overwriting user changes.
     if (!appData) {
       console.log('No data found in Vercel KV, initializing with empty data structure.');
       appData = initialAppData;
