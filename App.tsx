@@ -1,6 +1,5 @@
 
-
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
@@ -11,26 +10,8 @@ import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
 import AiHelper from './components/AiHelper';
 import AiHelperButton from './components/AiHelperButton';
-import dbData from './data/database.json';
+import { IconVolleyball } from './components/Icon';
 
-
-const getInitialAppData = (): AppData => {
-  try {
-    const storedData = localStorage.getItem('discoveryLeagueData');
-    if (storedData) {
-      // Basic validation to make sure it's not just "null" or some other invalid JSON
-      const parsedData = JSON.parse(storedData);
-      if (parsedData && typeof parsedData === 'object' && parsedData.leagues) {
-        return parsedData;
-      }
-    }
-  } catch (error) {
-    console.error("Failed to parse app data from localStorage", error);
-    // If parsing fails, localStorage will be cleared on next save.
-  }
-  // Fallback to the default JSON file
-  return dbData as AppData;
-};
 
 const SevereWarningModal: React.FC<{
   show: boolean;
@@ -55,7 +36,7 @@ const SevereWarningModal: React.FC<{
         onClick={e => e.stopPropagation()}
       >
         <h2 className="text-3xl font-bold text-red-400 mb-4">Permanent Action Required</h2>
-        <p className="text-gray-300 mb-6">You are about to <strong className="text-red-400">permanently delete ALL data</strong>, including all leagues, scores, and settings. This cannot be undone.</p>
+        <p className="text-gray-300 mb-6">You are about to <strong className="text-red-400">permanently delete ALL data from the central database</strong>, including all leagues, scores, and settings. This cannot be undone.</p>
         <p className="text-gray-300 mb-4">To confirm, please type <strong className="text-yellow-300 tracking-widest">RESET</strong> into the box below:</p>
         
         <input
@@ -83,7 +64,8 @@ const SevereWarningModal: React.FC<{
 
 
 const App: React.FC = () => {
-  const [appData, setAppData] = useState<AppData | null>(getInitialAppData());
+  const [appData, setAppData] = useState<AppData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [userState, setUserState] = useState<UserState>({ role: 'NONE' });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
@@ -92,17 +74,51 @@ const App: React.FC = () => {
   
   const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
+  const isInitialized = useRef(false);
 
-
+  // Fetch initial data from the server
   useEffect(() => {
-    if (appData) {
-      try {
-        localStorage.setItem('discoveryLeagueData', JSON.stringify(appData));
-      } catch (error) {
-        console.error("Failed to save app data to localStorage", error);
-      }
+    const fetchInitialData = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('/api/getData');
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.statusText}`);
+            }
+            const data = await response.json();
+            setAppData(data);
+            isInitialized.current = true;
+        } catch (error) {
+            console.error("Could not load initial application data:", error);
+            // In case of error, appData remains null, and an error screen is shown.
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    fetchInitialData();
+  }, []);
+
+  // Save data to the server whenever it changes, with debouncing
+  useEffect(() => {
+    if (!isInitialized.current || !appData) {
+        return;
     }
+
+    const handler = setTimeout(() => {
+        fetch('/api/saveData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appData),
+        }).catch(error => console.error("Failed to save app data:", error));
+    }, 1000); // Debounce save for 1 second
+
+    return () => {
+        clearTimeout(handler);
+    };
   }, [appData]);
+
 
   // activeLeagueId and upcomingEvent are now derived from appData state
   const activeLeagueId = appData?.activeLeagueId;
@@ -179,12 +195,23 @@ const App: React.FC = () => {
   }, []);
 
   const executeReset = useCallback(() => {
-    localStorage.removeItem('discoveryLeagueData');
-    setAppData(dbData as AppData);
-    handleLogout();
-    setShowResetConfirm(false);
-    alert("Application data has been reset to default.");
-  }, [handleLogout]);
+    const resetOnServer = async () => {
+        try {
+            const response = await fetch('/api/resetData', { method: 'POST' });
+            if (!response.ok) {
+                throw new Error('Server failed to reset data.');
+            }
+            alert("Application data has been reset. The page will now reload.");
+            window.location.reload();
+        } catch (error) {
+            console.error("Failed to reset data on server", error);
+            alert("Failed to reset server data. Please try again.");
+        } finally {
+            setShowResetConfirm(false);
+        }
+    };
+    resetOnServer();
+  }, []);
 
   const handleResetAllData = useCallback(() => {
     setShowResetConfirm(true);
@@ -517,7 +544,27 @@ const App: React.FC = () => {
   }, [appData, userState]);
 
 
-  if (!appData) return <div className="bg-gray-900 min-h-screen"></div>;
+  if (isLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-900">
+            <div className="flex flex-col items-center gap-4">
+                <IconVolleyball className="w-16 h-16 text-yellow-400 animate-spin" />
+                <p className="text-xl text-gray-300">Loading League Data...</p>
+            </div>
+        </div>
+    );
+  }
+
+  if (!appData) {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-900">
+             <div className="text-center">
+                 <h2 className="text-2xl text-red-400 font-bold">Failed to Load Application Data</h2>
+                 <p className="text-gray-400 mt-2">Could not retrieve league data from the server. Please try refreshing the page or contact an administrator.</p>
+             </div>
+        </div>
+    );
+  }
 
   let pageContent;
 
