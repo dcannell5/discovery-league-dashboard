@@ -65,25 +65,26 @@ const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setA
   const handleLoadPreset = () => {
     if (window.confirm("Are you sure you want to load the preset 'Summer League' data? This will add it as a new event to your existing leagues.")) {
       const newLeagueId = `preset-${Date.now()}`;
-      const { config, matchups } = presetData;
+      const { config, matchups, dailyResults } = presetData;
       
       setAppData(prev => {
           const newAppData: AppData = JSON.parse(JSON.stringify(prev || { leagues: {}, dailyResults: {}, allDailyMatchups: {}, allDailyAttendance: {}, allPlayerProfiles: {}, allRefereeNotes: {}, allAdminFeedback: {}, allPlayerFeedback: {}, allPlayerPINs: {} }));
           
           newAppData.leagues[newLeagueId] = config;
           newAppData.allDailyMatchups[newLeagueId] = matchups;
+          newAppData.dailyResults[newLeagueId] = dailyResults;
           // Initialize other data slices for the new league
-          newAppData.dailyResults[newLeagueId] = {};
           newAppData.allDailyAttendance[newLeagueId] = {};
           newAppData.allPlayerProfiles[newLeagueId] = {};
           newAppData.allRefereeNotes[newLeagueId] = {};
           newAppData.allAdminFeedback![newLeagueId] = [];
           newAppData.allPlayerFeedback![newLeagueId] = [];
           newAppData.allPlayerPINs![newLeagueId] = {};
+          newAppData.loginCounters![newLeagueId] = {};
 
           return newAppData;
       });
-      onSelectLeague(newLeagueId);
+      alert('Preset league loaded successfully!');
     }
   };
 
