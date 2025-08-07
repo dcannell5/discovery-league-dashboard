@@ -1,4 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 // This serverless function will be hosted by platforms like Vercel.
 // It securely handles the API key, which is stored as an environment variable on the server.
@@ -30,7 +31,7 @@ const coachingTipSchema = {
     }
 };
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
