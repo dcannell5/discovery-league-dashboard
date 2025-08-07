@@ -1,5 +1,6 @@
 
-import { CoachingTip } from "../types";
+
+import type { CoachingTip } from "../types";
 
 export const generateCoachingTip = async (): Promise<CoachingTip | null> => {
   try {
