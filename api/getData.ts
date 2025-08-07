@@ -3,7 +3,7 @@
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import type { AppData } from '../types';
-import { presetData } from '../data/presetSchedule';
+import { presetData } from '../data/presetSchedule.js';
 
 const createPresetAppData = (): AppData => {
   const newLeagueId = 'summer-league-preset-2025';
