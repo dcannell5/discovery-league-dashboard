@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { DailyAttendance, DailyCourtMatchups, Player } from '../types';
+import type { DailyAttendance, DailyCourtMatchups, Player } from '../types';
 import PlayerAttendanceRow from './PlayerAttendanceRow';
 
 interface AttendanceManagerProps {
