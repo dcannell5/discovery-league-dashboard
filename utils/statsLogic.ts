@@ -1,5 +1,4 @@
-
-import {
+import type {
   Player,
   PlayerWithStats,
   DailyResults,
@@ -32,7 +31,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
 
         courtResults.forEach((result: GameResult, gameIndex: number) => {
             if (result === 'unplayed' || result.teamAScore === null || result.teamBScore === null) return;
-            const matchup: GameMatchup = courtMatchups[gameIndex];
+            const matchup = courtMatchups[gameIndex];
             if (!matchup) return;
 
             if (!processedPlayersByGame.has(gameIndex)) {
@@ -42,7 +41,7 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
 
             const { teamAScore, teamBScore } = result;
 
-            const processTeam = (team: Team, ownScore: number, opponentScore: number) => {
+            const processTeam = (team: Player[], ownScore: number, opponentScore: number) => {
                 const outcome = ownScore > opponentScore ? 'win' : ownScore < opponentScore ? 'loss' : 'tie';
 
                 team.forEach((p: Player) => {
@@ -57,10 +56,10 @@ export const processDayResults = (playerStats: Record<number, PlayerWithStats>, 
                     const player = playerStats[p.id];
                     if (!player) return;
 
-                    // Only count stats if the player is present.
-                    if (!playerIsPresent) return;
-
                     player.gamesPlayed++;
+                    
+                    if (!playerIsPresent) return; // No W-L-T, points, or PF/PA for absent players
+
                     player.pointsFor += ownScore;
                     player.pointsAgainst += opponentScore;
 
