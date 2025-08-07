@@ -1,6 +1,6 @@
 
 
-import { Player, PlayerWithStats, DailyCourtMatchups, GameMatchup, Team, LeagueConfig } from '../types';
+import type { Player, PlayerWithStats, DailyCourtMatchups, GameMatchup, Team, LeagueConfig } from '../types';
 
 // Fisher-Yates shuffle algorithm
 function shuffle<T>(array: T[]): T[] {
