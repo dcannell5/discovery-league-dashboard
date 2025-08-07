@@ -1,8 +1,7 @@
 
 
-
 import React, { useState, useMemo } from 'react';
-import { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
+import type { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
 import { initializePlayerStats, processDayResults } from '../utils/statsLogic';
 import { sortPlayersWithTieBreaking } from '../utils/rankingLogic';
