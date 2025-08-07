@@ -1,6 +1,6 @@
 
 
-import { Player, AllDailyMatchups, LeagueConfig } from '../types';
+import type { Player, AllDailyMatchups, LeagueConfig, AllDailyResults } from '../types';
 
 // Player list (42 players)
 const players: Player[] = [
@@ -133,13 +133,91 @@ const matchups: AllDailyMatchups = {
         { teamA: [p('Amy S'), p('Michelle O'), p('Aurora P'), p('Sophie Y'), p('Emily Sh'), p('Emma W'), p('Bailey G')], teamB: [p('Imari L'), p('Lucie K'), p('Arravela E'), p('Samantha M'), p('Ashlyn H'), p('Noa K'), p('Char B')] },
     ]
   },
+   4: { // Day 4
+    "Royalty Court 1": [
+      { teamA: [p('Quinn T'), p('Emily Sm'), p('Eumi D'), p('Kalayah P'), p('Nash T'), p('Bree E'), p('Ghazal A')], teamB: [p('Tianna D'), p('Mikayla W'), p('Cia S'), p('Sophia T'), p('Breanna P'), p('Prabhleen K'), p('Bayli L')] },
+      { teamA: [p('Bayli L'), p('Nash T'), p('Quinn T'), p('Sophia T'), p('Emily Sm'), p('Tianna D'), p('Mikayla W')], teamB: [p('Prabhleen K'), p('Kalayah P'), p('Cia S'), p('Bree E'), p('Breanna P'), p('Eumi D'), p('Ghazal A')] },
+      { teamA: [p('Cia S'), p('Quinn T'), p('Nash T'), p('Tianna D'), p('Breanna P'), p('Bayli L'), p('Ghazal A')], teamB: [p('Kalayah P'), p('Sophia T'), p('Emily Sm'), p('Bree E'), p('Prabhleen K'), p('Mikayla W'), p('Eumi D')] },
+      { teamA: [p('Ghazal A'), p('Bayli L'), p('Cia S'), p('Sophia T'), p('Mikayla W'), p('Kalayah P'), p('Nash T')], teamB: [p('Breanna P'), p('Emily Sm'), p('Eumi D'), p('Prabhleen K'), p('Bree E'), p('Quinn T'), p('Tianna D')] },
+      { teamA: [p('Eumi D'), p('Sophia T'), p('Bree E'), p('Ghazal A'), p('Breanna P'), p('Cia S'), p('Tianna D')], teamB: [p('Quinn T'), p('Nash T'), p('Bayli L'), p('Mikayla W'), p('Kalayah P'), p('Prabhleen K'), p('Emily Sm')] },
+      { teamA: [p('Breanna P'), p('Bayli L'), p('Nash T'), p('Ghazal A'), p('Sophia T'), p('Mikayla W'), p('Tianna D')], teamB: [p('Eumi D'), p('Emily Sm'), p('Bree E'), p('Prabhleen K'), p('Kalayah P'), p('Cia S'), p('Quinn T')] },
+    ],
+    "Challenger Court 2": [
+      { teamA: [p('Isadora L'), p('Luca T'), p('Brie B'), p('Elise E'), p('Khaliun K'), p('Dana J'), p('Nour M')], teamB: [p('Teagan S'), p('Grace B'), p('Roseberrie Z'), p('Zara O'), p('Cindel S'), p('Lula B'), p('Athena M')] },
+      { teamA: [p('Teagan S'), p('Elise E'), p('Athena M'), p('Isadora L'), p('Roseberrie Z'), p('Luca T'), p('Brie B')], teamB: [p('Grace B'), p('Cindel S'), p('Nour M'), p('Zara O'), p('Dana J'), p('Lula B'), p('Khaliun K')] },
+      { teamA: [p('Roseberrie Z'), p('Isadora L'), p('Elise E'), p('Cindel S'), p('Luca T'), p('Khaliun K'), p('Dana J')], teamB: [p('Teagan S'), p('Athena M'), p('Zara O'), p('Grace B'), p('Lula B'), p('Nour M'), p('Brie B')] },
+      { teamA: [p('Khaliun K'), p('Luca T'), p('Nour M'), p('Cindel S'), p('Zara O'), p('Lula B'), p('Roseberrie Z')], teamB: [p('Brie B'), p('Elise E'), p('Isadora L'), p('Athena M'), p('Dana J'), p('Teagan S'), p('Grace B')] },
+      { teamA: [p('Grace B'), p('Brie B'), p('Roseberrie Z'), p('Lula B'), p('Khaliun K'), p('Elise E'), p('Nour M')], teamB: [p('Luca T'), p('Cindel S'), p('Zara O'), p('Dana J'), p('Isadora L'), p('Teagan S'), p('Athena M')] },
+      { teamA: [p('Nour M'), p('Elise E'), p('Khaliun K'), p('Grace B'), p('Cindel S'), p('Roseberrie Z'), p('Teagan S')], teamB: [p('Isadora L'), p('Dana J'), p('Brie B'), p('Zara O'), p('Lula B'), p('Luca T'), p('Athena M')] },
+    ],
+    "Foundation Court 3": [
+      { teamA: [p('Michelle O'), p('Imari L'), p('Sophie Y'), p('Amy S'), p('Arravela E'), p('Noa K'), p('Bailey G')], teamB: [p('Samantha M'), p('Emily Sh'), p('Ashlyn H'), p('Emma W'), p('Lucie K'), p('Char B'), p('Aurora P')] },
+      { teamA: [p('Lucie K'), p('Bailey G'), p('Aurora P'), p('Michelle O'), p('Amy S'), p('Arravela E'), p('Imari L')], teamB: [p('Emily Sh'), p('Samantha M'), p('Emma W'), p('Noa K'), p('Ashlyn H'), p('Sophie Y'), p('Char B')] },
+      { teamA: [p('Emma W'), p('Aurora P'), p('Michelle O'), p('Sophie Y'), p('Lucie K'), p('Noa K'), p('Ashlyn H')], teamB: [p('Bailey G'), p('Arravela E'), p('Char B'), p('Samantha M'), p('Emily Sh'), p('Amy S'), p('Imari L')] },
+      { teamA: [p('Samantha M'), p('Emma W'), p('Ashlyn H'), p('Michelle O'), p('Bailey G'), p('Sophie Y'), p('Imari L')], teamB: [p('Aurora P'), p('Arravela E'), p('Lucie K'), p('Char B'), p('Amy S'), p('Emily Sh'), p('Noa K')] },
+      { teamA: [p('Char B'), p('Noa K'), p('Michelle O'), p('Arravela E'), p('Imari L'), p('Bailey G'), p('Sophie Y')], teamB: [p('Lucie K'), p('Amy S'), p('Samantha M'), p('Emily Sh'), p('Aurora P'), p('Ashlyn H'), p('Emma W')] },
+      { teamA: [p('Sophie Y'), p('Michelle O'), p('Aurora P'), p('Noa K'), p('Amy S'), p('Ashlyn H'), p('Emma W')], teamB: [p('Imari L'), p('Bailey G'), p('Char B'), p('Lucie K'), p('Arravela E'), p('Samantha M'), p('Emily Sh')] },
+    ],
+  },
+   5: { // Day 5
+    "Royalty Court 1": [
+      { teamA: [p('Kalayah P'), p('Prabhleen K'), p('Bayli L'), p('Sophia T'), p('Nash T'), p('Quinn T'), p('Tianna D')], teamB: [p('Ghazal A'), p('Breanna P'), p('Cia S'), p('Bree E'), p('Eumi D'), p('Mikayla W'), p('Emily Sm')] },
+      { teamA: [p('Ghazal A'), p('Eumi D'), p('Bree E'), p('Quinn T'), p('Bayli L'), p('Sophia T'), p('Kalayah P')], teamB: [p('Prabhleen K'), p('Nash T'), p('Mikayla W'), p('Emily Sm'), p('Tianna D'), p('Breanna P'), p('Cia S')] },
+      { teamA: [p('Eumi D'), p('Emily Sm'), p('Ghazal A'), p('Cia S'), p('Sophia T'), p('Prabhleen K'), p('Tianna D')], teamB: [p('Quinn T'), p('Breanna P'), p('Bayli L'), p('Bree E'), p('Kalayah P'), p('Mikayla W'), p('Nash T')] },
+      { teamA: [p('Prabhleen K'), p('Ghazal A'), p('Bree E'), p('Cia S'), p('Quinn T'), p('Sophia T'), p('Mikayla W')], teamB: [p('Bayli L'), p('Breanna P'), p('Nash T'), p('Eumi D'), p('Tianna D'), p('Kalayah P'), p('Emily Sm')] },
+      { teamA: [p('Cia S'), p('Quinn T'), p('Kalayah P'), p('Nash T'), p('Prabhleen K'), p('Bree E'), p('Emily Sm')], teamB: [p('Sophia T'), p('Bayli L'), p('Ghazal A'), p('Breanna P'), p('Mikayla W'), p('Tianna D'), p('Eumi D')] },
+      { teamA: [p('Breanna P'), p('Sophia T'), p('Mikayla W'), p('Emily Sm'), p('Ghazal A'), p('Nash T'), p('Bree E')], teamB: [p('Bayli L'), p('Kalayah P'), p('Tianna D'), p('Quinn T'), p('Cia S'), p('Prabhleen K'), p('Eumi D')] },
+    ],
+    "Challenger Court 2": [
+      { teamA: [p('Nour M'), p('Zara O'), p('Roseberrie Z'), p('Lula B'), p('Elise E'), p('Khaliun K'), p('Athena M')], teamB: [p('Teagan S'), p('Isadora L'), p('Grace B'), p('Cindel S'), p('Dana J'), p('Luca T'), p('Brie B')] },
+      { teamA: [p('Roseberrie Z'), p('Grace B'), p('Dana J'), p('Nour M'), p('Khaliun K'), p('Luca T'), p('Elise E')], teamB: [p('Cindel S'), p('Lula B'), p('Brie B'), p('Zara O'), p('Teagan S'), p('Athena M'), p('Isadora L')] },
+      { teamA: [p('Brie B'), p('Luca T'), p('Elise E'), p('Teagan S'), p('Roseberrie Z'), p('Lula B'), p('Isadora L')], teamB: [p('Zara O'), p('Dana J'), p('Cindel S'), p('Khaliun K'), p('Athena M'), p('Nour M'), p('Grace B')] },
+      { teamA: [p('Elise E'), p('Dana J'), p('Luca T'), p('Nour M'), p('Isadora L'), p('Athena M'), p('Roseberrie Z')], teamB: [p('Lula B'), p('Cindel S'), p('Brie B'), p('Khaliun K'), p('Teagan S'), p('Grace B'), p('Zara O')] },
+      { teamA: [p('Grace B'), p('Teagan S'), p('Zara O'), p('Elise E'), p('Isadora L'), p('Khaliun K'), p('Cindel S')], teamB: [p('Athena M'), p('Lula B'), p('Roseberrie Z'), p('Brie B'), p('Nour M'), p('Luca T'), p('Dana J')] },
+      { teamA: [p('Teagan S'), p('Athena M'), p('Grace B'), p('Khaliun K'), p('Isadora L'), p('Lula B'), p('Dana J')], teamB: [p('Roseberrie Z'), p('Elise E'), p('Zara O'), p('Luca T'), p('Nour M'), p('Brie B'), p('Cindel S')] },
+    ],
+    "Foundation Court 3": [
+      { teamA: [p('Samantha M'), p('Imari L'), p('Lucie K'), p('Char B'), p('Michelle O'), p('Arravela E'), p('Bailey G')], teamB: [p('Aurora P'), p('Emma W'), p('Ashlyn H'), p('Sophie Y'), p('Amy S'), p('Emily Sh'), p('Noa K')] },
+      { teamA: [p('Aurora P'), p('Michelle O'), p('Bailey G'), p('Ashlyn H'), p('Samantha M'), p('Sophie Y'), p('Lucie K')], teamB: [p('Arravela E'), p('Amy S'), p('Emma W'), p('Emily Sh'), p('Noa K'), p('Char B'), p('Imari L')] },
+      { teamA: [p('Emily Sh'), p('Lucie K'), p('Aurora P'), p('Emma W'), p('Michelle O'), p('Arravela E'), p('Imari L')], teamB: [p('Amy S'), p('Noa K'), p('Ashlyn H'), p('Char B'), p('Bailey G'), p('Sophie Y'), p('Samantha M')] },
+      { teamA: [p('Char B'), p('Michelle O'), p('Sophie Y'), p('Amy S'), p('Emily Sh'), p('Arravela E'), p('Imari L')], teamB: [p('Noa K'), p('Bailey G'), p('Ashlyn H'), p('Lucie K'), p('Aurora P'), p('Emma W'), p('Samantha M')] },
+      { teamA: [p('Imari L'), p('Michelle O'), p('Aurora P'), p('Amy S'), p('Sophie Y'), p('Samantha M'), p('Lucie K')], teamB: [p('Char B'), p('Ashlyn H'), p('Emily Sh'), p('Bailey G'), p('Emma W'), p('Noa K'), p('Arravela E')] },
+      { teamA: [p('Michelle O'), p('Lucie K'), p('Emma W'), p('Imari L'), p('Emily Sh'), p('Aurora P'), p('Arravela E')], teamB: [p('Noa K'), p('Sophie Y'), p('Amy S'), p('Ashlyn H'), p('Bailey G'), p('Samantha M'), p('Char B')] },
+    ],
+  },
+  6: { // Day 6
+    "Royalty Court 1": [
+      { teamA: [p('Nash T'), p('Breanna P'), p('Eumi D'), p('Quinn T'), p('Ghazal A'), p('Bayli L'), p('Emily Sm')], teamB: [p('Kalayah P'), p('Cia S'), p('Sophia T'), p('Mikayla W'), p('Bree E'), p('Tianna D'), p('Prabhleen K')] },
+      { teamA: [p('Cia S'), p('Bree E'), p('Ghazal A'), p('Nash T'), p('Quinn T'), p('Kalayah P'), p('Prabhleen K')], teamB: [p('Emily Sm'), p('Sophia T'), p('Eumi D'), p('Breanna P'), p('Tianna D'), p('Bayli L'), p('Mikayla W')] },
+      { teamA: [p('Mikayla W'), p('Quinn T'), p('Bree E'), p('Breanna P'), p('Emily Sm'), p('Kalayah P'), p('Ghazal A')], teamB: [p('Sophia T'), p('Prabhleen K'), p('Bayli L'), p('Eumi D'), p('Cia S'), p('Tianna D'), p('Nash T')] },
+      { teamA: [p('Ghazal A'), p('Tianna D'), p('Prabhleen K'), p('Emily Sm'), p('Mikayla W'), p('Bree E'), p('Quinn T')], teamB: [p('Nash T'), p('Bayli L'), p('Sophia T'), p('Breanna P'), p('Eumi D'), p('Kalayah P'), p('Cia S')] },
+      { teamA: [p('Eumi D'), p('Ghazal A'), p('Prabhleen K'), p('Bayli L'), p('Bree E'), p('Breanna P'), p('Kalayah P')], teamB: [p('Mikayla W'), p('Nash T'), p('Emily Sm'), p('Cia S'), p('Quinn T'), p('Sophia T'), p('Tianna D')] },
+      { teamA: [p('Emily Sm'), p('Eumi D'), p('Tianna D'), p('Bree E'), p('Quinn T'), p('Nash T'), p('Sophia T')], teamB: [p('Cia S'), p('Breanna P'), p('Prabhleen K'), p('Bayli L'), p('Ghazal A'), p('Mikayla W'), p('Kalayah P')] },
+    ],
+    "Challenger Court 2": [
+      { teamA: [p('Grace B'), p('Dana J'), p('Nour M'), p('Lula B'), p('Elise E'), p('Cindel S'), p('Brie B')], teamB: [p('Luca T'), p('Zara O'), p('Teagan S'), p('Roseberrie Z'), p('Khaliun K'), p('Athena M'), p('Isadora L')] },
+      { teamA: [p('Nour M'), p('Athena M'), p('Roseberrie Z'), p('Isadora L'), p('Brie B'), p('Grace B'), p('Dana J')], teamB: [p('Lula B'), p('Khaliun K'), p('Luca T'), p('Cindel S'), p('Teagan S'), p('Elise E'), p('Zara O')] },
+      { teamA: [p('Isadora L'), p('Luca T'), p('Teagan S'), p('Nour M'), p('Zara O'), p('Dana J'), p('Roseberrie Z')], teamB: [p('Grace B'), p('Lula B'), p('Brie B'), p('Cindel S'), p('Khaliun K'), p('Elise E'), p('Athena M')] },
+      { teamA: [p('Khaliun K'), p('Grace B'), p('Lula B'), p('Athena M'), p('Cindel S'), p('Elise E'), p('Roseberrie Z')], teamB: [p('Nour M'), p('Dana J'), p('Luca T'), p('Brie B'), p('Teagan S'), p('Isadora L'), p('Zara O')] },
+      { teamA: [p('Athena M'), p('Roseberrie Z'), p('Nour M'), p('Cindel S'), p('Teagan S'), p('Lula B'), p('Brie B')], teamB: [p('Isadora L'), p('Khaliun K'), p('Zara O'), p('Elise E'), p('Luca T'), p('Dana J'), p('Grace B')] },
+      { teamA: [p('Cindel S'), p('Isadora L'), p('Dana J'), p('Athena M'), p('Brie B'), p('Luca T'), p('Teagan S')], teamB: [p('Grace B'), p('Roseberrie Z'), p('Zara O'), p('Khaliun K'), p('Nour M'), p('Lula B'), p('Elise E')] },
+    ],
+    "Foundation Court 3": [
+      { teamA: [p('Aurora P'), p('Amy S'), p('Sophie Y'), p('Ashlyn H'), p('Noa K'), p('Arravela E'), p('Michelle O')], teamB: [p('Imari L'), p('Emily Sh'), p('Samantha M'), p('Lucie K'), p('Char B'), p('Emma W'), p('Bailey G')] },
+      { teamA: [p('Emily Sh'), p('Emma W'), p('Michelle O'), p('Lucie K'), p('Noa K'), p('Samantha M'), p('Sophie Y')], teamB: [p('Aurora P'), p('Ashlyn H'), p('Arravela E'), p('Char B'), p('Imari L'), p('Bailey G'), p('Amy S')] },
+      { teamA: [p('Ashlyn H'), p('Lucie K'), p('Aurora P'), p('Michelle O'), p('Samantha M'), p('Char B'), p('Sophie Y')], teamB: [p('Amy S'), p('Imari L'), p('Noa K'), p('Bailey G'), p('Emma W'), p('Emily Sh'), p('Arravela E')] },
+      { teamA: [p('Bailey G'), p('Imari L'), p('Amy S'), p('Michelle O'), p('Emma W'), p('Lucie K'), p('Char B')], teamB: [p('Noa K'), p('Samantha M'), p('Arravela E'), p('Ashlyn H'), p('Sophie Y'), p('Aurora P'), p('Emily Sh')] },
+      { teamA: [p('Michelle O'), p('Samantha M'), p('Noa K'), p('Arravela E'), p('Lucie K'), p('Amy S'), p('Emily Sh')], teamB: [p('Char B'), p('Bailey G'), p('Imari L'), p('Sophie Y'), p('Aurora P'), p('Ashlyn H'), p('Emma W')] },
+      { teamA: [p('Sophie Y'), p('Samantha M'), p('Emma W'), p('Imari L'), p('Char B'), p('Bailey G'), p('Lucie K')], teamB: [p('Ashlyn H'), p('Aurora P'), p('Arravela E'), p('Emily Sh'), p('Amy S'), p('Noa K'), p('Michelle O')] },
+    ],
+  }
 };
 
 const config: Omit<LeagueConfig, 'id'> = {
-  title: 'Summer League (Imported)',
-  totalDays: 3,
+  title: 'Summer League (Completed)',
+  totalDays: 6,
   players,
-  announcements: 'Welcome! This league data has been imported from the pre-season schedule. You can now enter scores for each day.',
+  announcements: 'Welcome! This is a complete, finished league from a previous season. All scores are final. Feel free to explore the results or use it as a template for your new event.',
   daySchedules: {},
   leagueType: 'standard',
   numCourts: 3,
@@ -148,7 +226,41 @@ const config: Omit<LeagueConfig, 'id'> = {
   courtNames: ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"]
 };
 
+const dailyResults: AllDailyResults = {
+  1: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 18 }, { teamAScore: 15, teamBScore: 21 }, { teamAScore: 25, teamBScore: 23 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 23 } ],
+    "Challenger Court 2": [ { teamAScore: 21, teamBScore: 12 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 21, teamBScore: 14 }, { teamAScore: 16, teamBScore: 21 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 18, teamBScore: 21 } ],
+    "Foundation Court 3": [ { teamAScore: 11, teamBScore: 21 }, { teamAScore: 21, teamBScore: 13 }, { teamAScore: 15, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 }, { teamAScore: 24, teamBScore: 26 }, { teamAScore: 21, teamBScore: 19 } ]
+  },
+  2: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 16 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 14, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 } ],
+    "Challenger Court 2": [ { teamAScore: 23, teamBScore: 21 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 16 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 25, teamBScore: 23 } ],
+    "Foundation Court 3": [ { teamAScore: 15, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 13, teamBScore: 21 }, { teamAScore: 21, teamBScore: 23 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 } ]
+  },
+  3: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 14 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 24, teamBScore: 22 }, { teamAScore: 16, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 } ],
+    "Challenger Court 2": [ { teamAScore: 21, teamBScore: 19 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 15, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 }, { teamAScore: 23, teamBScore: 21 } ],
+    "Foundation Court 3": [ { teamAScore: 21, teamBScore: 16 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 12, teamBScore: 21 } ]
+  },
+  4: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 19 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 15 }, { teamAScore: 24, teamBScore: 22 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 } ],
+    "Challenger Court 2": [ { teamAScore: 21, teamBScore: 16 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 21, teamBScore: 23 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 19, teamBScore: 21 } ],
+    "Foundation Court 3": [ { teamAScore: 16, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 23, teamBScore: 21 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 20, teamBScore: 22 } ]
+  },
+  5: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 11 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 21, teamBScore: 23 } ],
+    "Challenger Court 2": [ { teamAScore: 25, teamBScore: 23 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 16, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 }, { teamAScore: 20, teamBScore: 22 } ],
+    "Foundation Court 3": [ { teamAScore: 21, teamBScore: 18 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 14, teamBScore: 21 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 }, { teamAScore: 24, teamBScore: 22 } ]
+  },
+  6: {
+    "Royalty Court 1": [ { teamAScore: 21, teamBScore: 16 }, { teamAScore: 19, teamBScore: 21 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 22, teamBScore: 20 }, { teamAScore: 17, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 } ],
+    "Challenger Court 2": [ { teamAScore: 21, teamBScore: 15 }, { teamAScore: 18, teamBScore: 21 }, { teamAScore: 21, teamBScore: 23 }, { teamAScore: 21, teamBScore: 17 }, { teamAScore: 24, teamBScore: 22 }, { teamAScore: 19, teamBScore: 21 } ],
+    "Foundation Court 3": [ { teamAScore: 16, teamBScore: 21 }, { teamAScore: 21, teamBScore: 19 }, { teamAScore: 20, teamBScore: 22 }, { teamAScore: 21, teamBScore: 18 }, { teamAScore: 15, teamBScore: 21 }, { teamAScore: 21, teamBScore: 17 } ]
+  }
+}
+
 export const presetData = {
     config,
     matchups,
+    dailyResults
 };
