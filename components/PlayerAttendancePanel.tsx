@@ -1,6 +1,7 @@
 
+
 import React from 'react';
-import { AllDailyAttendance, LeagueConfig, UserState } from '../types';
+import type { AllDailyAttendance, LeagueConfig, UserState } from '../types';
 import { IconUserCheck, IconChevronDown } from './Icon';
 
 interface PlayerAttendancePanelProps {
