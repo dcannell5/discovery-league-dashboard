@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { AppData, UserState } from '../types';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 if (!process.env.API_KEY) {
     console.error("API_KEY environment variable is not set.");
@@ -17,7 +18,7 @@ const responseSchema = {
     }
 };
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!process.env.API_KEY) {
         return res.status(500).json({ response: 'API key is not configured on the server.' });
     }
