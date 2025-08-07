@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { PlayerWithStats } from '../types';
+import type { PlayerWithStats } from '../types';
 import { IconMedal } from './Icon';
 
 interface LeaderboardProps {
