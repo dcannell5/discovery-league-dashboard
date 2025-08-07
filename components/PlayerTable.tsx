@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerWithStats, UserState } from '../types';
+import type { PlayerWithStats, UserState } from '../types';
 
 interface PlayerTableProps {
   players: PlayerWithStats[];
