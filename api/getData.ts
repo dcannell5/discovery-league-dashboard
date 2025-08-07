@@ -1,4 +1,5 @@
 
+
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import type { AppData } from '../types';
@@ -6,7 +7,7 @@ import { presetData } from '../data/presetSchedule';
 
 const createPresetAppData = (): AppData => {
   const newLeagueId = 'summer-league-preset-2025';
-  const { config, matchups } = presetData;
+  const { config, matchups, dailyResults } = presetData;
 
   const appData: AppData = {
     leagues: {
@@ -16,7 +17,7 @@ const createPresetAppData = (): AppData => {
       [newLeagueId]: matchups
     },
     dailyResults: {
-      [newLeagueId]: {}
+      [newLeagueId]: dailyResults
     },
     allDailyAttendance: {
       [newLeagueId]: {}
