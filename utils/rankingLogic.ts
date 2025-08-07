@@ -1,6 +1,6 @@
 
 
-import { PlayerWithStats } from "../types";
+import type { PlayerWithStats } from "../types";
 
 /**
  * A helper function to calculate the Points For / Points Against ratio, handling division by zero.
