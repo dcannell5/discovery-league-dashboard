@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UserState } from '../types';
+import type { UserState } from '../types';
 import { IconEdit } from './Icon';
 
 interface AnnouncementsProps {
