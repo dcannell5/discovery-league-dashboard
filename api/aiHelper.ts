@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { AppData, UserState } from '../types';
+import type { AppData, UserState } from '../types';
 
 if (!process.env.API_KEY) {
     console.error("API_KEY environment variable is not set.");
@@ -38,7 +38,6 @@ export default async function handler(req: any, res: any) {
 - You will answer questions based ONLY on the JSON data provided below. Do not invent information.
 - If a question cannot be answered from the data, say "I don't have that information in the league data."
 - The current user's role is: ${userState.role}. Tailor your response slightly if relevant (e.g., an admin might see more detail than a parent).
-- When asked for stats or lists, format your response clearly using markdown lists.
 - The current date is ${new Date().toDateString()}.
 - The entire application's data is provided below in JSON format. Use it as your single source of truth.`;
 
