@@ -1,3 +1,4 @@
+
 import type { Player, LeagueConfig } from "../types";
 
 // This is a simple, client-side "security" mechanism for demonstration purposes.
@@ -42,13 +43,15 @@ export function getParentCode(player: Player): string {
 /**
  * Calculates the current active day of the league.
  * It prioritizes the explicitly set schedule, finding the most recent past or current day.
- * If no schedule is set, it falls back to a simple calculation from the league start date.
+ * If no schedule is set, it falls back to a default progression based on the league type:
+ * - 'standard' leagues progress weekly.
+ * - 'custom' leagues (e.g., camps) progress daily.
  * @param currentDate The current date.
  * @param leagueConfig The league's configuration object.
  * @returns The current league day number, clamped to the league duration.
  */
 export function getActiveDay(currentDate: Date, leagueConfig: LeagueConfig): number {
-    const { totalDays, daySchedules } = leagueConfig;
+    const { totalDays, daySchedules, leagueType } = leagueConfig;
 
     if (daySchedules && Object.keys(daySchedules).length > 0) {
         const today = new Date(currentDate);
@@ -72,8 +75,18 @@ export function getActiveDay(currentDate: Date, leagueConfig: LeagueConfig): num
         return 1;
     }
     const diffTime = Math.abs(currentDate.getTime() - LEAGUE_START_DATE.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const currentDay = Math.floor(diffDays / 7) + 1; // Assuming weekly cadence if no schedule
+    
+    let currentDay;
+
+    if (leagueType === 'standard') {
+        // Standard leagues progress weekly by default from the start date.
+        const diffWeeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+        currentDay = diffWeeks + 1;
+    } else {
+        // Custom leagues (camps) progress daily by default.
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        currentDay = diffDays + 1;
+    }
     
     return Math.max(1, Math.min(currentDay, totalDays));
 }
