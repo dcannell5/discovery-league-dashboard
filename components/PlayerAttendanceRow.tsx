@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Player, PlayerDailyAttendance } from '../types';
+import type { Player, PlayerDailyAttendance } from '../types';
 
 interface PlayerAttendanceRowProps {
     player: Player;
