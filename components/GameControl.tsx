@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { GameResult, UserState } from '../types';
+import type { GameResult, UserState } from '../types';
 
 interface GameControlProps {
     gameIndex: number;
