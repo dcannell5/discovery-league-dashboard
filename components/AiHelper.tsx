@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { AiMessage } from '../types';
+import type { AiMessage } from '../types';
 import { IconLightbulb } from './Icon';
 
 interface AiHelperProps {
