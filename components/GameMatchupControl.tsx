@@ -1,6 +1,7 @@
 
+
 import React from 'react';
-import { GameResult, UserState, GameMatchup, Player, DailyAttendance } from '../types';
+import type { GameResult, UserState, GameMatchup, Player, DailyAttendance } from '../types';
 import { IconArrowsRightLeft, IconMessage } from './Icon';
 import GameControl from './GameControl';
 
