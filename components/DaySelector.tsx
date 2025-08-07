@@ -1,6 +1,7 @@
 
+
 import React from 'react';
-import { UserState } from '../types';
+import type { UserState } from '../types';
 import { IconLock } from './Icon';
 
 interface DaySelectorProps {
