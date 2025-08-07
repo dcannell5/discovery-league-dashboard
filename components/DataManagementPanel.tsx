@@ -2,17 +2,16 @@
 
 import React, { useRef } from 'react';
 import type { AppData } from '../types';
-import { presetData } from '../data/presetSchedule';
+import { presetData } from '../data/presetSchedule.js';
 import { IconUpload, IconDownload, IconClipboardList, IconRefresh } from './Icon';
 
 interface DataManagementPanelProps {
   appData: AppData | null;
   setAppData: React.Dispatch<React.SetStateAction<AppData | null>>;
-  onSelectLeague: (leagueId: string) => void;
   onResetAllData: () => void;
 }
 
-const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setAppData, onSelectLeague, onResetAllData }) => {
+const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setAppData, onResetAllData }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = () => {
