@@ -1,7 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { DailyResults, GameResult, UserState, DailyCourtMatchups, DailyAttendance, Player } from '../types';
+import type { DailyResults, GameResult, UserState, DailyCourtMatchups, DailyAttendance, Player } from '../types';
 import CourtScoreEntry from './CourtScoreEntry';
 import AttendanceManager from './AttendanceManager';
 import { IconClipboardList, IconInfo, IconArrowsRightLeft, IconUserSwap, IconLightbulb, IconLock } from './Icon';
