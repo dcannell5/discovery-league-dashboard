@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Player, PlayerProfile, UserState, RefereeNote } from '../types';
+import type { Player, PlayerProfile, UserState, RefereeNote } from '../types';
 import { moderateImage } from '../services/geminiService';
 import { getPlayerCode, getParentCode } from '../utils/auth';
 import { IconUserCircle, IconEdit, IconMessage, IconLock, IconLightbulb } from './Icon';
