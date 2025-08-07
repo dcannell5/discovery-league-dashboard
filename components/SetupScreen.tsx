@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { LeagueConfig, Player } from '../types';
+import type { LeagueConfig, Player } from '../types';
 import { IconVolleyball, IconSettings, IconUpload } from './Icon';
 import { getDefaultCourtName } from '../utils/leagueLogic';
 
