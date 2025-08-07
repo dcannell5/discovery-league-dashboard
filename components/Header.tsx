@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { IconVolleyball, IconUserCheck, IconLogout, IconLogin, IconUserCircle, IconTrash, IconSwitch } from './Icon';
-import { UserState } from '../types';
+import type { UserState } from '../types';
 
 interface HeaderProps {
     title: string;
