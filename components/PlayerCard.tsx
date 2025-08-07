@@ -1,6 +1,7 @@
 
+
 import React from 'react';
-import { Player, PlayerWithStats } from '../types';
+import type { Player, PlayerWithStats } from '../types';
 
 interface PlayerCardProps {
   player: PlayerWithStats;
