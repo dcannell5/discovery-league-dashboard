@@ -230,7 +230,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
         </div>
 
         {userState.role === 'SUPER_ADMIN' && (
-            <DataManagementPanel appData={appData} setAppData={setAppData} onSelectLeague={onSelectLeague} onResetAllData={onResetAllData} />
+            <DataManagementPanel appData={appData} setAppData={setAppData} onResetAllData={onResetAllData} />
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
