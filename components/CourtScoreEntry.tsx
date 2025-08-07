@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { CourtResults, GameResult, UserState, GameMatchup, Player, DailyAttendance } from '../types';
+import type { CourtResults, GameResult, UserState, GameMatchup, Player, DailyAttendance } from '../types';
 import GameMatchupControl from './GameMatchupControl';
 import { IconUserSwap, IconPrinter } from './Icon';
 
