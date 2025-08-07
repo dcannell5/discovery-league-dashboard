@@ -1,7 +1,7 @@
 
 
 import React, { useRef } from 'react';
-import { AppData } from '../types';
+import type { AppData } from '../types';
 import { presetData } from '../data/presetSchedule';
 import { IconUpload, IconDownload, IconClipboardList, IconRefresh } from './Icon';
 
