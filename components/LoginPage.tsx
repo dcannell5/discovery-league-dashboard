@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useMemo } from 'react';
 import type { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck } from './Icon';
@@ -19,6 +20,7 @@ interface LoginPageProps {
   onLoginClick: () => void;
   onLogout: () => void;
   onResetAllData: () => void;
+  onBackToAdminHub?: () => void;
 }
 
 const roleTextMap: Record<UserState['role'], string> = {
@@ -161,7 +163,7 @@ const UpcomingEventEditor: React.FC<{
 };
 
 
-const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onBackToAdminHub }) => {
   const leagueEntries = Object.entries(appData.leagues);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
@@ -177,6 +179,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
             <div className="absolute top-0 right-0 flex items-center gap-4">
                 {userState.role !== 'NONE' ? (
                     <>
+                        {onBackToAdminHub && (
+                             <button onClick={onBackToAdminHub} className="text-sm font-semibold text-gray-300 hover:text-yellow-400 transition-colors">&larr; Back to Admin Tower</button>
+                        )}
                         <div className="flex items-center gap-2 text-sm bg-gray-700/50 px-3 py-1.5 rounded-lg">
                             <IconUserCheck className="w-4 h-4 text-green-400" />
                             <span className="text-gray-300 font-semibold">
