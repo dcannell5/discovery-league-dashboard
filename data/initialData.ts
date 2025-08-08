@@ -1,5 +1,6 @@
 
 
+
 import type { AppData } from '../types';
 
 // A minimal, empty structure to initialize the database on first load.
@@ -15,6 +16,7 @@ export const initialAppData: AppData = {
   allPlayerFeedback: {},
   allPlayerPINs: {},
   loginCounters: {},
+  projectLogs: [],
   activeLeagueId: null,
   upcomingEvent: {
     title: 'Discovery League Summer Camp',
