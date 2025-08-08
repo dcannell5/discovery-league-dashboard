@@ -1,5 +1,6 @@
 
 
+
 export interface Player {
   id: number;
   name: string;
@@ -153,6 +154,15 @@ export interface LoginCounts {
   parentLogins: number;
 }
 
+// --- Project Log / Blog Types ---
+export interface ProjectLogEntry {
+    id: string;
+    date: string;
+    title: string;
+    content: string;
+    isPublished: boolean;
+}
+
 
 // --- Top-level Application Data Structure for Multi-League ---
 export interface AppData {
@@ -166,6 +176,7 @@ export interface AppData {
     allPlayerFeedback?: Record<string, PlayerFeedback[]>; // leagueId -> player/parent feedback[]
     allPlayerPINs?: Record<string, Record<number, string>>; // leagueId -> playerId -> PIN
     loginCounters?: Record<string, Record<number, LoginCounts>>; // leagueId -> playerId -> LoginCounts
+    projectLogs?: ProjectLogEntry[]; // Global project logs for the build blog
     activeLeagueId?: string | null;
     upcomingEvent?: UpcomingEvent;
 }
