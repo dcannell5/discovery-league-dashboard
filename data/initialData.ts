@@ -1,5 +1,6 @@
 
-import { AppData } from '../types';
+
+import type { AppData } from '../types';
 
 // A minimal, empty structure to initialize the database on first load.
 // This prevents overwriting user data with a hardcoded state.
@@ -16,9 +17,9 @@ export const initialAppData: AppData = {
   loginCounters: {},
   activeLeagueId: null,
   upcomingEvent: {
-    title: 'Next League Registration Open!',
-    description: 'Registration for the Fall Discovery League is now open. Sign up early to secure your spot!',
-    buttonText: 'Register Now',
+    title: 'Discovery League Summer Camp',
+    description: 'Join us for our annual Summer Camp! Sessions are available from July 2nd to July 11th. Focus on skill development, teamwork, and fun in a positive learning environment.',
+    buttonText: 'Learn More & Register',
     buttonUrl: 'https://canadianeliteacademy.corsizio.com/',
   },
 };
