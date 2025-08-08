@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useMemo } from 'react';
 import type { AppData, LeagueConfig, UpcomingEvent, UserState } from '../types';
 import { IconCalendar, IconClipboardCheck, IconEdit, IconLogin, IconLogout, IconPlusCircle, IconTrophy, IconUserCheck, IconBook } from './Icon';
@@ -20,7 +21,7 @@ interface LoginPageProps {
   onLogout: () => void;
   onResetAllData: () => void;
   onBackToAdminHub?: () => void;
-  onViewBlog: () => void;
+  onViewBlog?: () => void;
 }
 
 const roleTextMap: Record<UserState['role'], string> = {
@@ -176,12 +177,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
     <div className="flex items-start justify-center min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-5xl mx-auto">
         <header className="text-center mb-12 relative">
-            <div className="absolute top-0 left-0">
-                 <button onClick={onViewBlog} className="flex items-center gap-2 text-sm font-semibold bg-gray-700/50 px-3 py-1.5 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-colors" aria-label="Build Blog">
-                    <IconBook className="w-4 h-4"/>
-                    Read the Build Blog
-                </button>
-            </div>
+            {onViewBlog && (
+                <div className="absolute top-0 left-0">
+                     <button onClick={onViewBlog} className="flex items-center gap-2 text-sm font-semibold bg-gray-700/50 px-3 py-1.5 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-colors" aria-label="Build Blog">
+                        <IconBook className="w-4 h-4"/>
+                        Read the Build Blog
+                    </button>
+                </div>
+            )}
             <div className="absolute top-0 right-0 flex items-center gap-4">
                 {userState.role !== 'NONE' ? (
                     <>
