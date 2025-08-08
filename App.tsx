@@ -1,6 +1,8 @@
 
+
+
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage } from './types';
+import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage, ProjectLogEntry } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
@@ -8,9 +10,11 @@ import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
+import SuperAdminDashboard from './components/SuperAdminDashboard';
 import AiHelper from './components/AiHelper';
 import AiHelperButton from './components/AiHelperButton';
 import { IconVolleyball } from './components/Icon';
+import BlogPage from './components/BlogPage';
 
 
 const SevereWarningModal: React.FC<{
@@ -62,7 +66,6 @@ const SevereWarningModal: React.FC<{
   );
 };
 
-
 const App: React.FC = () => {
   const [appData, setAppData] = useState<AppData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,52 +79,56 @@ const App: React.FC = () => {
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
 
-  // Load initial data from the server
+  // Navigation states
+  const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
+  const [currentView, setCurrentView] = useState<'app' | 'blog'>('app');
+
+  // Load initial data from the backend
   useEffect(() => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
             const response = await fetch('/api/getData');
             if (!response.ok) {
-                throw new Error(`Failed to fetch data: ${response.statusText || 'File not found'}`);
+                const errorText = await response.text();
+                throw new Error(`Failed to fetch data: ${response.statusText} - ${errorText}`);
             }
-            const data = await response.json();
+            const data: AppData = await response.json();
             setAppData(data);
-            isInitialized.current = true;
         } catch (error) {
             console.error("Could not load initial application data:", error);
-            setAppData(null);
+            setAppData(null); // Set to null on error
         } finally {
             setIsLoading(false);
+            isInitialized.current = true;
         }
     };
     fetchData();
   }, []);
 
-  // Save data to server whenever it changes, with debouncing
+  // Save data to the backend whenever it changes, with debouncing
   useEffect(() => {
-    if (!isInitialized.current || !appData) {
-        return;
-    }
+      if (!isInitialized.current || !appData) {
+          return;
+      }
+      const handler = setTimeout(async () => {
+          try {
+              const response = await fetch('/api/saveData', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(appData)
+              });
+              if (!response.ok) {
+                  console.error("Failed to save data to backend:", await response.text());
+              }
+          } catch (error) {
+              console.error("Failed to save app data to backend:", error);
+          }
+      }, 1500); // Debounce save for 1.5 seconds
 
-    const handler = setTimeout(async () => {
-        try {
-            const response = await fetch('/api/saveData', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(appData),
-            });
-             if (!response.ok) {
-                console.error("Failed to save app data to server:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Failed to save app data to server:", error);
-        }
-    }, 1000); // Debounce save for 1 second
-
-    return () => {
-        clearTimeout(handler);
-    };
+      return () => {
+          clearTimeout(handler);
+      };
   }, [appData]);
 
 
@@ -197,19 +204,21 @@ const App: React.FC = () => {
   const handleLogout = useCallback(() => {
     setUserState({ role: 'NONE' });
     setViewingProfileOfPlayerId(null);
+    setAdminView('hub'); // Reset admin view on logout
+    setCurrentView('app'); // Ensure we are on the main app view
   }, []);
 
   const executeReset = useCallback(async () => {
     try {
         const response = await fetch('/api/resetData', { method: 'POST' });
         if (!response.ok) {
-            throw new Error('Server failed to reset data.');
+            throw new Error('Failed to reset data on the server.');
         }
-        alert("Application data has been reset on the server. The page will now reload.");
+        alert("Application data has been reset. The page will now reload.");
         window.location.reload();
     } catch (error) {
-        console.error("Failed to reset data on server", error);
-        alert("Failed to reset server data. Please try again.");
+        console.error("Failed to reset data:", error);
+        alert("Failed to reset data. Please try again.");
     } finally {
         setShowResetConfirm(false);
     }
@@ -226,6 +235,7 @@ const App: React.FC = () => {
     if (upperCaseCode === SUPER_ADMIN_CODE) {
         setUserState({ role: 'SUPER_ADMIN' });
         setShowLoginModal(false);
+        setAdminView('hub');
         return;
     }
     
@@ -514,36 +524,50 @@ const App: React.FC = () => {
     setAiConversation(prev => [...prev, userMessage, thinkingMessage]);
 
     try {
-      const response = await fetch('/api/aiHelper', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, appData, userState }),
-      });
+        const apiResponse = await fetch('/api/aiHelper', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, appData, userState })
+        });
+        
+        if (!apiResponse.ok) {
+            const errorData = await apiResponse.json();
+            throw new Error(errorData.response || 'AI helper request failed.');
+        }
 
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
-      }
-      
-      const responseData = await response.json();
+        const responseObject = await apiResponse.json();
       
       const assistantMessage: AiMessage = {
           id: `assistant-${Date.now()}-2`,
           role: 'assistant',
-          content: responseData.response,
+          content: responseObject.response,
       };
 
       setAiConversation(prev => [...prev.slice(0, -1), assistantMessage]); // Replace thinking message
 
     } catch (error) {
       console.error("AI Helper Error:", error);
+      const errorMessageContent = error instanceof Error ? error.message : "Sorry, I encountered an error. Please check the server configuration or try again later.";
       const errorMessage: AiMessage = {
         id: `assistant-${Date.now()}-error`,
         role: 'assistant',
-        content: "Sorry, I encountered an error. Please check the server configuration or try again later.",
+        content: errorMessageContent,
       };
       setAiConversation(prev => [...prev.slice(0, -1), errorMessage]); // Replace thinking message
     }
   }, [appData, userState]);
+
+  const handleSaveProjectLog = useCallback((post: Omit<ProjectLogEntry, 'id' | 'date'>) => {
+      const newLog: ProjectLogEntry = {
+          id: `log-${Date.now()}`,
+          date: new Date().toISOString(),
+          ...post
+      };
+      updateAppData(prev => ({
+          ...prev,
+          projectLogs: [...(prev.projectLogs || []), newLog]
+      }));
+  }, [updateAppData]);
 
 
   if (isLoading) {
@@ -570,7 +594,38 @@ const App: React.FC = () => {
 
   let pageContent;
 
-  if (activeLeagueId === 'new') {
+  if (currentView === 'blog') {
+      pageContent = <BlogPage 
+        logs={appData.projectLogs?.filter(log => log.isPublished) || []}
+        onBack={() => setCurrentView('app')}
+      />;
+  } else if (userState.role === 'SUPER_ADMIN') {
+      if (adminView === 'hub') {
+          pageContent = <SuperAdminDashboard 
+              onNavigateToLeagues={() => setAdminView('leagueSelector')}
+              userState={userState}
+              onLogout={handleLogout}
+              projectLogs={appData.projectLogs || []}
+              onSaveProjectLog={handleSaveProjectLog}
+          />
+      } else {
+           // Admin is in league selector view, which is handled by the logic below
+           pageContent = <LoginPage 
+              appData={appData}
+              setAppData={setAppData}
+              onSelectLeague={handleSetActiveLeagueId} 
+              onCreateNew={() => handleSetActiveLeagueId('new')}
+              userState={userState}
+              upcomingEvent={upcomingEvent}
+              onUpdateUpcomingEvent={handleUpdateUpcomingEvent}
+              onLoginClick={() => setShowLoginModal(true)}
+              onLogout={handleLogout}
+              onResetAllData={handleResetAllData}
+              onBackToAdminHub={() => setAdminView('hub')}
+              onViewBlog={() => setCurrentView('blog')}
+          />;
+      }
+  } else if (activeLeagueId === 'new') {
       pageContent = <SetupScreen 
           onSetupComplete={handleCreateLeague} 
           onCancel={handleCancelCreateLeague} 
@@ -630,34 +685,39 @@ const App: React.FC = () => {
           onLoginClick={() => setShowLoginModal(true)}
           onLogout={handleLogout}
           onResetAllData={handleResetAllData}
+          onViewBlog={() => setCurrentView('blog')}
       />;
   }
 
   return (
     <>
       {pageContent}
-      {showLoginModal && (
-        <LoginScreen
-          onLogin={handleLogin}
-          error={authError}
-          onClose={() => {
-            setShowLoginModal(false)
-            setAuthError('');
-          }}
-        />
+      {currentView === 'app' && (
+        <>
+            {showLoginModal && (
+                <LoginScreen
+                onLogin={handleLogin}
+                error={authError}
+                onClose={() => {
+                    setShowLoginModal(false)
+                    setAuthError('');
+                }}
+                />
+            )}
+            <SevereWarningModal 
+                show={showResetConfirm}
+                onClose={() => setShowResetConfirm(false)}
+                onConfirm={executeReset}
+            />
+            <AiHelperButton onClick={() => setIsAiHelperOpen(true)} />
+            <AiHelper 
+                isOpen={isAiHelperOpen}
+                onClose={() => setIsAiHelperOpen(false)}
+                conversation={aiConversation}
+                onSendQuery={handleAiQuery}
+            />
+        </>
       )}
-      <SevereWarningModal 
-        show={showResetConfirm}
-        onClose={() => setShowResetConfirm(false)}
-        onConfirm={executeReset}
-      />
-      <AiHelperButton onClick={() => setIsAiHelperOpen(true)} />
-      <AiHelper 
-        isOpen={isAiHelperOpen}
-        onClose={() => setIsAiHelperOpen(false)}
-        conversation={aiConversation}
-        onSendQuery={handleAiQuery}
-      />
     </>
   );
 };
