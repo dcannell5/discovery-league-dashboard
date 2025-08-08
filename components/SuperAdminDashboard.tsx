@@ -1,14 +1,11 @@
-
-
 import React, { useState, useEffect, useCallback } from 'react';
-import type { UserState, ProjectLogEntry } from '../types';
-import { IconLayoutDashboard, IconUsersGroup, IconBriefcase, IconBook, IconShieldCheck, IconShieldExclamation, IconRefresh, IconLogout, IconUserCheck, IconUsers } from './Icon';
+import type { ProjectLogEntry } from '../types';
+import { IconLayoutDashboard, IconUsersGroup, IconBriefcase, IconShieldCheck, IconShieldExclamation, IconRefresh, IconLogout, IconUserCheck, IconUsers } from './Icon';
 import ProjectJournalPanel from './ProjectJournalPanel';
 import { logoUrl } from '../assets/logo';
 import HelpIcon from './HelpIcon';
 
 interface SuperAdminDashboardProps {
-  userState: UserState;
   onLogout: () => void;
   onNavigateToLeagues: () => void;
   projectLogs: ProjectLogEntry[];
@@ -72,7 +69,7 @@ const NavCard: React.FC<{ icon: React.ReactNode, title: string, description: str
 };
 
 
-const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ userState, onLogout, onNavigateToLeagues, projectLogs, onSaveProjectLog }) => {
+const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ onLogout, onNavigateToLeagues, projectLogs, onSaveProjectLog }) => {
   const [systemStatus, setSystemStatus] = useState<SystemStatus>({ database: 'CHECKING', aiService: 'CHECKING' });
 
   const checkHealth = useCallback(async () => {
