@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage, ProjectLogEntry } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
@@ -603,7 +600,6 @@ const App: React.FC = () => {
       if (adminView === 'hub') {
           pageContent = <SuperAdminDashboard 
               onNavigateToLeagues={() => setAdminView('leagueSelector')}
-              userState={userState}
               onLogout={handleLogout}
               projectLogs={appData.projectLogs || []}
               onSaveProjectLog={handleSaveProjectLog}
