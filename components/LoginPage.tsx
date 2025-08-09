@@ -20,6 +20,7 @@ interface LoginPageProps {
   onLoginClick: () => void;
   onLogout: () => void;
   onResetAllData: () => void;
+  onLoadPreset: () => void;
   onBackToAdminHub?: () => void;
   onViewBlog?: () => void;
 }
@@ -164,7 +165,7 @@ const UpcomingEventEditor: React.FC<{
 };
 
 
-const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onBackToAdminHub, onViewBlog }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onLoadPreset, onBackToAdminHub, onViewBlog }) => {
   const leagueEntries = Object.entries(appData.leagues);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
@@ -248,6 +249,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
                 appData={appData} 
                 setAppData={setAppData} 
                 onResetAllData={onResetAllData} 
+                onLoadPreset={onLoadPreset}
             />
         )}
         
