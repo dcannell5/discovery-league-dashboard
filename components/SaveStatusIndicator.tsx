@@ -1,7 +1,6 @@
 import React from 'react';
-import { IconCloud, IconCloudCheck, IconCloudOff, IconEdit } from './Icon';
-
-type SaveStatus = 'idle' | 'unsaved' | 'saving' | 'saved' | 'error';
+import { IconCloud, IconCloudCheck, IconCloudOff, IconEdit, IconEye } from './Icon';
+import type { SaveStatus } from '../types';
 
 interface SaveStatusIndicatorProps {
   status: SaveStatus;
@@ -31,6 +30,12 @@ const statusConfig = {
     text: 'Error saving data',
     color: 'text-red-400',
     bgColor: 'bg-red-500/10',
+  },
+  readonly: {
+    icon: <IconEye className="w-5 h-5" />,
+    text: 'Read-Only Mode',
+    color: 'text-gray-400',
+    bgColor: 'bg-gray-700/50',
   },
   idle: {
       icon: null,
