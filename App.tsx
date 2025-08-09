@@ -200,40 +200,77 @@ const App: React.FC = () => {
 
   const handleImportData = useCallback(async (importedData: AppData): Promise<boolean> => {
     isSavingExplicitly.current = true;
-    setAppData(importedData);
-
     setSaveStatus('saving');
     setSaveError(null);
-    try {
-        const response = await fetch('/api/saveData', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(importedData)
-        });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Failed to save imported data to backend:", errorText);
-            try {
-              const errorJson = JSON.parse(errorText);
-              setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
-            } catch (e) {
-              setSaveError(errorText || 'Unknown server error');
+    try {
+      const processedData = JSON.parse(JSON.stringify(importedData));
+
+      if (processedData.allPlayerProfiles) {
+        for (const leagueId in processedData.allPlayerProfiles) {
+          const playerProfiles = processedData.allPlayerProfiles[leagueId];
+          for (const playerId in playerProfiles) {
+            const profile = playerProfiles[playerId];
+            if (profile.imageUrl && profile.imageUrl.startsWith('data:image')) {
+              console.log(`Found base64 image for player ${playerId}. Uploading...`);
+              const imageExtension = profile.imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
+              const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
+
+              const uploadResponse = await fetch('/api/uploadImage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  file: profile.imageUrl,
+                  fileName: fileName,
+                }),
+              });
+
+              if (!uploadResponse.ok) {
+                const errorText = await uploadResponse.text();
+                console.error(`Failed to upload image for player ${playerId}:`, errorText);
+                throw new Error(`Image upload failed for player ${playerId}. The import process has been stopped to prevent data corruption.`);
+              }
+
+              // This is part of the next step, but it's efficient to do it here.
+              const uploadResult = await uploadResponse.json();
+              processedData.allPlayerProfiles[leagueId][playerId].imageUrl = uploadResult.url;
+              console.log(`Successfully replaced base64 image with new URL: ${uploadResult.url}`);
             }
-            setSaveStatus('error');
-            return false;
-        } else {
-            setSaveStatus('saved');
-            return true;
+          }
         }
-    } catch (error) {
-        console.error("Failed to save imported app data to backend:", error);
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        setSaveError(errorMessage);
+      }
+
+      setAppData(processedData);
+
+      const response = await fetch('/api/saveData', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(processedData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Failed to save processed data to backend:', errorText);
+        try {
+          const errorJson = JSON.parse(errorText);
+          setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
+        } catch (e) {
+          setSaveError(errorText || 'Unknown server error');
+        }
         setSaveStatus('error');
         return false;
+      } else {
+        setSaveStatus('saved');
+        return true;
+      }
+    } catch (error) {
+      console.error('Error processing or saving imported data:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      setSaveError(errorMessage);
+      setSaveStatus('error');
+      return false;
     } finally {
-        isSavingExplicitly.current = false;
+      isSavingExplicitly.current = false;
     }
   }, []);
 
