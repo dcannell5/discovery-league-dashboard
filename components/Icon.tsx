@@ -450,3 +450,10 @@ export const IconCloudOff: React.FC<IconProps> = ({ className }) => (
         <path d="M18 10h-1.26a8 8 0 0 0-7.05-6.09"/>
     </svg>
 );
+
+export const IconEye: React.FC<IconProps> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+    </svg>
+);
