@@ -1,5 +1,7 @@
 
 
+
+
 import type { Player, AllDailyMatchups, LeagueConfig, AllDailyResults } from '../types';
 
 // Player list (42 players)
@@ -223,7 +225,8 @@ const config: Omit<LeagueConfig, 'id'> = {
   numCourts: 3,
   playersPerTeam: 7,
   gamesPerDay: 6,
-  courtNames: ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"]
+  courtNames: ["Royalty Court 1", "Challenger Court 2", "Foundation Court 3"],
+  isReadOnly: true,
 };
 
 const dailyResults: AllDailyResults = {
