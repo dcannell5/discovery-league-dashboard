@@ -8,12 +8,12 @@ import { IconUpload, IconDownload, IconClipboardList, IconRefresh } from './Icon
 
 interface DataManagementPanelProps {
   appData: AppData | null;
-  setAppData: React.Dispatch<React.SetStateAction<AppData | null>>;
   onResetAllData: () => void;
   onLoadPreset: () => void;
+  onImport: (data: AppData) => Promise<boolean>;
 }
 
-const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setAppData, onResetAllData, onLoadPreset }) => {
+const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, onImport, onResetAllData, onLoadPreset }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = () => {
@@ -39,7 +39,7 @@ const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setA
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const text = e.target?.result;
         if (typeof text !== 'string') throw new Error("Invalid file content");
@@ -48,8 +48,12 @@ const DataManagementPanel: React.FC<DataManagementPanelProps> = ({ appData, setA
         // Basic validation
         if (importedData && importedData.leagues && typeof importedData.leagues === 'object') {
           if (window.confirm("Are you sure you want to overwrite all current data with the imported file? This action cannot be undone.")) {
-            setAppData(importedData);
-            alert("Data imported successfully!");
+            const success = await onImport(importedData);
+            if (success) {
+              alert("Data imported and saved successfully!");
+            } else {
+              alert("Data was loaded into the app, but failed to save to the server. Your changes will be lost on page reload. Check the error status indicator.");
+            }
           }
         } else {
           throw new Error("Invalid data format in imported file.");

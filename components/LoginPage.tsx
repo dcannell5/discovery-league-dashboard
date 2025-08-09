@@ -11,7 +11,6 @@ import { logoUrl } from '../assets/logo';
 
 interface LoginPageProps {
   appData: AppData;
-  setAppData: React.Dispatch<React.SetStateAction<AppData | null>>;
   onSelectLeague: (id: string) => void;
   onCreateNew: () => void;
   userState: UserState;
@@ -21,6 +20,7 @@ interface LoginPageProps {
   onLogout: () => void;
   onResetAllData: () => void;
   onLoadPreset: () => void;
+  onImport: (importedData: AppData) => Promise<boolean>;
   onBackToAdminHub?: () => void;
   onViewBlog?: () => void;
 }
@@ -165,7 +165,7 @@ const UpcomingEventEditor: React.FC<{
 };
 
 
-const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onLoadPreset, onBackToAdminHub, onViewBlog }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ appData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onLoadPreset, onImport, onBackToAdminHub, onViewBlog }) => {
   const leagueEntries = Object.entries(appData.leagues);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
@@ -247,9 +247,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
         {userState.role === 'SUPER_ADMIN' && (
             <DataManagementPanel 
                 appData={appData} 
-                setAppData={setAppData} 
                 onResetAllData={onResetAllData} 
                 onLoadPreset={onLoadPreset}
+                onImport={onImport}
             />
         )}
         

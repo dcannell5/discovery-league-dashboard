@@ -81,9 +81,11 @@ const App: React.FC = () => {
   const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
+  const isSavingExplicitly = useRef(false);
 
   // Data persistence state
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [isReadOnlySession, setIsReadOnlySession] = useState(false);
 
   // Navigation states
@@ -117,6 +119,8 @@ const App: React.FC = () => {
 
   // Save data to the backend whenever it changes, with debouncing
   useEffect(() => {
+      if (isSavingExplicitly.current) return;
+
       // Don't save on the initial load, if data is null, or in a read-only session
       if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession) {
           return;
@@ -140,12 +144,21 @@ const App: React.FC = () => {
               if (!response.ok) {
                   const errorText = await response.text();
                   console.error("Failed to save data to backend:", errorText);
+                  try {
+                    const errorJson = JSON.parse(errorText);
+                    setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
+                  } catch (e) {
+                    setSaveError(errorText || 'Unknown server error');
+                  }
                   setSaveStatus('error');
               } else {
                   setSaveStatus('saved');
+                  setSaveError(null);
               }
           } catch (error) {
               console.error("Failed to save app data to backend:", error);
+              const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+              setSaveError(errorMessage);
               setSaveStatus('error');
           }
       }, 1500); // Debounce save for 1.5 seconds
@@ -184,6 +197,45 @@ const App: React.FC = () => {
       upcomingEvent: event
     }));
   }, [updateAppData]);
+
+  const handleImportData = useCallback(async (importedData: AppData): Promise<boolean> => {
+    isSavingExplicitly.current = true;
+    setAppData(importedData);
+
+    setSaveStatus('saving');
+    setSaveError(null);
+    try {
+        const response = await fetch('/api/saveData', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(importedData)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Failed to save imported data to backend:", errorText);
+            try {
+              const errorJson = JSON.parse(errorText);
+              setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
+            } catch (e) {
+              setSaveError(errorText || 'Unknown server error');
+            }
+            setSaveStatus('error');
+            return false;
+        } else {
+            setSaveStatus('saved');
+            return true;
+        }
+    } catch (error) {
+        console.error("Failed to save imported app data to backend:", error);
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        setSaveError(errorMessage);
+        setSaveStatus('error');
+        return false;
+    } finally {
+        isSavingExplicitly.current = false;
+    }
+  }, []);
 
   const handleLoadPreset = useCallback(() => {
     if (window.confirm("You are entering a read-only view of the preset league. No changes will be saved, and the page will reload when you exit. Continue?")) {
@@ -665,7 +717,6 @@ const App: React.FC = () => {
            // Admin is in league selector view, which is handled by the logic below
            pageContent = <LoginPage 
               appData={appData}
-              setAppData={setAppData}
               onSelectLeague={handleSetActiveLeagueId} 
               onCreateNew={() => handleSetActiveLeagueId('new')}
               userState={userState}
@@ -675,6 +726,7 @@ const App: React.FC = () => {
               onLogout={handleLogout}
               onResetAllData={handleResetAllData}
               onLoadPreset={handleLoadPreset}
+              onImport={handleImportData}
               onBackToAdminHub={() => setAdminView('hub')}
               onViewBlog={() => setCurrentView('blog')}
           />;
@@ -730,7 +782,6 @@ const App: React.FC = () => {
   } else {
       pageContent = <LoginPage 
           appData={appData}
-          setAppData={setAppData}
           onSelectLeague={handleSetActiveLeagueId} 
           onCreateNew={() => handleSetActiveLeagueId('new')}
           userState={userState}
@@ -740,6 +791,7 @@ const App: React.FC = () => {
           onLogout={handleLogout}
           onResetAllData={handleResetAllData}
           onLoadPreset={handleLoadPreset}
+          onImport={handleImportData}
           onViewBlog={() => setCurrentView('blog')}
       />;
   }
@@ -773,7 +825,7 @@ const App: React.FC = () => {
                 conversation={aiConversation}
                 onSendQuery={handleAiQuery}
             />
-             {showSaveStatus && <SaveStatusIndicator status={saveStatus} />}
+             {showSaveStatus && <SaveStatusIndicator status={saveStatus} errorMessage={saveError} />}
         </>
       )}
     </>

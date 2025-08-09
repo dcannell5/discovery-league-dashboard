@@ -4,6 +4,7 @@ import type { SaveStatus } from '../types';
 
 interface SaveStatusIndicatorProps {
   status: SaveStatus;
+  errorMessage?: string | null;
 }
 
 const statusConfig = {
