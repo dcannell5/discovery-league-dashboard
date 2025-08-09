@@ -140,19 +140,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           appData.leagues[id] = config;
 
           // Initialize empty data slices for the new league
-          appData.dailyResults[id] = {};
-          appData.allDailyMatchups[id] = {};
-          appData.allDailyAttendance[id] = {};
-          appData.allPlayerProfiles[id] = {};
-          appData.allRefereeNotes[id] = {};
+          appData.dailyResults![id] = {};
+          appData.allDailyMatchups![id] = {};
+          appData.allDailyAttendance![id] = {};
+          appData.allPlayerProfiles![id] = {};
+          appData.allRefereeNotes![id] = {};
           appData.allAdminFeedback = appData.allAdminFeedback || {};
-          appData.allAdminFeedback[id] = [];
+          appData.allAdminFeedback![id] = [];
           appData.allPlayerFeedback = appData.allPlayerFeedback || {};
-          appData.allPlayerFeedback[id] = [];
+          appData.allPlayerFeedback![id] = [];
           appData.allPlayerPINs = appData.allPlayerPINs || {};
-          appData.allPlayerPINs[id] = {};
+          appData.allPlayerPINs![id] = {};
           appData.loginCounters = appData.loginCounters || {};
-          appData.loginCounters[id] = {};
+          appData.loginCounters![id] = {};
           needsSave = true;
         }
       });
