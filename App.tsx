@@ -12,7 +12,7 @@ import LoginPage from './components/LoginPage';
 import SuperAdminDashboard from './components/SuperAdminDashboard';
 import AiHelper from './components/AiHelper';
 import AiHelperButton from './components/AiHelperButton';
-import SaveStatusIndicator from './components/SaveStatusIndicator';
+import SaveStatusIndicator from './components/SaveStatusindicator';
 import { IconVolleyball } from './components/Icon';
 import BlogPage from './components/BlogPage';
 
