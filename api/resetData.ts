@@ -9,7 +9,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // This is a destructive operation. In a real app, this would be heavily protected by auth checks.
-    await kv.del('discoveryLeagueData');
+    // We need to delete both the data key and the initialization flag.
+    await kv.del('discoveryLeagueData', 'db_initialized_flag');
     res.status(200).json({ success: true, message: 'Data reset successfully.' });
   } catch (error) {
     console.error("Error resetting data in Vercel KV:", error);
