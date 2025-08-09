@@ -1,6 +1,7 @@
 
 
 
+
 export interface Player {
   id: number;
   name: string;
@@ -62,6 +63,7 @@ export interface LeagueConfig {
     announcements: string;
     daySchedules?: Record<number, string>;
     lockedDays?: Record<number, boolean>;
+    isReadOnly?: boolean; // Flag to prevent saving
     
     // New structure for flexibility
     leagueType: 'standard' | 'custom';
@@ -162,6 +164,9 @@ export interface ProjectLogEntry {
     content: string;
     isPublished: boolean;
 }
+
+// --- Save Status Type ---
+export type SaveStatus = 'idle' | 'unsaved' | 'saving' | 'saved' | 'error' | 'readonly';
 
 
 // --- Top-level Application Data Structure for Multi-League ---
