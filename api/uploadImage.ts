@@ -5,6 +5,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+  
+  // Crucial check: Ensure Vercel Blob storage is configured on the server.
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return res.status(500).json({ error: 'Image storage is not configured. Please connect a Vercel Blob store to your project in the Vercel dashboard.' });
+  }
 
   try {
     const { file: fileAsDataURL, fileName } = req.body;
