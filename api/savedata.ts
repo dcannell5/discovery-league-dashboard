@@ -1,4 +1,3 @@
-
 import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import type { AppData } from '../types';
@@ -12,14 +11,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const appData = req.body as AppData;
 
     if (!appData || !appData.leagues) {
-        return res.status(400).json({ error: 'Invalid appData format' });
+        return res.status(400).json({ error: 'Invalid appData format received.' });
     }
+    
+    // Log the size of the data to monitor for potential limits
+    const dataSize = JSON.stringify(appData).length;
+    console.log(`Received data payload of size: ${Math.round(dataSize / 1024)} KB`);
 
-    await kv.set('discoveryLeagueData', appData);
+    await (kv as any).set('discoveryLeagueData', appData);
     
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error("Error saving data to Vercel KV:", error);
-    res.status(500).json({ error: 'Failed to save data' });
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error("Critical Error saving data to Vercel KV:", errorMessage);
+    res.status(500).json({ error: 'Failed to save data to the database.', details: errorMessage });
   }
 }
