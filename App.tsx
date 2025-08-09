@@ -1,8 +1,9 @@
 
 
 
+
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage, ProjectLogEntry } from './types';
+import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage, ProjectLogEntry, SaveStatus } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
 import { getAllCourtNames } from './utils/leagueLogic';
 import SetupScreen from './components/SetupScreen';
@@ -16,6 +17,7 @@ import AiHelperButton from './components/AiHelperButton';
 import SaveStatusIndicator from './components/SaveStatusIndicator';
 import { IconVolleyball } from './components/Icon';
 import BlogPage from './components/BlogPage';
+import { presetData } from './data/presetSchedule';
 
 
 const SevereWarningModal: React.FC<{
@@ -81,7 +83,8 @@ const App: React.FC = () => {
   const isInitialized = useRef(false);
 
   // Data persistence state
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'unsaved' | 'saving' | 'saved' | 'error'>('idle');
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [isReadOnlySession, setIsReadOnlySession] = useState(false);
 
   // Navigation states
   const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
@@ -114,8 +117,8 @@ const App: React.FC = () => {
 
   // Save data to the backend whenever it changes, with debouncing
   useEffect(() => {
-      // Don't save on the initial load or if data is null
-      if (!isInitialized.current || !appData || saveStatus === 'idle') {
+      // Don't save on the initial load, if data is null, or in a read-only session
+      if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession) {
           return;
       }
 
@@ -150,7 +153,7 @@ const App: React.FC = () => {
       return () => {
           clearTimeout(handler);
       };
-  }, [appData, saveStatus]);
+  }, [appData, saveStatus, isReadOnlySession]);
 
 
   // activeLeagueId and upcomingEvent are now derived from appData state
@@ -168,6 +171,10 @@ const App: React.FC = () => {
 
   // Handler to be passed down to simple components
   const handleSetActiveLeagueId = (id: string | null) => {
+    if (isReadOnlySession) {
+      window.location.reload();
+      return;
+    }
     updateAppData(prev => ({ ...prev, activeLeagueId: id }));
   };
   
@@ -177,6 +184,28 @@ const App: React.FC = () => {
       upcomingEvent: event
     }));
   }, [updateAppData]);
+
+  const handleLoadPreset = useCallback(() => {
+    if (window.confirm("You are entering a read-only view of the preset league. No changes will be saved, and the page will reload when you exit. Continue?")) {
+        const { config, matchups, dailyResults } = presetData;
+        const presetLeagueId = 'preset-readonly';
+        
+        // Create a temporary, minimal AppData structure for viewing
+        const readOnlyData: AppData = {
+            leagues: { [presetLeagueId]: config },
+            dailyResults: { [presetLeagueId]: dailyResults },
+            allDailyMatchups: { [presetLeagueId]: matchups },
+            allDailyAttendance: { [presetLeagueId]: {} },
+            allPlayerProfiles: { [presetLeagueId]: {} },
+            allRefereeNotes: { [presetLeagueId]: {} },
+            activeLeagueId: presetLeagueId
+        };
+        
+        setAppData(readOnlyData);
+        setIsReadOnlySession(true);
+        setSaveStatus('readonly');
+    }
+  }, []);
 
 
   const activeLeague = useMemo((): LeagueConfig | null => {
@@ -223,11 +252,15 @@ const App: React.FC = () => {
   }, []);
   
   const handleLogout = useCallback(() => {
+    if (isReadOnlySession) {
+      window.location.reload();
+      return;
+    }
     setUserState({ role: 'NONE' });
     setViewingProfileOfPlayerId(null);
     setAdminView('hub'); // Reset admin view on logout
     setCurrentView('app'); // Ensure we are on the main app view
-  }, []);
+  }, [isReadOnlySession]);
 
   const executeReset = useCallback(async () => {
     try {
@@ -641,6 +674,7 @@ const App: React.FC = () => {
               onLoginClick={() => setShowLoginModal(true)}
               onLogout={handleLogout}
               onResetAllData={handleResetAllData}
+              onLoadPreset={handleLoadPreset}
               onBackToAdminHub={() => setAdminView('hub')}
               onViewBlog={() => setCurrentView('blog')}
           />;
@@ -705,6 +739,7 @@ const App: React.FC = () => {
           onLoginClick={() => setShowLoginModal(true)}
           onLogout={handleLogout}
           onResetAllData={handleResetAllData}
+          onLoadPreset={handleLoadPreset}
           onViewBlog={() => setCurrentView('blog')}
       />;
   }
