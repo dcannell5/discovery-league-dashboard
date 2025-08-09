@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import type { LeagueConfig, UserState, AppData, AllDailyResults, AllDailyMatchups, AllDailyAttendance, RefereeNote, UpcomingEvent, PlayerProfile, AllPlayerProfiles, AdminFeedback, PlayerFeedback, AiMessage, ProjectLogEntry } from './types';
 import { SUPER_ADMIN_CODE, getRefereeCodeForCourt, getPlayerCode, getParentCode } from './utils/auth';
@@ -10,6 +11,7 @@ import LoginPage from './components/LoginPage';
 import SuperAdminDashboard from './components/SuperAdminDashboard';
 import AiHelper from './components/AiHelper';
 import AiHelperButton from './components/AiHelperButton';
+import SaveStatusIndicator from './components/SaveStatusIndicator';
 import { IconVolleyball } from './components/Icon';
 import BlogPage from './components/BlogPage';
 
@@ -76,6 +78,9 @@ const App: React.FC = () => {
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
 
+  // Data persistence state
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'unsaved' | 'saving' | 'saved' | 'error'>('idle');
+
   // Navigation states
   const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
   const [currentView, setCurrentView] = useState<'app' | 'blog'>('app');
@@ -92,9 +97,11 @@ const App: React.FC = () => {
             }
             const data: AppData = await response.json();
             setAppData(data);
+            setSaveStatus('saved'); // Initial data is considered saved
         } catch (error) {
             console.error("Could not load initial application data:", error);
             setAppData(null); // Set to null on error
+            setSaveStatus('error');
         } finally {
             setIsLoading(false);
             isInitialized.current = true;
@@ -105,10 +112,20 @@ const App: React.FC = () => {
 
   // Save data to the backend whenever it changes, with debouncing
   useEffect(() => {
-      if (!isInitialized.current || !appData) {
+      // Don't save on the initial load or if data is null
+      if (!isInitialized.current || !appData || saveStatus === 'idle') {
           return;
       }
+
+      // If status is saved, and data changes, it becomes unsaved.
+      if (saveStatus === 'saved') {
+          setSaveStatus('unsaved');
+          return;
+      }
+
+      // This is the debounced save logic
       const handler = setTimeout(async () => {
+          setSaveStatus('saving');
           try {
               const response = await fetch('/api/saveData', {
                   method: 'POST',
@@ -116,17 +133,22 @@ const App: React.FC = () => {
                   body: JSON.stringify(appData)
               });
               if (!response.ok) {
-                  console.error("Failed to save data to backend:", await response.text());
+                  const errorText = await response.text();
+                  console.error("Failed to save data to backend:", errorText);
+                  setSaveStatus('error');
+              } else {
+                  setSaveStatus('saved');
               }
           } catch (error) {
               console.error("Failed to save app data to backend:", error);
+              setSaveStatus('error');
           }
       }, 1500); // Debounce save for 1.5 seconds
 
       return () => {
           clearTimeout(handler);
       };
-  }, [appData]);
+  }, [appData, saveStatus]);
 
 
   // activeLeagueId and upcomingEvent are now derived from appData state
@@ -685,6 +707,8 @@ const App: React.FC = () => {
       />;
   }
 
+  const showSaveStatus = currentView === 'app' && userState.role !== 'NONE';
+
   return (
     <>
       {pageContent}
@@ -712,6 +736,7 @@ const App: React.FC = () => {
                 conversation={aiConversation}
                 onSendQuery={handleAiQuery}
             />
+             {showSaveStatus && <SaveStatusIndicator status={saveStatus} />}
         </>
       )}
     </>
