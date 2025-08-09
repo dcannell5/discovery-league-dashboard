@@ -1,8 +1,8 @@
 
 
+
 import React, { useState, useEffect } from 'react';
 import type { Player, PlayerProfile, UserState, RefereeNote } from '../types';
-import { moderateImage } from '../services/geminiService';
 import { getPlayerCode, getParentCode } from '../utils/auth';
 import { IconUserCircle, IconEdit, IconMessage, IconLock, IconLightbulb } from './Icon';
 import HelpIcon from './HelpIcon';
@@ -199,17 +199,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ player, profile, userState, o
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = async () => {
-      const base64 = (reader.result as string).split(',')[1];
-      const moderationResult = await moderateImage(base64);
+        const fileAsDataURL = reader.result as string;
+        try {
+            const response = await fetch('/api/uploadImage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ file: fileAsDataURL, fileName: file.name })
+            });
 
-      if (moderationResult === 'SAFE') {
-        handleInputChange('imageUrl', `data:${file.type};base64,${base64}`);
-      } else if (moderationResult === 'UNSAFE') {
-        setUploadError('Image rejected. Please upload an appropriate photo.');
-      } else {
-        setUploadError('Could not verify image. Please try another one.');
-      }
-      setIsUploading(false);
+            if (!response.ok) {
+                const errorResult = await response.json();
+                throw new Error(errorResult.error || 'Upload failed');
+            }
+
+            const { url } = await response.json();
+            handleInputChange('imageUrl', url);
+
+        } catch (err: any) {
+            setUploadError(err.message || 'Could not upload image.');
+        } finally {
+            setIsUploading(false);
+        }
     };
     reader.onerror = () => {
         setUploadError('Failed to read file.');
@@ -288,7 +298,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ player, profile, userState, o
                     </label>
                 )}
             </div>
-            {isUploading && <p className="text-sm text-yellow-400 mt-2">Verifying image...</p>}
+            {isUploading && <p className="text-sm text-yellow-400 mt-2">Uploading...</p>}
             {uploadError && <p className="text-sm text-red-400 mt-2">{uploadError}</p>}
             <h1 className="text-3xl font-bold mt-4 text-white">{player.name}</h1>
             {player.grade && <p className="text-gray-400">Grade {player.grade}</p>}
