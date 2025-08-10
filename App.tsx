@@ -136,7 +136,7 @@ const App: React.FC = () => {
       const handler = setTimeout(async () => {
           setSaveStatus('saving');
           try {
-              const response = await fetch('/api/saveData', {
+              const response = await fetch('/api/savedata', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(appData)
@@ -256,7 +256,7 @@ const App: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 50));
       setAppData(dataToSave);
 
-      const response = await fetch('/api/saveData', {
+      const response = await fetch('/api/savedata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSave),
