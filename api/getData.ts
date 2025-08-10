@@ -162,10 +162,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           data.allDailyAttendance[id] = {};
           data.allPlayerProfiles[id] = {};
           data.allRefereeNotes[id] = {};
-          data.allAdminFeedback[id] = [];
-          data.allPlayerFeedback[id] = [];
-          data.allPlayerPINs[id] = {};
-          data.loginCounters[id] = {};
+          data.allAdminFeedback![id] = [];
+          data.allPlayerFeedback![id] = [];
+          data.allPlayerPINs![id] = {};
+          data.loginCounters![id] = {};
           needsSave = true;
         }
       });
