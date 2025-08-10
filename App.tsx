@@ -82,6 +82,7 @@ const App: React.FC = () => {
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
   const isSavingExplicitly = useRef(false);
+  const justSaved = useRef(false);
 
   // Data persistence state
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
@@ -121,6 +122,11 @@ const App: React.FC = () => {
   useEffect(() => {
       if (isSavingExplicitly.current) return;
 
+      if (justSaved.current) {
+        justSaved.current = false;
+        return;
+      }
+
       // Don't save on the initial load, if data is null, or in a read-only session
       if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession || saveStatus === 'error') {
           return;
@@ -154,6 +160,7 @@ const App: React.FC = () => {
               } else {
                   setSaveStatus('saved');
                   setSaveError(null);
+                  justSaved.current = true;
               }
           } catch (error) {
               console.error("Failed to save app data to backend:", error);
