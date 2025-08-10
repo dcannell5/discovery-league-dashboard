@@ -136,6 +136,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }));
 
       let needsSave = false;
+
+      // Defensively ensure all top-level objects exist before migrating
+      data.leagues = data.leagues || {};
+      data.dailyResults = data.dailyResults || {};
+      data.allDailyMatchups = data.allDailyMatchups || {};
+      data.allDailyAttendance = data.allDailyAttendance || {};
+      data.allPlayerProfiles = data.allPlayerProfiles || {};
+      data.allRefereeNotes = data.allRefereeNotes || {};
+      data.allAdminFeedback = data.allAdminFeedback || {};
+      data.allPlayerFeedback = data.allPlayerFeedback || {};
+      data.allPlayerPINs = data.allPlayerPINs || {};
+      data.loginCounters = data.loginCounters || {};
+      data.projectLogs = data.projectLogs || [];
+
       makingTheCutLeagues.forEach(league => {
         if (!data.leagues[league.id]) {
           console.log(`Migrating data: Adding league '${league.title}'`);
@@ -148,13 +162,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           data.allDailyAttendance[id] = {};
           data.allPlayerProfiles[id] = {};
           data.allRefereeNotes[id] = {};
-          data.allAdminFeedback = data.allAdminFeedback || {};
           data.allAdminFeedback[id] = [];
-          data.allPlayerFeedback = data.allPlayerFeedback || {};
           data.allPlayerFeedback[id] = [];
-          data.allPlayerPINs = data.allPlayerPINs || {};
           data.allPlayerPINs[id] = {};
-          data.loginCounters = data.loginCounters || {};
           data.loginCounters[id] = {};
           needsSave = true;
         }
