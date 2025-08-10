@@ -201,45 +201,56 @@ const App: React.FC = () => {
   const handleImportData = useCallback(async (importedData: AppData): Promise<boolean> => {
     isSavingExplicitly.current = true;
     setSaveStatus('saving');
-    setSaveError(null);
+    setSaveError('Starting import...');
 
     try {
+      setSaveError('Processing file (this may take a moment)...');
+      await new Promise(resolve => setTimeout(resolve, 50)); // Allow UI to update
       const processedData = JSON.parse(JSON.stringify(importedData));
 
       if (processedData.allPlayerProfiles) {
+        const imagesToUpload: { leagueId: string, playerId: string, imageUrl: string }[] = [];
         for (const leagueId in processedData.allPlayerProfiles) {
           const playerProfiles = processedData.allPlayerProfiles[leagueId];
           for (const playerId in playerProfiles) {
             const profile = playerProfiles[playerId];
             if (profile.imageUrl && profile.imageUrl.startsWith('data:image')) {
-              console.log(`Found base64 image for player ${playerId}. Uploading...`);
-              const imageExtension = profile.imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
-              const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
-
-              const uploadResponse = await fetch('/api/uploadImage', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  file: profile.imageUrl,
-                  fileName: fileName,
-                }),
-              });
-
-              if (!uploadResponse.ok) {
-                const errorText = await uploadResponse.text();
-                console.error(`Failed to upload image for player ${playerId}:`, errorText);
-                throw new Error(`Image upload failed for player ${playerId}. The import process has been stopped to prevent data corruption.`);
-              }
-
-              // This is part of the next step, but it's efficient to do it here.
-              const uploadResult = await uploadResponse.json();
-              processedData.allPlayerProfiles[leagueId][playerId].imageUrl = uploadResult.url;
-              console.log(`Successfully replaced base64 image with new URL: ${uploadResult.url}`);
+              imagesToUpload.push({ leagueId, playerId, imageUrl: profile.imageUrl });
             }
+          }
+        }
+
+        if (imagesToUpload.length > 0) {
+          setSaveError(`Found ${imagesToUpload.length} images to upload...`);
+          await new Promise(resolve => setTimeout(resolve, 50));
+
+          for (let i = 0; i < imagesToUpload.length; i++) {
+            const { leagueId, playerId, imageUrl } = imagesToUpload[i];
+            setSaveError(`Uploading image ${i + 1} of ${imagesToUpload.length}...`);
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            const imageExtension = imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
+            const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
+
+            const uploadResponse = await fetch('/api/uploadImage', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ file: imageUrl, fileName: fileName }),
+            });
+
+            if (!uploadResponse.ok) {
+              const errorText = await uploadResponse.text();
+              throw new Error(`Image upload failed for player ${playerId}: ${errorText}`);
+            }
+
+            const uploadResult = await uploadResponse.json();
+            processedData.allPlayerProfiles[leagueId][playerId].imageUrl = uploadResult.url;
           }
         }
       }
 
+      setSaveError('Saving final data...');
+      await new Promise(resolve => setTimeout(resolve, 50));
       setAppData(processedData);
 
       const response = await fetch('/api/saveData', {
@@ -250,21 +261,20 @@ const App: React.FC = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Failed to save processed data to backend:', errorText);
         try {
           const errorJson = JSON.parse(errorText);
-          setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
+          throw new Error(errorJson.details || errorJson.error || 'Unknown server error during final save.');
         } catch (e) {
-          setSaveError(errorText || 'Unknown server error');
+          throw new Error(errorText || 'Unknown server error during final save.');
         }
-        setSaveStatus('error');
-        return false;
-      } else {
-        setSaveStatus('saved');
-        return true;
       }
+
+      setSaveStatus('saved');
+      setSaveError(null);
+      return true;
+
     } catch (error) {
-      console.error('Error processing or saving imported data:', error);
+      console.error('Error during import process:', error);
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       setSaveError(errorMessage);
       setSaveStatus('error');
