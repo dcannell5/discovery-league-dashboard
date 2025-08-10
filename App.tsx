@@ -856,7 +856,7 @@ const App: React.FC = () => {
   const showSaveStatus = currentView === 'app' && userState.role !== 'NONE';
 
   return (
-    <div style={{ border: '5px solid red' }}>
+    <>
       {pageContent}
       {currentView === 'app' && (
         <>
@@ -885,7 +885,7 @@ const App: React.FC = () => {
              {showSaveStatus && <SaveStatusIndicator status={saveStatus} errorMessage={saveError} />}
         </>
       )}
-    </div>
+    </>
   );
 };
 
