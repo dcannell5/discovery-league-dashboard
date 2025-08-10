@@ -111,7 +111,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         { id: 177, name: 'Ella B' }, { id: 178, name: 'Elsa S' }, { id: 179, name: 'Eva M' }, { id: 180, name: 'Hayley J' },
         { id: 181, name: 'Jacine S' }, { id: 182, name: 'Jacy S' }, { id: 183, name: 'Katie H' }, { id: 184, name: 'Kenzie H' },
         { id: 185, name: 'Kloey F' }, { id: 186, name: 'Lauren B' }, { id: 187, name: 'Melia L' }, { id: 188, name: 'Nita C' },
-        { id: 189, name: 'Olivia P' }, { id: 190, name: 'Peyton F' }, { id: 191, name: 'Rebekah N' }, { id: 192, 'Samantha M' },
+        { id: 189, name: 'Olivia P' }, { id: 190, name: 'Peyton F' }, { id: 191, name: 'Rebekah N' }, { id: 192, name: 'Samantha M' },
         { id: 193, name: 'Sienna T' }, { id: 194, name: 'Stella M' }, { id: 195, name: 'Sydney F' }, { id: 196, name: 'Talia H' },
         { id: 197, name: 'Tasia F' }, { id: 198, name: 'Torrence I' }, { id: 199, name: 'Willow P' }
       ];
