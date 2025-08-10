@@ -4,6 +4,7 @@ import type { SaveStatus } from '../types';
 
 interface SaveStatusIndicatorProps {
   status: SaveStatus;
+  errorMessage?: string | null;
 }
 
 const statusConfig = {
@@ -45,7 +46,7 @@ const statusConfig = {
   }
 };
 
-const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({ status }) => {
+const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({ status, errorMessage }) => {
   if (status === 'idle') {
     return null;
   }
@@ -57,6 +58,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({ status }) => 
       className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-2 rounded-full shadow-lg border border-gray-600 backdrop-blur-md transition-all duration-300 ${bgColor} ${color}`}
       role="status"
       aria-live="polite"
+      title={status === 'error' && errorMessage ? errorMessage : text}
     >
       {icon}
       <span className="text-sm font-semibold">{text}</span>

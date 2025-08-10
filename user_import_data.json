@@ -1,0 +1,6293 @@
+{
+  "leagues": {
+    "league-1753071505651": {
+      "title": "Summer League",
+      "totalDays": 9,
+      "players": [
+        {
+          "id": 1,
+          "name": "Amy S"
+        },
+        {
+          "id": 2,
+          "name": "Arravela E"
+        },
+        {
+          "id": 3,
+          "name": "Ashlyn H"
+        },
+        {
+          "id": 4,
+          "name": "Athena M"
+        },
+        {
+          "id": 5,
+          "name": "Aurora P"
+        },
+        {
+          "id": 6,
+          "name": "Bailey G"
+        },
+        {
+          "id": 7,
+          "name": "Bayli L"
+        },
+        {
+          "id": 9,
+          "name": "Breanna P"
+        },
+        {
+          "id": 8,
+          "name": "Bree E"
+        },
+        {
+          "id": 10,
+          "name": "Brie B"
+        },
+        {
+          "id": 11,
+          "name": "Char B"
+        },
+        {
+          "id": 12,
+          "name": "Cia S"
+        },
+        {
+          "id": 13,
+          "name": "Cindel S"
+        },
+        {
+          "id": 14,
+          "name": "Dana J"
+        },
+        {
+          "id": 15,
+          "name": "Elise E"
+        },
+        {
+          "id": 16,
+          "name": "Emily Sh"
+        },
+        {
+          "id": 17,
+          "name": "Emily Sm"
+        },
+        {
+          "id": 18,
+          "name": "Emma W"
+        },
+        {
+          "id": 19,
+          "name": "Eumi D"
+        },
+        {
+          "id": 20,
+          "name": "Ghazal A"
+        },
+        {
+          "id": 21,
+          "name": "Grace B"
+        },
+        {
+          "id": 22,
+          "name": "Imari L"
+        },
+        {
+          "id": 23,
+          "name": "Isadora L"
+        },
+        {
+          "id": 24,
+          "name": "Kalayah P"
+        },
+        {
+          "id": 25,
+          "name": "Khaliun K"
+        },
+        {
+          "id": 26,
+          "name": "Luca T"
+        },
+        {
+          "id": 27,
+          "name": "Lucie K"
+        },
+        {
+          "id": 28,
+          "name": "Lula B"
+        },
+        {
+          "id": 29,
+          "name": "Michelle O"
+        },
+        {
+          "id": 30,
+          "name": "Mikayla W"
+        },
+        {
+          "id": 31,
+          "name": "Nash T"
+        },
+        {
+          "id": 32,
+          "name": "Noa K"
+        },
+        {
+          "id": 33,
+          "name": "Nour M"
+        },
+        {
+          "id": 34,
+          "name": "Prabhleen K"
+        },
+        {
+          "id": 35,
+          "name": "Quinn T"
+        },
+        {
+          "id": 36,
+          "name": "Roseberrie Z"
+        },
+        {
+          "id": 37,
+          "name": "Samantha M"
+        },
+        {
+          "id": 38,
+          "name": "Sophia T"
+        },
+        {
+          "id": 39,
+          "name": "Sophie Y"
+        },
+        {
+          "id": 40,
+          "name": "Teagan S"
+        },
+        {
+          "id": 41,
+          "name": "Tianna D"
+        },
+        {
+          "id": 42,
+          "name": "Zara O"
+        }
+      ],
+      "announcements": "The league has been transferred over to the app, and we will see if it blows up again.   Hope not.  Make sure update your profile with a picture and a short bio for the other players in the league to see.  ",
+      "daySchedules": {
+        "1": "2025-07-02T19:00",
+        "2": "2025-07-09T18:00",
+        "3": "2025-07-16T19:00",
+        "4": "2025-07-23T19:00",
+        "5": "2025-07-30T18:00",
+        "6": "2025-08-06T18:00",
+        "7": "2025-08-13T18:00",
+        "8": "2025-08-20T18:00",
+        "9": "2025-08-27T18:00"
+      },
+      "leagueType": "standard",
+      "numCourts": 3,
+      "playersPerTeam": 7,
+      "gamesPerDay": 6,
+      "courtNames": [
+        "Royalty Court 1",
+        "Challenger Court 2",
+        "Foundation Court 3"
+      ],
+      "lockedDays": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true,
+        "6": true
+      }
+    }
+  },
+  "dailyResults": {
+    "league-1753071505651": {
+      "1": {
+        "Royalty Court 1": [
+          {
+            "teamAScore": 20,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 14,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 25,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 12,
+            "teamBScore": 26
+          },
+          {
+            "teamAScore": 30,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 10,
+            "teamBScore": 13
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamAScore": 16,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 13,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 6,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 25
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 28
+          },
+          {
+            "teamAScore": 9,
+            "teamBScore": 15
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 19,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 14,
+            "teamBScore": 27
+          },
+          {
+            "teamAScore": 18,
+            "teamBScore": 10
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 26
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 12
+          }
+        ]
+      },
+      "2": {
+        "Royalty Court 1": [
+          {
+            "teamAScore": 21,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 22,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 25
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 22
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 23,
+            "teamBScore": 16
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamAScore": 15,
+            "teamBScore": 27
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 13
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 22
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 22,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 10,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 24
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 23
+          }
+        ]
+      },
+      "3": {
+        "Royalty Court 1": [
+          {
+            "teamAScore": 24,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 22
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 24
+          },
+          {
+            "teamAScore": 27,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 32
+          },
+          {
+            "teamAScore": 31,
+            "teamBScore": 17
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamAScore": 20,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 14,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 26,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 22
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 23,
+            "teamBScore": 25
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 24
+          },
+          {
+            "teamAScore": 24,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 22,
+            "teamBScore": 22
+          },
+          {
+            "teamAScore": 24,
+            "teamBScore": 17
+          }
+        ]
+      },
+      "4": {
+        "Royalty Court 1": [
+          {
+            "teamAScore": 30,
+            "teamBScore": 11
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 12
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 19
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 19
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamAScore": 23,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 18,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 26,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 19
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 25,
+            "teamBScore": 13
+          },
+          {
+            "teamAScore": 25,
+            "teamBScore": 13
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 19
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 21,
+            "teamBScore": 21
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 24
+          }
+        ]
+      },
+      "5": {
+        "Royalty Court 1": [
+          {
+            "teamAScore": 21,
+            "teamBScore": 22
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 19
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 12,
+            "teamBScore": 19
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 17
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamAScore": 14,
+            "teamBScore": 25
+          },
+          {
+            "teamAScore": 18,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 23,
+            "teamBScore": 11
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 14,
+            "teamBScore": 26
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 18,
+            "teamBScore": 18
+          },
+          {
+            "teamAScore": 22,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 13,
+            "teamBScore": 24
+          },
+          {
+            "teamAScore": 23,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 19
+          }
+        ]
+      },
+      "6": {
+        "Challenger Court 2": [
+          {
+            "teamAScore": 28,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 13
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 34,
+            "teamBScore": 23
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamAScore": 28,
+            "teamBScore": 20
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 23
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 13
+          },
+          {
+            "teamAScore": 20,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 15,
+            "teamBScore": 15
+          },
+          {
+            "teamAScore": 34,
+            "teamBScore": 23
+          }
+        ],
+        "Royalty Court 1": [
+          {
+            "teamAScore": 18,
+            "teamBScore": 31
+          },
+          {
+            "teamAScore": 19,
+            "teamBScore": 17
+          },
+          {
+            "teamAScore": 17,
+            "teamBScore": 12
+          },
+          {
+            "teamAScore": 14,
+            "teamBScore": 14
+          },
+          {
+            "teamAScore": 16,
+            "teamBScore": 16
+          },
+          {
+            "teamAScore": 29,
+            "teamBScore": 29
+          }
+        ]
+      }
+    }
+  },
+  "allDailyMatchups": {
+    "league-1753071505651": {
+      "1": {
+        "Royalty Court 1": [
+          {
+            "teamA": [
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ]
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamA": [
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamA": [
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              }
+            ]
+          }
+        ]
+      },
+      "2": {
+        "Royalty Court 1": [
+          {
+            "teamA": [
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              }
+            ]
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamA": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              }
+            ]
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamA": [
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              }
+            ]
+          }
+        ]
+      },
+      "3": {
+        "Royalty Court 1": [
+          {
+            "teamA": [
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              }
+            ]
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamA": [
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              }
+            ]
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamA": [
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              }
+            ]
+          }
+        ]
+      },
+      "4": {
+        "Royalty Court 1": [
+          {
+            "teamA": [
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              }
+            ]
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamA": [
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 12,
+                "name": "Cia S"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              }
+            ]
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamA": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 3,
+                "name": "Ashlyn H"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              }
+            ]
+          }
+        ]
+      },
+      "5": {
+        "Royalty Court 1": [
+          {
+            "teamA": [
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 38,
+                "name": "Sophia T"
+              },
+              {
+                "id": 4,
+                "name": "Athena M"
+              },
+              {
+                "id": 10,
+                "name": "Brie B"
+              },
+              {
+                "id": 40,
+                "name": "Teagan S"
+              },
+              {
+                "id": 8,
+                "name": "Bree E"
+              },
+              {
+                "id": 19,
+                "name": "Eumi D"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 35,
+                "name": "Quinn T"
+              },
+              {
+                "id": 17,
+                "name": "Emily Sm"
+              },
+              {
+                "id": 20,
+                "name": "Ghazal A"
+              },
+              {
+                "id": 30,
+                "name": "Mikayla W"
+              },
+              {
+                "id": 24,
+                "name": "Kalayah P"
+              },
+              {
+                "id": 9,
+                "name": "Breanna P"
+              }
+            ]
+          }
+        ],
+        "Challenger Court 2": [
+          {
+            "teamA": [
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 26,
+                "name": "Luca T"
+              },
+              {
+                "id": 13,
+                "name": "Cindel S"
+              },
+              {
+                "id": 34,
+                "name": "Prabhleen K"
+              },
+              {
+                "id": 14,
+                "name": "Dana J"
+              },
+              {
+                "id": 33,
+                "name": "Nour M"
+              },
+              {
+                "id": 7,
+                "name": "Bayli L"
+              },
+              {
+                "id": 36,
+                "name": "Roseberrie Z"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 39,
+                "name": "Sophie Y"
+              },
+              {
+                "id": 5,
+                "name": "Aurora P"
+              },
+              {
+                "id": 25,
+                "name": "Khaliun K"
+              },
+              {
+                "id": 15,
+                "name": "Elise E"
+              },
+              {
+                "id": 28,
+                "name": "Lula B"
+              },
+              {
+                "id": 31,
+                "name": "Nash T"
+              },
+              {
+                "id": 18,
+                "name": "Emma W"
+              }
+            ]
+          }
+        ],
+        "Foundation Court 3": [
+          {
+            "teamA": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 1,
+                "name": "Amy S"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              }
+            ]
+          },
+          {
+            "teamA": [
+              {
+                "id": 21,
+                "name": "Grace B"
+              },
+              {
+                "id": 16,
+                "name": "Emily Sh"
+              },
+              {
+                "id": 42,
+                "name": "Zara O"
+              },
+              {
+                "id": 29,
+                "name": "Michelle O"
+              },
+              {
+                "id": 23,
+                "name": "Isadora L"
+              },
+              {
+                "id": 11,
+                "name": "Char B"
+              },
+              {
+                "id": 37,
+                "name": "Samantha M"
+              }
+            ],
+            "teamB": [
+              {
+                "id": 41,
+                "name": "Tianna D"
+              },
+              {
+                "id": 32,
+                "name": "Noa K"
+              },
+              {
+                "id": 2,
+                "name": "Arravela E"
+              },
+              {
+                "id": 22,
+                "name": "Imari L"
+              },
+              {
+                "id": 6,
+                "name": "Bailey G"
+              },
+              {
+                "id": 27,
+                "name": "Lucie K"
+              },
+              {
+                "id": 1,
+                "name": "Amy S"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "allPlayerProfiles": {
+    "league-1753071505651": {}
+  },
+  "allRefereeNotes": {
+    "league-1753071505651": {}
+  },
+  "allAdminFeedback": {
+    "league-1753071505651": []
+  },
+  "allPlayerFeedback": {
+    "league-1753071505651": []
+  },
+  "allPlayerPINs": {
+    "league-1753071505651": {}
+  },
+  "activeLeagueId": "league-1753071505651",
+  "upcomingEvent": {
+    "title": "Next League Registration Open!",
+    "description": "Registration for the Fall Discovery League is now open. Sign up early to secure your spot!",
+    "buttonText": "Register Now",
+    "buttonUrl": "https://canadianeliteacademy.corsizio.com/"
+  }
+}

@@ -81,14 +81,18 @@ const App: React.FC = () => {
   const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
   const [aiConversation, setAiConversation] = useState<AiMessage[]>([]);
   const isInitialized = useRef(false);
+  const isSavingExplicitly = useRef(false);
+  const justSaved = useRef(false);
 
   // Data persistence state
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [isReadOnlySession, setIsReadOnlySession] = useState(false);
 
   // Navigation states
   const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
   const [currentView, setCurrentView] = useState<'app' | 'blog'>('app');
+  const [activeLeagueId, setActiveLeagueId] = useState<string | null>(null);
 
   // Load initial data from the backend
   useEffect(() => {
@@ -117,8 +121,15 @@ const App: React.FC = () => {
 
   // Save data to the backend whenever it changes, with debouncing
   useEffect(() => {
+      if (isSavingExplicitly.current) return;
+
+      if (justSaved.current) {
+        justSaved.current = false;
+        return;
+      }
+
       // Don't save on the initial load, if data is null, or in a read-only session
-      if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession) {
+      if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession || saveStatus === 'error') {
           return;
       }
 
@@ -132,7 +143,7 @@ const App: React.FC = () => {
       const handler = setTimeout(async () => {
           setSaveStatus('saving');
           try {
-              const response = await fetch('/api/saveData', {
+              const response = await fetch('/api/savedata', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(appData)
@@ -140,12 +151,22 @@ const App: React.FC = () => {
               if (!response.ok) {
                   const errorText = await response.text();
                   console.error("Failed to save data to backend:", errorText);
+                  try {
+                    const errorJson = JSON.parse(errorText);
+                    setSaveError(errorJson.details || errorJson.error || 'Unknown server error');
+                  } catch (e) {
+                    setSaveError(errorText || 'Unknown server error');
+                  }
                   setSaveStatus('error');
               } else {
                   setSaveStatus('saved');
+                  setSaveError(null);
+                  justSaved.current = true;
               }
           } catch (error) {
               console.error("Failed to save app data to backend:", error);
+              const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+              setSaveError(errorMessage);
               setSaveStatus('error');
           }
       }, 1500); // Debounce save for 1.5 seconds
@@ -156,8 +177,7 @@ const App: React.FC = () => {
   }, [appData, saveStatus, isReadOnlySession]);
 
 
-  // activeLeagueId and upcomingEvent are now derived from appData state
-  const activeLeagueId = appData?.activeLeagueId;
+  // upcomingEvent is now derived from appData state
   const upcomingEvent = appData?.upcomingEvent || {
     title: 'Next League Registration Open!',
     description: 'Registration for the Fall Discovery League is now open. Sign up early to secure your spot!',
@@ -175,7 +195,7 @@ const App: React.FC = () => {
       window.location.reload();
       return;
     }
-    updateAppData(prev => ({ ...prev, activeLeagueId: id }));
+    setActiveLeagueId(id);
   };
   
   const handleUpdateUpcomingEvent = useCallback((event: UpcomingEvent) => {
@@ -184,6 +204,95 @@ const App: React.FC = () => {
       upcomingEvent: event
     }));
   }, [updateAppData]);
+
+  const handleImportData = useCallback(async (importedData: AppData): Promise<boolean> => {
+    isSavingExplicitly.current = true;
+    setSaveStatus('saving');
+    setSaveError('Starting import...');
+
+    try {
+      let dataToSave: AppData = importedData;
+
+      setSaveError('Processing file...');
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      const imagesToUpload: { leagueId: string, playerId: string, imageUrl: string }[] = [];
+      if (importedData.allPlayerProfiles) {
+        for (const leagueId in importedData.allPlayerProfiles) {
+          const playerProfiles = importedData.allPlayerProfiles[leagueId];
+          for (const playerId in playerProfiles) {
+            const profile = playerProfiles[playerId];
+            if (profile.imageUrl && profile.imageUrl.startsWith('data:image')) {
+              imagesToUpload.push({ leagueId, playerId, imageUrl: profile.imageUrl });
+            }
+          }
+        }
+      }
+
+      if (imagesToUpload.length > 0) {
+        const profilesCopy = JSON.parse(JSON.stringify(importedData.allPlayerProfiles));
+        setSaveError(`Found ${imagesToUpload.length} images to upload...`);
+        await new Promise(resolve => setTimeout(resolve, 50));
+
+        for (let i = 0; i < imagesToUpload.length; i++) {
+          const { leagueId, playerId, imageUrl } = imagesToUpload[i];
+          setSaveError(`Uploading image ${i + 1} of ${imagesToUpload.length}...`);
+          await new Promise(resolve => setTimeout(resolve, 50));
+
+          const imageExtension = imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
+          const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
+
+          const uploadResponse = await fetch('/api/uploadImage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file: imageUrl, fileName: fileName }),
+          });
+
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`Image upload failed for player ${playerId}: ${errorText}`);
+          }
+
+          const uploadResult = await uploadResponse.json();
+          profilesCopy[leagueId][playerId].imageUrl = uploadResult.url;
+        }
+        dataToSave = { ...importedData, allPlayerProfiles: profilesCopy };
+      }
+
+      setSaveError('Saving final data...');
+      await new Promise(resolve => setTimeout(resolve, 50));
+      setAppData(dataToSave);
+
+      const response = await fetch('/api/savedata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSave),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        try {
+          const errorJson = JSON.parse(errorText);
+          throw new Error(errorJson.details || errorJson.error || 'Unknown server error during final save.');
+        } catch (e) {
+          throw new Error(errorText || 'Unknown server error during final save.');
+        }
+      }
+
+      setSaveStatus('saved');
+      setSaveError(null);
+      return true;
+
+    } catch (error) {
+      console.error('Error during import process:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      setSaveError(errorMessage);
+      setSaveStatus('error');
+      return false;
+    } finally {
+      isSavingExplicitly.current = false;
+    }
+  }, []);
 
   const handleLoadPreset = useCallback(() => {
     if (window.confirm("You are entering a read-only view of the preset league. No changes will be saved, and the page will reload when you exit. Continue?")) {
@@ -198,10 +307,10 @@ const App: React.FC = () => {
             allDailyAttendance: { [presetLeagueId]: {} },
             allPlayerProfiles: { [presetLeagueId]: {} },
             allRefereeNotes: { [presetLeagueId]: {} },
-            activeLeagueId: presetLeagueId
         };
         
         setAppData(readOnlyData);
+        setActiveLeagueId(presetLeagueId);
         setIsReadOnlySession(true);
         setSaveStatus('readonly');
     }
@@ -243,8 +352,8 @@ const App: React.FC = () => {
       allPlayerFeedback: { ...prev.allPlayerFeedback, [newLeagueId]: [] },
       allPlayerPINs: { ...prev.allPlayerPINs, [newLeagueId]: {} },
       loginCounters: { ...prev.loginCounters, [newLeagueId]: {} },
-      activeLeagueId: newLeagueId,
     }));
+    setActiveLeagueId(newLeagueId);
   }, [updateAppData]);
 
   const handleCancelCreateLeague = useCallback(() => {
@@ -395,9 +504,9 @@ const App: React.FC = () => {
           allPlayerFeedback: remainingPlayerFeedback,
           allPlayerPINs: remainingAllPlayerPINs,
           loginCounters: remainingLoginCounters,
-          activeLeagueId: null,
         };
       });
+      setActiveLeagueId(null);
     }
   }, [activeLeagueId, activeLeague, updateAppData]);
 
@@ -665,7 +774,6 @@ const App: React.FC = () => {
            // Admin is in league selector view, which is handled by the logic below
            pageContent = <LoginPage 
               appData={appData}
-              setAppData={setAppData}
               onSelectLeague={handleSetActiveLeagueId} 
               onCreateNew={() => handleSetActiveLeagueId('new')}
               userState={userState}
@@ -675,6 +783,7 @@ const App: React.FC = () => {
               onLogout={handleLogout}
               onResetAllData={handleResetAllData}
               onLoadPreset={handleLoadPreset}
+              onImport={handleImportData}
               onBackToAdminHub={() => setAdminView('hub')}
               onViewBlog={() => setCurrentView('blog')}
           />;
@@ -730,7 +839,6 @@ const App: React.FC = () => {
   } else {
       pageContent = <LoginPage 
           appData={appData}
-          setAppData={setAppData}
           onSelectLeague={handleSetActiveLeagueId} 
           onCreateNew={() => handleSetActiveLeagueId('new')}
           userState={userState}
@@ -740,6 +848,7 @@ const App: React.FC = () => {
           onLogout={handleLogout}
           onResetAllData={handleResetAllData}
           onLoadPreset={handleLoadPreset}
+          onImport={handleImportData}
           onViewBlog={() => setCurrentView('blog')}
       />;
   }
@@ -773,7 +882,7 @@ const App: React.FC = () => {
                 conversation={aiConversation}
                 onSendQuery={handleAiQuery}
             />
-             {showSaveStatus && <SaveStatusIndicator status={saveStatus} />}
+             {showSaveStatus && <SaveStatusIndicator status={saveStatus} errorMessage={saveError} />}
         </>
       )}
     </>
