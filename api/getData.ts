@@ -59,6 +59,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let appData: AppData | null = await kv.get('discoveryLeagueData');
 
     if (appData) {
+      // Use a new, non-nullable variable for type safety within this block.
+      const data = appData;
+
       // --- One-time data migration for "Making the Cut" camps ---
       const allCampPlayers = [
         { id: 1, name: 'Addelyn L' }, { id: 2, name: 'Alexis H' }, { id: 3, name: 'Alexis R' }, { id: 4, name: 'Aylee M' },
@@ -108,7 +111,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         { id: 177, name: 'Ella B' }, { id: 178, name: 'Elsa S' }, { id: 179, name: 'Eva M' }, { id: 180, name: 'Hayley J' },
         { id: 181, name: 'Jacine S' }, { id: 182, name: 'Jacy S' }, { id: 183, name: 'Katie H' }, { id: 184, name: 'Kenzie H' },
         { id: 185, name: 'Kloey F' }, { id: 186, name: 'Lauren B' }, { id: 187, name: 'Melia L' }, { id: 188, name: 'Nita C' },
-        { id: 189, name: 'Olivia P' }, { id: 190, name: 'Peyton F' }, { id: 191, name: 'Rebekah N' }, { id: 192, name: 'Samantha M' },
+        { id: 189, name: 'Olivia P' }, { id: 190, name: 'Peyton F' }, { id: 191, name: 'Rebekah N' }, { id: 192, 'Samantha M' },
         { id: 193, name: 'Sienna T' }, { id: 194, name: 'Stella M' }, { id: 195, name: 'Sydney F' }, { id: 196, name: 'Talia H' },
         { id: 197, name: 'Tasia F' }, { id: 198, name: 'Torrence I' }, { id: 199, name: 'Willow P' }
       ];
@@ -134,35 +137,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       let needsSave = false;
       makingTheCutLeagues.forEach(league => {
-        if (!appData.leagues[league.id]) {
+        if (!data.leagues[league.id]) {
           console.log(`Migrating data: Adding league '${league.title}'`);
           const { id, ...config } = league;
-          appData.leagues[id] = config;
+          data.leagues[id] = config;
 
           // Initialize empty data slices for the new league
-          appData.dailyResults![id] = {};
-          appData.allDailyMatchups![id] = {};
-          appData.allDailyAttendance![id] = {};
-          appData.allPlayerProfiles![id] = {};
-          appData.allRefereeNotes![id] = {};
-          appData.allAdminFeedback = appData.allAdminFeedback || {};
-          appData.allAdminFeedback![id] = [];
-          appData.allPlayerFeedback = appData.allPlayerFeedback || {};
-          appData.allPlayerFeedback![id] = [];
-          appData.allPlayerPINs = appData.allPlayerPINs || {};
-          appData.allPlayerPINs![id] = {};
-          appData.loginCounters = appData.loginCounters || {};
-          appData.loginCounters![id] = {};
+          data.dailyResults[id] = {};
+          data.allDailyMatchups[id] = {};
+          data.allDailyAttendance[id] = {};
+          data.allPlayerProfiles[id] = {};
+          data.allRefereeNotes[id] = {};
+          data.allAdminFeedback = data.allAdminFeedback || {};
+          data.allAdminFeedback[id] = [];
+          data.allPlayerFeedback = data.allPlayerFeedback || {};
+          data.allPlayerFeedback[id] = [];
+          data.allPlayerPINs = data.allPlayerPINs || {};
+          data.allPlayerPINs[id] = {};
+          data.loginCounters = data.loginCounters || {};
+          data.loginCounters[id] = {};
           needsSave = true;
         }
       });
 
       if (needsSave) {
-        await kv.set('discoveryLeagueData', appData);
+        await kv.set('discoveryLeagueData', data);
         console.log('Finished migrating new leagues to database.');
       }
 
-      return res.status(200).json(appData);
+      return res.status(200).json(data);
     }
 
     // Data not found. Check if the database has ever been initialized.
