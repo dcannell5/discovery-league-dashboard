@@ -122,7 +122,7 @@ const App: React.FC = () => {
       if (isSavingExplicitly.current) return;
 
       // Don't save on the initial load, if data is null, or in a read-only session
-      if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession) {
+      if (!isInitialized.current || !appData || saveStatus === 'idle' || isReadOnlySession || saveStatus === 'error') {
           return;
       }
 
@@ -204,14 +204,15 @@ const App: React.FC = () => {
     setSaveError('Starting import...');
 
     try {
-      setSaveError('Processing file (this may take a moment)...');
-      await new Promise(resolve => setTimeout(resolve, 50)); // Allow UI to update
-      const processedData = JSON.parse(JSON.stringify(importedData));
+      let dataToSave: AppData = importedData;
 
-      if (processedData.allPlayerProfiles) {
-        const imagesToUpload: { leagueId: string, playerId: string, imageUrl: string }[] = [];
-        for (const leagueId in processedData.allPlayerProfiles) {
-          const playerProfiles = processedData.allPlayerProfiles[leagueId];
+      setSaveError('Processing file...');
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      const imagesToUpload: { leagueId: string, playerId: string, imageUrl: string }[] = [];
+      if (importedData.allPlayerProfiles) {
+        for (const leagueId in importedData.allPlayerProfiles) {
+          const playerProfiles = importedData.allPlayerProfiles[leagueId];
           for (const playerId in playerProfiles) {
             const profile = playerProfiles[playerId];
             if (profile.imageUrl && profile.imageUrl.startsWith('data:image')) {
@@ -219,44 +220,46 @@ const App: React.FC = () => {
             }
           }
         }
+      }
 
-        if (imagesToUpload.length > 0) {
-          setSaveError(`Found ${imagesToUpload.length} images to upload...`);
+      if (imagesToUpload.length > 0) {
+        const profilesCopy = JSON.parse(JSON.stringify(importedData.allPlayerProfiles));
+        setSaveError(`Found ${imagesToUpload.length} images to upload...`);
+        await new Promise(resolve => setTimeout(resolve, 50));
+
+        for (let i = 0; i < imagesToUpload.length; i++) {
+          const { leagueId, playerId, imageUrl } = imagesToUpload[i];
+          setSaveError(`Uploading image ${i + 1} of ${imagesToUpload.length}...`);
           await new Promise(resolve => setTimeout(resolve, 50));
 
-          for (let i = 0; i < imagesToUpload.length; i++) {
-            const { leagueId, playerId, imageUrl } = imagesToUpload[i];
-            setSaveError(`Uploading image ${i + 1} of ${imagesToUpload.length}...`);
-            await new Promise(resolve => setTimeout(resolve, 50));
+          const imageExtension = imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
+          const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
 
-            const imageExtension = imageUrl.match(/data:image\/(.*?);/)?.[1] || 'png';
-            const fileName = `profile-images/league-${leagueId}-player-${playerId}-${Date.now()}.${imageExtension}`;
+          const uploadResponse = await fetch('/api/uploadImage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file: imageUrl, fileName: fileName }),
+          });
 
-            const uploadResponse = await fetch('/api/uploadImage', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ file: imageUrl, fileName: fileName }),
-            });
-
-            if (!uploadResponse.ok) {
-              const errorText = await uploadResponse.text();
-              throw new Error(`Image upload failed for player ${playerId}: ${errorText}`);
-            }
-
-            const uploadResult = await uploadResponse.json();
-            processedData.allPlayerProfiles[leagueId][playerId].imageUrl = uploadResult.url;
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`Image upload failed for player ${playerId}: ${errorText}`);
           }
+
+          const uploadResult = await uploadResponse.json();
+          profilesCopy[leagueId][playerId].imageUrl = uploadResult.url;
         }
+        dataToSave = { ...importedData, allPlayerProfiles: profilesCopy };
       }
 
       setSaveError('Saving final data...');
       await new Promise(resolve => setTimeout(resolve, 50));
-      setAppData(processedData);
+      setAppData(dataToSave);
 
       const response = await fetch('/api/saveData', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(processedData),
+        body: JSON.stringify(dataToSave),
       });
 
       if (!response.ok) {
