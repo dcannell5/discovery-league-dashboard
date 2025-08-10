@@ -92,6 +92,7 @@ const App: React.FC = () => {
   // Navigation states
   const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
   const [currentView, setCurrentView] = useState<'app' | 'blog'>('app');
+  const [activeLeagueId, setActiveLeagueId] = useState<string | null>(null);
 
   // Load initial data from the backend
   useEffect(() => {
@@ -176,8 +177,7 @@ const App: React.FC = () => {
   }, [appData, saveStatus, isReadOnlySession]);
 
 
-  // activeLeagueId and upcomingEvent are now derived from appData state
-  const activeLeagueId = appData?.activeLeagueId;
+  // upcomingEvent is now derived from appData state
   const upcomingEvent = appData?.upcomingEvent || {
     title: 'Next League Registration Open!',
     description: 'Registration for the Fall Discovery League is now open. Sign up early to secure your spot!',
@@ -195,7 +195,7 @@ const App: React.FC = () => {
       window.location.reload();
       return;
     }
-    updateAppData(prev => ({ ...prev, activeLeagueId: id }));
+    setActiveLeagueId(id);
   };
   
   const handleUpdateUpcomingEvent = useCallback((event: UpcomingEvent) => {
@@ -307,10 +307,10 @@ const App: React.FC = () => {
             allDailyAttendance: { [presetLeagueId]: {} },
             allPlayerProfiles: { [presetLeagueId]: {} },
             allRefereeNotes: { [presetLeagueId]: {} },
-            activeLeagueId: presetLeagueId
         };
         
         setAppData(readOnlyData);
+        setActiveLeagueId(presetLeagueId);
         setIsReadOnlySession(true);
         setSaveStatus('readonly');
     }
@@ -352,8 +352,8 @@ const App: React.FC = () => {
       allPlayerFeedback: { ...prev.allPlayerFeedback, [newLeagueId]: [] },
       allPlayerPINs: { ...prev.allPlayerPINs, [newLeagueId]: {} },
       loginCounters: { ...prev.loginCounters, [newLeagueId]: {} },
-      activeLeagueId: newLeagueId,
     }));
+    setActiveLeagueId(newLeagueId);
   }, [updateAppData]);
 
   const handleCancelCreateLeague = useCallback(() => {
@@ -504,9 +504,9 @@ const App: React.FC = () => {
           allPlayerFeedback: remainingPlayerFeedback,
           allPlayerPINs: remainingAllPlayerPINs,
           loginCounters: remainingLoginCounters,
-          activeLeagueId: null,
         };
       });
+      setActiveLeagueId(null);
     }
   }, [activeLeagueId, activeLeague, updateAppData]);
 

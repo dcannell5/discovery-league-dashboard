@@ -182,6 +182,5 @@ export interface AppData {
     allPlayerPINs?: Record<string, Record<number, string>>; // leagueId -> playerId -> PIN
     loginCounters?: Record<string, Record<number, LoginCounts>>; // leagueId -> playerId -> LoginCounts
     projectLogs?: ProjectLogEntry[]; // Global project logs for the build blog
-    activeLeagueId?: string | null;
     upcomingEvent?: UpcomingEvent;
 }
