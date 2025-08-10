@@ -165,6 +165,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('Finished migrating new leagues to database.');
       }
 
+      // --- One-time data migration for recap blog post ---
+      const recapPost = {
+        id: 'recap-2025-08-09',
+        date: '2025-08-09',
+        title: 'A Day of Foundational Improvements: Data Integrity, Testing, and New Content',
+        isPublished: true,
+        content: `Today was a hugely productive day for the academy application. We tackled several core challenges and laid a robust foundation for future growth. Here’s a quick recap of what we accomplished together:
+
+### 1. Solved a Critical Data Persistence Bug
+We started by fixing a major issue where the application's data would occasionally be wiped on Vercel. We implemented a new data integrity check (an "initialization flag") to make the app's connection to its database much more resilient. This ensures that all the league and player data you input is safe from accidental resets caused by temporary server errors.
+
+### 2. Introduced an Automated Test Suite
+To improve long-term stability and prevent future bugs, we integrated the **Vitest** testing framework into the project. I wrote the first set of tests for the core API, which validates the data handling logic we just hardened. This is a critical step in building a professional, scalable application.
+
+### 3. Migrated New "Making the Cut" Content
+This was our biggest task and a great example of collaborative development. My initial approach was to add the camp info as a simple page, but your insight that each camp was its own four-day league allowed us to pivot to a much better solution. We successfully modeled all six camps as proper leagues within the app's data structure. This is the right way to do it, and it paves the way for adding more complex features like registration and scheduling for these events down the road.
+
+We hit a few environmental snags with the local development server, but we pushed through them and got the code into a solid state.
+
+Overall, today was all about building a strong, reliable foundation. The app is now more robust, better tested, and better structured to support the exciting vision you have for it.`
+      };
+
+      const recapPostExists = data.projectLogs?.some(log => log.id === recapPost.id);
+      if (!recapPostExists) {
+        console.log("Migrating data: Adding recap blog post.");
+        data.projectLogs = data.projectLogs || [];
+        data.projectLogs.unshift(recapPost);
+        // Save the data again if this migration runs
+        await kv.set('discoveryLeagueData', data);
+      }
+
       return res.status(200).json(data);
     }
 
