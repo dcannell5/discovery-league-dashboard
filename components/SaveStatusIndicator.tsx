@@ -46,21 +46,23 @@ const statusConfig = {
   }
 };
 
-const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({ status }) => {
+const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({ status, errorMessage }) => {
   if (status === 'idle') {
     return null;
   }
 
-  const { icon, text, color, bgColor } = statusConfig[status];
+  const { icon, color, bgColor } = statusConfig[status];
+  const debugMessage = `[Debug] Status: ${status}, Message: ${errorMessage || 'null'}`;
 
   return (
     <div
-      className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-2 rounded-full shadow-lg border border-gray-600 backdrop-blur-md transition-all duration-300 ${bgColor} ${color}`}
+      className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border-2 ${status === 'error' ? 'border-red-500' : 'border-gray-600'} backdrop-blur-md transition-all duration-300 ${bgColor} ${color}`}
       role="status"
       aria-live="polite"
+      style={{ maxWidth: '400px', wordBreak: 'break-all' }}
     >
       {icon}
-      <span className="text-sm font-semibold">{text}</span>
+      <span className="text-xs font-mono">{debugMessage}</span>
     </div>
   );
 };
