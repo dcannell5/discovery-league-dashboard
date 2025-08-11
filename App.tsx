@@ -89,6 +89,7 @@ const App: React.FC = () => {
   // Navigation states
   const [adminView, setAdminView] = useState<'hub' | 'leagueSelector'>('hub');
   const [currentView, setCurrentView] = useState<'app' | 'blog'>('app');
+  const [cloningLeague, setCloningLeague] = useState<Omit<LeagueConfig, 'id'> | null>(null);
 
   // Load initial data from the backend
   useEffect(() => {
@@ -245,11 +246,22 @@ const App: React.FC = () => {
       loginCounters: { ...prev.loginCounters, [newLeagueId]: {} },
       activeLeagueId: newLeagueId,
     }));
+    setCloningLeague(null); // Clear cloning state
   }, [updateAppData]);
 
   const handleCancelCreateLeague = useCallback(() => {
     handleSetActiveLeagueId(null);
+    setCloningLeague(null); // Clear cloning state
   }, []);
+
+  const handleCloneLeague = useCallback((leagueId: string) => {
+    if (!appData) return;
+    const leagueToClone = appData.leagues[leagueId];
+    if (leagueToClone) {
+        setCloningLeague(leagueToClone);
+        handleSetActiveLeagueId('new');
+    }
+  }, [appData]);
   
   const handleLogout = useCallback(() => {
     if (isReadOnlySession) {
@@ -666,7 +678,8 @@ const App: React.FC = () => {
            pageContent = <LoginPage 
               appData={appData}
               setAppData={setAppData}
-              onSelectLeague={handleSetActiveLeagueId} 
+              onSelectLeague={handleSetActiveLeagueId}
+              onCloneLeague={handleCloneLeague}
               onCreateNew={() => handleSetActiveLeagueId('new')}
               userState={userState}
               upcomingEvent={upcomingEvent}
@@ -682,7 +695,8 @@ const App: React.FC = () => {
   } else if (activeLeagueId === 'new') {
       pageContent = <SetupScreen 
           onSetupComplete={handleCreateLeague} 
-          onCancel={handleCancelCreateLeague} 
+          onCancel={handleCancelCreateLeague}
+          leagueToClone={cloningLeague}
       />;
   } else if (activeLeague) {
       const viewingPlayer = viewingProfileOfPlayerId ? activeLeague.players.find(p => p.id === viewingProfileOfPlayerId) : null;
@@ -731,7 +745,8 @@ const App: React.FC = () => {
       pageContent = <LoginPage 
           appData={appData}
           setAppData={setAppData}
-          onSelectLeague={handleSetActiveLeagueId} 
+          onSelectLeague={handleSetActiveLeagueId}
+          onCloneLeague={handleCloneLeague}
           onCreateNew={() => handleSetActiveLeagueId('new')}
           userState={userState}
           upcomingEvent={upcomingEvent}

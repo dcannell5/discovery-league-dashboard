@@ -13,6 +13,7 @@ interface LoginPageProps {
   appData: AppData;
   setAppData: React.Dispatch<React.SetStateAction<AppData | null>>;
   onSelectLeague: (id: string) => void;
+  onCloneLeague?: (id: string) => void; // Add this
   onCreateNew: () => void;
   userState: UserState;
   upcomingEvent: UpcomingEvent;
@@ -33,11 +34,15 @@ const roleTextMap: Record<UserState['role'], string> = {
     NONE: ''
 };
 
+import { IconCopy } from './Icon';
+
 const LeagueCard: React.FC<{
     league: LeagueConfig;
     appData: AppData;
     onSelect: (id: string) => void;
-}> = ({ league, appData, onSelect }) => {
+    onClone?: (id: string) => void;
+    userState: UserState;
+}> = ({ league, appData, onSelect, onClone, userState }) => {
     
     const leagueData = useMemo(() => {
         const { dailyResults, allDailyMatchups, allDailyAttendance } = appData;
@@ -124,12 +129,23 @@ const LeagueCard: React.FC<{
                     </div>
                 </div>
             </div>
-            <button
-                onClick={() => onSelect(league.id)}
-                className="w-full mt-4 py-2 px-4 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300"
-            >
-                View League
-            </button>
+            <div className="flex items-center gap-2 mt-4">
+                <button
+                    onClick={() => onSelect(league.id)}
+                    className="w-full py-2 px-4 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300"
+                >
+                    View League
+                </button>
+                {userState.role === 'SUPER_ADMIN' && onClone && (
+                     <button
+                        onClick={() => onClone(league.id)}
+                        aria-label="Clone Event"
+                        className="p-2 bg-gray-600 text-gray-300 rounded-lg hover:bg-gray-500 hover:text-white transition-colors"
+                    >
+                        <IconCopy className="w-5 h-5" />
+                    </button>
+                )}
+            </div>
         </div>
     );
 };
@@ -165,7 +181,7 @@ const UpcomingEventEditor: React.FC<{
 };
 
 
-const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onLoadPreset, onBackToAdminHub, onViewBlog }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeague, onCloneLeague, onCreateNew, userState, upcomingEvent, onUpdateUpcomingEvent, onLoginClick, onLogout, onResetAllData, onLoadPreset, onBackToAdminHub, onViewBlog }) => {
   const leagueEntries = Object.entries(appData.leagues);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
@@ -260,6 +276,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ appData, setAppData, onSelectLeag
                     league={{...league, id}}
                     appData={appData}
                     onSelect={onSelectLeague}
+                    onClone={onCloneLeague}
+                    userState={userState}
                 />
             ))}
             {userState.role === 'SUPER_ADMIN' && (

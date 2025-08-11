@@ -8,6 +8,7 @@ import { getDefaultCourtName } from '../utils/leagueLogic';
 interface SetupScreenProps {
   onSetupComplete: (config: Omit<LeagueConfig, 'id'>) => void;
   onCancel?: () => void;
+  leagueToClone?: Omit<LeagueConfig, 'id'> | null;
 }
 
 const combinations = (n: number, k: number): number => {
@@ -22,7 +23,7 @@ const combinations = (n: number, k: number): number => {
 };
 
 
-const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel }) => {
+const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel, leagueToClone }) => {
   const [leagueType, setLeagueType] = useState<'standard' | 'custom'>('standard');
 
   // Common fields
@@ -50,6 +51,25 @@ const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, onCancel }) 
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (leagueToClone) {
+      setTitle(`${leagueToClone.title} (Clone)`);
+      setTotalDays(leagueToClone.totalDays);
+      setPlayerNames(leagueToClone.players.map(p => p.name).join('\n'));
+      setAnnouncements(leagueToClone.announcements);
+      setLeagueType(leagueToClone.leagueType);
+      setDaySchedules(leagueToClone.daySchedules || {});
+      setCourtNames(leagueToClone.courtNames || []);
+
+      if (leagueToClone.leagueType === 'standard') {
+        setStandardPlayersPerTeam(leagueToClone.playersPerTeam);
+      } else {
+        setCustomNumCourts(leagueToClone.numCourts);
+        setCustomPlayersPerSide(leagueToClone.playersPerTeam);
+        setCustomGamesPerDay(leagueToClone.gamesPerDay);
+      }
+    }
+  }, [leagueToClone]);
 
   const parsedPlayers = useMemo(() => playerNames.split('\n').filter(Boolean), [playerNames]);
   const totalPlayers = parsedPlayers.length;
