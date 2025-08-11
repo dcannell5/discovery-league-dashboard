@@ -680,7 +680,7 @@ const App: React.FC = () => {
               setAppData={setAppData}
               onSelectLeague={handleSetActiveLeagueId}
               onCloneLeague={handleCloneLeague}
-              onCreateNew={() => handleSetActiveLeagueId('new')}
+              onCreateNew={() => updateAppData(prev => ({ ...prev, activeLeagueId: 'new' }))}
               userState={userState}
               upcomingEvent={upcomingEvent}
               onUpdateUpcomingEvent={handleUpdateUpcomingEvent}
@@ -747,7 +747,7 @@ const App: React.FC = () => {
           setAppData={setAppData}
           onSelectLeague={handleSetActiveLeagueId}
           onCloneLeague={handleCloneLeague}
-          onCreateNew={() => handleSetActiveLeagueId('new')}
+          onCreateNew={() => updateAppData(prev => ({ ...prev, activeLeagueId: 'new' }))}
           userState={userState}
           upcomingEvent={upcomingEvent}
           onUpdateUpcomingEvent={handleUpdateUpcomingEvent}
